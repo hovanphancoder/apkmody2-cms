@@ -1,10 +1,12 @@
 <?php
 $plugins = option('plugins_active');
 if (!empty($plugins)){
+    if(is_array($plugins)) {
     foreach ($plugins as $plugin){
         if (file_exists(PATH_APP . 'Plugins/' . $plugin->name . '/Routes/Api.php')){
             include_once PATH_APP . 'Plugins/' . $plugin->name . '/Routes/Api.php';
             // $this->routes->get('/api/fastshop/(:any)/', 'Api\CartController::$1', [], 'fastshop');
+            }
         }
     }
 }

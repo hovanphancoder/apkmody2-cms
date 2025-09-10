@@ -16,11 +16,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
 
 ?>
 
+<p>sjgfiufg</p>
 
-<?php get_template('sections/home_index/home_banner'); ?>
-<?php get_template('sections/home_index/home_editors_choices'); ?>
-<?php get_template('sections/home_index/home_trending'); ?>
-<?php get_template('sections/home_index/home_recently_game_updated'); ?>
-<?php get_template('sections/home_index/home_recently_app_updated'); ?>
 
 <?php get_footer(); ?>

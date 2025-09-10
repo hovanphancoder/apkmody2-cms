@@ -24,10 +24,11 @@ class FrontendController extends BaseController
         // Render::asset('css', 'css/custom-backgrounds.css', ['area' => 'frontend', 'location' => 'head']);
 
         //Render::asset('js', 'js/jfast.1.2.3.js', ['area' => 'frontend', 'location' => 'head']);
-        Render::asset('js', 'js/lazysizes.min.js', ['area' => 'frontend', 'location' => 'head']);
-        Render::asset('js', 'js/main.js', ['area' => 'frontend', 'location' => 'head']);
-        Render::asset('js', 'js/blaze-slider.min.js', ['area' => 'frontend', 'location' => 'head']);
-        //Render::asset('js', 'js/feather.min.js', ['area' => 'frontend', 'location' => 'footer']);
+        // Render::asset('js', 'js/lazysizes.min.js', ['area' => 'frontend', 'location' => 'head']);
+        // Render::asset('js', 'js/main.js', ['area' => 'frontend', 'location' => 'head']);
+        // Render::asset('js', 'js/blaze-slider.min.js', ['area' => 'frontend', 'location' => 'head']);
+        // Render::asset('js', 'js/styles.min.js', ['area' => 'frontend', 'location' => 'footer']);
+        // Render::asset('js', 'js/feather.min.js', ['area' => 'frontend', 'location' => 'footer']);
        
     }
 

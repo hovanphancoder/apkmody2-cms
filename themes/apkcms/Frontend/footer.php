@@ -194,15 +194,17 @@
                 <div class="flex__item font-size__small">
                     <div><strong>Languages</strong></div>
                     <ul>
-                        <li><a class="footer-link" href="/" aria-label="English version"><img src="images/editors/us.png" loading="lazy" alt="English flag" style="margin-bottom: 3px; width: 16px; height: 11px; display: block;" width="16" height="11" class="loaded"> English</a></li>
-                        <li><a class="footer-link" href="/vi/" aria-label="Tiếng Việt version"><img src="images/editors/vn.webp" loading="lazy" alt="Tiếng Việt flag" style="margin-bottom: 3px; width: 16px; height: 11px; display: block;" width="16" height="11" class="loaded"> Tiếng Việt</a></li>
+                        <li><a class="footer-link" href="/" aria-label="English version">
+                            <!-- <img src="images/editors/us.png" loading="lazy" alt="English flag" style="margin-bottom: 3px; width: 16px; height: 11px; display: block;" width="16" height="11" class="loaded">  -->
+                            English</a></li>
+                        <li><a class="footer-link" href="/vi/" aria-label="Tiếng Việt version"><!-- <img src="images/editors/vn.webp" loading="lazy" alt="Tiếng Việt flag" style="margin-bottom: 3px; width: 16px; height: 11px; display: block;" width="16" height="11" class="loaded"> --> Tiếng Việt</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
     <!-- Optimized JS loading -->
-    <script>
+    <!-- <script>
         // Preload critical JS
         const script = document.createElement('script');
         script.src = 'assets/js/script.min.js';
@@ -216,7 +218,7 @@
             const loadingElements = document.querySelectorAll('.loading');
             loadingElements.forEach(el => el.classList.remove('loading'));
         });
-    </script>
+    </script> -->
 
     <?php echo \System\Libraries\Render::renderAsset('footer', 'frontend') ?>
     </body>

@@ -1413,6 +1413,7 @@ class PostsController extends BackendController {
     }
 
     private function _fieldTerms($posttype, $terms) {
+        if(!empty($terms) && is_array($terms)) {
         foreach($terms as $term) {
            $field = [
                 "id" => 26,
@@ -1431,6 +1432,7 @@ class PostsController extends BackendController {
               array_unshift($posttype['fields'], $field);
 
         }
+    }
         return $posttype;
     }
     

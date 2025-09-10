@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php
-    echo $meta ?? '';
-    echo $schema ?? '';
-    echo $append ?? '';
+        echo $meta ?? '';
+        echo $schema ?? '';
+        echo $append ?? '';
     ?>
     <?= \System\Libraries\Render::renderAsset('head', 'frontend') ?>
 </head>
@@ -16,7 +16,7 @@
         <nav class="container">
             <div style="display: grid; grid-template-rows: 64px; grid-template-columns: 100%; gap: 10px;">
                 <div class="menu-container liquid-glass" style="padding-left: 20px; padding-right: 20px;">
-                    <a href="index.html" class="clickable" aria-label="Home page">
+                    <a href="/" class="clickable" aria-label="Home page">
                         <div class="menu-item menu-item__active" style="text-align: start;">
                             <span class="svg-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 56 56">
@@ -36,7 +36,7 @@
                             <span>Search</span>
                         </div>
                     </button>
-                    <a class="clickable" href="games.html" aria-label="Games page">
+                    <a class="clickable" href="/games" aria-label="Games page">
                         <div class="menu-item">
                             <span class="svg-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 56 56">
@@ -46,7 +46,7 @@
                             <span>Games</span>
                         </div>
                     </a>
-                    <a class="clickable" href="apps.html" aria-label="Apps page">
+                    <a class="clickable" href="/apps" aria-label="Apps page">
                         <div class="menu-item">
                             <span class="svg-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 56 56">
