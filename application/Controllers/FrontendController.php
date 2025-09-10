@@ -16,6 +16,9 @@ class FrontendController extends BaseController
         parent::__construct(); 
         load_helpers(['frontend', 'images', 'string', 'database', 'shortcode', 'languges']);
         $this->cachingDefaultLevel = option('cache_gzip') ?? 0;
+        
+        // Load theme functions.php if exists
+        $this->load_theme_functions();
 
         //Render::asset('css', 'css/blaze-slider.css', ['area' => 'frontend', 'location' => 'head']);
         //Render::asset('css', 'css/swiper-bundle.min.css', ['area' => 'frontend', 'location' => 'head']);
@@ -137,6 +140,25 @@ class FrontendController extends BaseController
             return $cache;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Load theme functions.php file if exists
+     * Similar to WordPress functions.php
+     */
+    protected function load_theme_functions()
+    {
+        $functions_file = APP_THEME_PATH . 'Frontend/functions.php';
+        
+        if (file_exists($functions_file)) {
+            // Load theme functions
+            require_once $functions_file;
+            
+            // Log that functions.php was loaded (optional)
+            if (defined('APP_DEBUG') && APP_DEBUG) {
+                error_log("Theme functions.php loaded from: " . $functions_file);
+            }
         }
     }
 }

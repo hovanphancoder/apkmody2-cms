@@ -887,3 +887,88 @@ if (!function_exists('get_current_page_title')) {
         }
     }
 }
+
+/**
+ * Get page title for specific page type
+ * @param string $type
+ * @param string $custom_title
+ * @return string
+ */
+if (!function_exists('get_page_title')) {
+    function get_page_title($type = '', $custom_title = '')
+    {
+        if (!empty($custom_title)) {
+            return $custom_title . ' - ' . option('site_title', APP_LANG);
+        }
+        
+        $current_page = get_current_page();
+        $page_type = !empty($type) ? $type : $current_page['page_type'];
+        
+        switch ($page_type) {
+            case 'home':
+                return option('site_title', APP_LANG) ?: 'Home';
+            case 'blog':
+                return __('Blog', APP_LANG) . ' - ' . option('site_title', APP_LANG);
+            case 'apps':
+                return __('Apps', APP_LANG) . ' - ' . option('site_title', APP_LANG);
+            case 'games':
+                return __('Games', APP_LANG) . ' - ' . option('site_title', APP_LANG);
+            case 'single':
+                return ucwords(str_replace('-', ' ', $current_page['page_slug'])) . ' - ' . option('site_title', APP_LANG);
+            default:
+                return option('site_title', APP_LANG) ?: 'Page';
+        }
+    }
+}
+
+/**
+ * Get page heading (H1) for current page
+ * @return string
+ */
+if (!function_exists('get_page_heading')) {
+    function get_page_heading()
+    {
+        $current_page = get_current_page();
+        
+        switch ($current_page['page_type']) {
+            case 'home':
+                return option('site_title', APP_LANG) ?: 'Welcome';
+            case 'blog':
+                return __('Blog', APP_LANG);
+            case 'apps':
+                return __('Apps', APP_LANG);
+            case 'games':
+                return __('Games', APP_LANG);
+            case 'single':
+                return ucwords(str_replace('-', ' ', $current_page['page_slug']));
+            default:
+                return 'Page';
+        }
+    }
+}
+
+/**
+ * Get page description for current page
+ * @return string
+ */
+if (!function_exists('get_page_description')) {
+    function get_page_description()
+    {
+        $current_page = get_current_page();
+        
+        switch ($current_page['page_type']) {
+            case 'home':
+                return option('site_desc', APP_LANG) ?: 'Welcome to our website';
+            case 'blog':
+                return __('Discover the latest news, tips, and insights about mobile apps and games.', APP_LANG);
+            case 'apps':
+                return __('Download the latest mod APK apps for Android. Get premium features for free.', APP_LANG);
+            case 'games':
+                return __('Download the latest mod APK games for Android. Get unlimited features for free.', APP_LANG);
+            case 'single':
+                return 'Read more about ' . str_replace('-', ' ', $current_page['page_slug']);
+            default:
+                return option('site_desc', APP_LANG) ?: 'Page description';
+        }
+    }
+}
