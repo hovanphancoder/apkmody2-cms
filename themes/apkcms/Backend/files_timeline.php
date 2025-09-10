@@ -18,6 +18,70 @@ Render::block('Backend\Head', ['layout' => 'default', 'title' => $title ?? 'File
     // Debug log control
     const show_log = true; // Set false để tắt log
     
+    // Fix Alpine.js undefined variables
+    window.config = {
+      menuState: "full",
+      layout: "ltr",
+      card: {
+        borderRadius: 6,
+        borderWidth: 1,
+        padding: 16
+      },
+      typography: {
+        fontSize: 14,
+        lineHeight: 1.5,
+        fontWeight: 400
+      },
+      button: {
+        borderRadius: 6,
+        fontSize: 14,
+        paddingY: 8,
+        paddingX: 16
+      },
+      colors: {
+        light: {
+          background: "0 0% 100%",
+          foreground: "222.2 84% 4.9%",
+          primary: "222.2 47.4% 11.2%",
+          primaryForeground: "210 40% 98%",
+          secondary: "210 40% 96.1%",
+          secondaryForeground: "222.2 47.4% 11.2%",
+          accent: "210 40% 96.1%",
+          accentForeground: "222.2 47.4% 11.2%",
+          muted: "210 40% 96.1%",
+          mutedForeground: "215.4 16.3% 46.9%",
+          border: "214.3 31.8% 91.4%",
+          input: "214.3 31.8% 91.4%",
+          ring: "222.2 84% 4.9%",
+          card: "0 0% 100%",
+          cardForeground: "222.2 84% 4.9%",
+          popover: "0 0% 100%",
+          popoverForeground: "222.2 84% 4.9%"
+        },
+        dark: {
+          background: "240 10% 3.9%",
+          foreground: "0 0% 98%",
+          primary: "0 0% 98%",
+          primaryForeground: "240 5.9% 10%",
+          secondary: "240 3.7% 15.9%",
+          secondaryForeground: "0 0% 98%",
+          accent: "240 3.7% 15.9%",
+          accentForeground: "0 0% 98%",
+          muted: "240 3.7% 15.9%",
+          mutedForeground: "240 5% 64.9%",
+          border: "240 3.7% 15.9%",
+          input: "240 3.7% 15.9%",
+          ring: "240 4.9% 83.9%",
+          card: "240 10% 3.9%",
+          cardForeground: "0 0% 98%",
+          popover: "240 10% 3.9%",
+          popoverForeground: "0 0% 98%"
+        }
+      }
+    };
+    window.theme = "light";
+    window.editingDarkMode = false;
+    
   </script>
 
 <style>
@@ -229,7 +293,7 @@ Render::block('Backend\Head', ['layout' => 'default', 'title' => $title ?? 'File
                     <td class="px-4 py-3 align-middle text-gray-500">{{ item.created_at }}</td>
                     <td class="px-4 py-3 align-middle text-gray-500">{{ item.updated_at }}</td>
                   </tr>
-                </tbody>
+                </tne>
               </table>
             </div>
           </div>
