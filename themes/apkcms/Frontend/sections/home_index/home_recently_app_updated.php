@@ -51,7 +51,7 @@
                 <div class="flex-container horizontal-scroll">
                     <article class="flex-item"><a href="/apps/avast-antivirus" class="app clickable" aria-label="avast-antivirus app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (10).webp" alt="Avast Antivirus icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (10).webp" alt="Avast Antivirus icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Avast Antivirus</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v25.17.1
@@ -74,7 +74,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/apps/imprint" class="app clickable" aria-label="imprint app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (18).webp" alt="Imprint icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (18).webp" alt="Imprint icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Imprint</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v3.4.3
@@ -97,7 +97,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/apps/oculus" class="app clickable" aria-label="oculus app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (15).webp" alt="Meta Quest icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (15).webp" alt="Meta Quest icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Meta Quest</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v335.0.0.17.109
@@ -119,7 +119,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/apps/toontap" class="app clickable" aria-label="toontap app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (2).webp" alt="ToonTap icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (2).webp" alt="ToonTap icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">ToonTap</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v1.31.70
@@ -142,7 +142,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/apps/bandlab" class="app clickable" aria-label="bandlab app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (12).webp" alt="BandLab icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (12).webp" alt="BandLab icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">BandLab</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v11.6.2
@@ -165,7 +165,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/apps/babilala" class="app clickable" aria-label="babilala app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed.webp" alt="Babilala icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed.webp" alt="Babilala icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Babilala</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v2.53
@@ -187,7 +187,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/apps/perfect365" class="app clickable" aria-label="perfect365 app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (15).webp" alt="Perfect365 icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (15).webp" alt="Perfect365 icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Perfect365</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v10.5.26
@@ -210,7 +210,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/apps/filmorago" class="app clickable" aria-label="filmorago app">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (7).webp" alt="FilmoraGo icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (7).webp" alt="FilmoraGo icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">FilmoraGo</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v14.9.60

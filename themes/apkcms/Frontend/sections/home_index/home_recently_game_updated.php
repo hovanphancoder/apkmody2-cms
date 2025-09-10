@@ -60,7 +60,7 @@
                 <div class="flex-container horizontal-scroll">
                     <article class="flex-item"><a href="/games/efootball-2022" class="app clickable" aria-label="efootball-2022 game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (3).webp" alt="eFootball icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (3).webp" alt="eFootball icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">eFootball</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v10.0.2
@@ -82,7 +82,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/games/nimian-legends-vandgels" class="app clickable" aria-label="nimian-legends-vandgels game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (2).webp" alt="Nimian Legends: Vandgels icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (2).webp" alt="Nimian Legends: Vandgels icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Nimian Legends: Vandgels</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v2.1
@@ -104,7 +104,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/games/rainbow-grimaze-hide-daddy" class="app clickable" aria-label="rainbow-grimaze-hide-daddy game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (18).webp" alt="Rainbow Grimaze: Hide Daddy icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (18).webp" alt="Rainbow Grimaze: Hide Daddy icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Rainbow Grimaze: Hide Daddy</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v3.3
@@ -127,7 +127,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/games/lost-in-blue-2-fates-island" class="app clickable" aria-label="lost-in-blue-2-fates-island game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (14).webp" alt="LOST in Blue 2: Fate’s Island icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (14).webp" alt="LOST in Blue 2: Fate’s Island icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">LOST in Blue 2: Fate’s Island</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v2.24.1
@@ -149,7 +149,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/games/lumber-chopper" class="app clickable" aria-label="lumber-chopper game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (11).webp" alt="Lumber Chopper icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (11).webp" alt="Lumber Chopper icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Lumber Chopper</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v54.3.0
@@ -171,7 +171,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/games/girls-tale-idle-action-rpg" class="app clickable" aria-label="girls-tale-idle-action-rpg game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (6).webp" alt="Girls Tale: Idle Action RPG icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (6).webp" alt="Girls Tale: Idle Action RPG icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Girls Tale: Idle Action RPG</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v5.5.3
@@ -193,7 +193,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/games/limbus-company" class="app clickable" aria-label="limbus-company game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (9).webp" alt="Limbus Company icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (9).webp" alt="Limbus Company icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Limbus Company</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v1.85.2
@@ -215,7 +215,7 @@
                         </a></article>
                     <article class="flex-item"><a href="/games/unpacking" class="app clickable" aria-label="unpacking game">
                             <div class="app-icon">
-                                <img fetchpriority="high" src="images/editors/unnamed (14).webp" alt="Unpacking icon" width="90" height="90"></div>
+                                <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed (14).webp" alt="Unpacking icon" width="90" height="90"></div>
                             <div class="app-name truncate">
                                 <h3 class="font-size__normal no-margin no-padding truncate">Unpacking</h3>
                                 <div class="app-sub-text font-size__small color__gray truncate">v1.1

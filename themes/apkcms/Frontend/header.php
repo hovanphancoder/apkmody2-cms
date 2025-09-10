@@ -11,6 +11,11 @@
     <?= \System\Libraries\Render::renderAsset('head', 'frontend') ?>
 </head>
 <body>
+
+<?php
+
+?>
+
 <!-- Header -->
 <header id="header">
         <nav class="container">
