@@ -3340,3 +3340,11 @@ button {
         width: 95%
     }
 }
+
+/* Mobile Navigation Button */
+#nav-mobile button {
+    border: none;
+    -webkit-appearance: button;
+    background: transparent;
+    min-height: 48px !important
+}

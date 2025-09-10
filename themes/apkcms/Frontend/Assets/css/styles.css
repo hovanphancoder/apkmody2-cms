@@ -3196,3 +3196,11 @@ button {
     height: 100%;
     object-fit: cover
 }
+
+/* Mobile Navigation Button */
+#nav-mobile button {
+    border: none;
+    -webkit-appearance: button;
+    background: transparent;
+    min-height: 48px !important;
+}
