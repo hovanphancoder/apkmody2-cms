@@ -33,6 +33,7 @@ Thumbs.db
 # Backup files
 *.bak
 *.backup
+**/apk_html-backup-*
 
 # Composer
 composer.phar
