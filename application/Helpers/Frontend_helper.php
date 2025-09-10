@@ -764,3 +764,126 @@ if (!function_exists('formatViews')) {
         }
     }
 }
+
+/**
+ * Get current page information
+ * @return array
+ */
+if (!function_exists('get_current_page')) {
+    function get_current_page()
+    {
+        $uri = $_SERVER['REQUEST_URI'] ?? '';
+        $path = parse_url($uri, PHP_URL_PATH);
+        $segments = explode('/', trim($path, '/'));
+        
+        // Remove empty segments
+        $segments = array_filter($segments);
+        
+        $page = [
+            'uri' => $uri,
+            'path' => $path,
+            'segments' => array_values($segments),
+            'is_home' => empty($segments) || (count($segments) === 1 && $segments[0] === ''),
+            'is_blog' => false,
+            'is_apps' => false,
+            'is_games' => false,
+            'is_single' => false,
+            'page_type' => 'home',
+            'page_slug' => '',
+            'page_id' => null
+        ];
+        
+        // Check specific pages
+        if (!empty($segments)) {
+            $first_segment = $segments[0];
+            
+            switch ($first_segment) {
+                case 'blog':
+                    $page['is_blog'] = true;
+                    $page['page_type'] = 'blog';
+                    $page['page_slug'] = 'blog';
+                    break;
+                    
+                case 'apps':
+                    $page['is_apps'] = true;
+                    $page['page_type'] = 'apps';
+                    $page['page_slug'] = 'apps';
+                    break;
+                    
+                case 'games':
+                    $page['is_games'] = true;
+                    $page['page_type'] = 'games';
+                    $page['page_slug'] = 'games';
+                    break;
+                    
+                default:
+                    // Check if it's a single post/page
+                    if (count($segments) >= 1) {
+                        $page['is_single'] = true;
+                        $page['page_type'] = 'single';
+                        $page['page_slug'] = $first_segment;
+                    }
+                    break;
+            }
+        }
+        
+        return $page;
+    }
+}
+
+/**
+ * Check if current page is specific page type
+ * @param string $type
+ * @return bool
+ */
+if (!function_exists('is_page')) {
+    function is_page($type = '')
+    {
+        $current_page = get_current_page();
+        
+        if (empty($type)) {
+            return $current_page;
+        }
+        
+        switch ($type) {
+            case 'home':
+                return $current_page['is_home'];
+            case 'blog':
+                return $current_page['is_blog'];
+            case 'apps':
+                return $current_page['is_apps'];
+            case 'games':
+                return $current_page['is_games'];
+            case 'single':
+                return $current_page['is_single'];
+            default:
+                return $current_page['page_type'] === $type;
+        }
+    }
+}
+
+/**
+ * Get current page title
+ * @return string
+ */
+if (!function_exists('get_current_page_title')) {
+    function get_current_page_title()
+    {
+        $current_page = get_current_page();
+        
+        switch ($current_page['page_type']) {
+            case 'home':
+                return option('site_title', APP_LANG) ?: 'Home';
+            case 'blog':
+                return __('Blog', APP_LANG) . ' - ' . option('site_title', APP_LANG);
+            case 'apps':
+                return __('Apps', APP_LANG) . ' - ' . option('site_title', APP_LANG);
+            case 'games':
+                return __('Games', APP_LANG) . ' - ' . option('site_title', APP_LANG);
+            case 'single':
+                return ucwords(str_replace('-', ' ', $current_page['page_slug'])) . ' - ' . option('site_title', APP_LANG);
+            default:
+                return option('site_title', APP_LANG) ?: 'Page';
+        }
+    }
+}
