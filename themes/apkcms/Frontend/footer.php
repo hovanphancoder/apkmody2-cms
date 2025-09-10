@@ -204,10 +204,10 @@
         </div>
     </footer>
     <!-- Optimized JS loading -->
-    <!-- <script>
+    <script>
         // Preload critical JS
         const script = document.createElement('script');
-        script.src = 'assets/js/script.min.js';
+        script.src = '/themes/apkcms/Frontend/Assets/js/script.js';
         script.async = true;
         script.defer = true;
         document.head.appendChild(script);
@@ -218,7 +218,7 @@
             const loadingElements = document.querySelectorAll('.loading');
             loadingElements.forEach(el => el.classList.remove('loading'));
         });
-    </script> -->
+    </script>
 
     <?php echo \System\Libraries\Render::renderAsset('footer', 'frontend') ?>
     </body>

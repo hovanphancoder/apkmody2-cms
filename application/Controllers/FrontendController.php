@@ -17,6 +17,7 @@ class FrontendController extends BaseController
         load_helpers(['frontend', 'images', 'string', 'database', 'shortcode', 'languges']);
         $this->cachingDefaultLevel = option('cache_gzip') ?? 0;
         
+        // thêm code để tải file functions.php
         // Load theme functions.php if exists
         $this->load_theme_functions();
 
@@ -143,6 +144,8 @@ class FrontendController extends BaseController
         }
     }
 
+
+     // thêm code để tải file functions.php
     /**
      * Load theme functions.php file if exists
      * Similar to WordPress functions.php
