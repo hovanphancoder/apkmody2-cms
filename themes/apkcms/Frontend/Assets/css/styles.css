@@ -3204,3 +3204,11 @@ button {
     background: transparent;
     min-height: 48px !important;
 }
+
+/* Card Image Aspect Ratio */
+.card .card-image img {
+    aspect-ratio: 2/1;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}

@@ -1,14 +1,41 @@
 <?php
 App\Libraries\Fastlang::load('Homepage');
 
-// Load CSS assets (minified for production)
-// get_template('_metas/css_assets');
 
-// Load JavaScript assets
-// \System\Libraries\Render::asset('js', theme_assets('Assets/js/script.min.js'), [
-//     'area' => 'frontend', 
-//     'location' => 'footer'
-// ]);
+// ===== LẤY DỮ LIỆU BLOG POSTS =====
+// Lấy danh sách bài viết blog từ database (CHỈ 1 QUERY)
+$posts_data = get_posts([
+    'posttype' => 'news',            // Sử dụng posttype 'news'
+    'perPage' => 12,                 // 12 bài mỗi trang
+    'withCategories' => true,        // Lấy categories
+    'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
+    'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
+    'active' => true,                // Chỉ lấy bài active
+    'totalpage' => true              // Lấy thông tin phân trang
+]);
+
+// Tách dữ liệu posts và pagination (từ 1 query duy nhất)
+$posts = $posts_data['data'] ?? [];
+$pagination = $posts_data['pagination'] ?? [];
+
+// Debug: Hiển thị dữ liệu
+// echo '<pre style="background: #f0f0f0; padding: 10px; margin: 10px; border: 1px solid #ccc;">'; 
+// echo "Posts count: " . count($posts) . "\n";
+// echo "Posts type: " . gettype($posts) . "\n";
+if (!empty($posts) && is_array($posts)) {
+    echo "First post type: " . gettype($posts[0]) . "\n";
+    if (isset($posts[0]) && is_array($posts[0])) {
+        echo "First post keys: " . implode(', ', array_keys($posts[0])) . "\n";
+        print_r($posts[0]);
+    } else {
+        echo "First post is not array: ";
+        var_dump($posts[0]);
+    }
+} else {
+    echo "Posts is empty or not array\n";
+    var_dump($posts);
+}
+echo '</pre>';
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
@@ -32,184 +59,140 @@ get_template('_metas/meta_index', ['locale' => $locale]);
         <section>
             <div class="container">
                 <div class="flex-container">
-
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                          
-                            <div class="card-image">
-                            <a href="single-blog.html" exploring-indias-cricket-fan-clubs"="" aria-label="Exploring India’s Cricket Fan Clubs">
-                                <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="image " decoding="async" fetchpriority="high" class="loaded">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <h2 class="truncate">Exploring India’s Cricket Fan Clubs</h2>
-                                    </div>
-                                    <p class="card-excerpt font-size__small truncate">
-                                        Cricket in India is a cultural phenomenon, uniting millions...</p>
-                                </div>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                     <div class="flex-item">
-                         <article class="card has-shadow clickable">
-                             <div class="card-image">
-                                 <a href="single-blog.html" aria-label="Teach Music Composition with Text to Speech AI in CapCut PC">
-                                     <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Teach Music Composition with Text to Speech AI in CapCut PC" decoding="async" loading="lazy" class="loaded">
-                                     <div class="card-body">
-                                         <div class="card-title">
-                                             <h2 class="truncate">Teach Music Composition with Text to Speech AI in CapCut PC</h2>
-                                         </div>
-                                         <p class="card-excerpt font-size__small truncate">
-                                             IntroductionThe digital world is well-suited for music...</p>
-                                     </div>
-                                 </a>
-                             </div>
-                         </article>
-                     </div>
-                     <div class="flex-item">
-                         <article class="card has-shadow clickable">
-                             <div class="card-image">
-                                 <a href="single-blog.html" aria-label="Tips to Boost Your Mobile Gaming Experience">
-                                     <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Tips to Boost Your Mobile Gaming Experience" decoding="async" loading="lazy" class="loaded">
-                                     <div class="card-body">
-                                         <div class="card-title">
-                                             <h2 class="truncate">Tips to Boost Your Mobile Gaming Experience</h2>
-                                         </div>
-                                         <p class="card-excerpt font-size__small truncate">
-                                             Playing your favorite games on the go is a great chance to make...</p>
-                                     </div>
-                                 </a>
-                             </div>
-                         </article>
-                     </div>
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                            <div class="card-image">
-                                <a href="single-blog.html" aria-label="1win: The New Face of Patience, Thinking &amp; Digital Entertainment">
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="1win: The New Face of Patience, Thinking &amp; Digital Entertainment" decoding="async" loading="lazy" class="loaded">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <h2 class="truncate">1win: The New Face of Patience, Thinking &amp; Digital Entertainment</h2>
+                    <?php if (!empty($posts)): ?>
+                        <?php foreach ($posts as $index => $post): ?>
+                            <div class="flex-item">
+                                <article class="card has-shadow clickable">
+                                    <div class="card-image">
+                                        <a href="<?php echo page_url($post['slug'] ?? '', 'news'); ?>" aria-label="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
+                                            <?php 
+                                            // Lấy hình ảnh featured
+                                            $featured_image = '';
+                                            if (!empty($post['feature'])) {
+                                                $image_data = is_string($post['feature']) ? json_decode($post['feature'], true) : $post['feature'];
+                                                if (isset($image_data['path'])) {
+                                                    $featured_image = rtrim(base_url(), '/') . '/uploads/' . $image_data['path'];
+                                                }
+                                            }
+                                            
+                                            // Hình ảnh mặc định nếu không có
+                                            if (empty($featured_image)) {
+                                                // Mảng ảnh mẫu
+                                                $default_images = [
+                                                    'images/editors/blog-sample-1.jpg',
+                                                    'images/editors/blog-sample-2.jpg', 
+                                                    'images/editors/blog-sample-3.jpg',
+                                                    'images/editors/blog-esports-titles-540x360.webp'
+                                                ];
+                                                // Chọn ảnh ngẫu nhiên dựa trên ID bài viết
+                                                $image_index = ($post['id'] ?? $index) % count($default_images);
+                                                $featured_image = theme_assets($default_images[$image_index]);
+                                            }
+                                            ?>
+                                            <img width="360" height="180" 
+                                                 src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>" 
+                                                 alt="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>" 
+                                                 decoding="async" 
+                                                 loading="<?php echo $index < 3 ? 'eager' : 'lazy'; ?>" 
+                                                 class="loaded">
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                    <h2 class="truncate"><?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></h2>
+                                            </div>
+                                            <p class="card-excerpt font-size__small truncate">
+                                                    <?php 
+                                                    $excerpt = !empty($post['excerpt']) ? $post['excerpt'] : strip_tags($post['content'] ?? '');
+                                                    $excerpt = $excerpt ? mb_substr($excerpt, 0, 100) . '...' : 'No content available...';
+                                                    echo htmlspecialchars($excerpt, ENT_QUOTES, 'UTF-8'); 
+                                                    ?>
+                                                </p>
+                                                <?php if (!empty($post['categories'])): ?>
+                                                    <div class="card-categories">
+                                                        <?php foreach ($post['categories'] as $category): ?>
+                                                            <span class="category-tag"><?php echo htmlspecialchars($category['name'] ?? 'Uncategorized', ENT_QUOTES, 'UTF-8'); ?></span>
+                                                        <?php endforeach; ?>
                                         </div>
-                                        <p class="card-excerpt font-size__small truncate">
-                                            1win: When Betting Teaches Patience &amp; Offers Calm in the...</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                            <div class="card-image">
-                                <a href="single-blog.html" aria-label="1win: The Mathematical Game of Probability &amp; the Journey of Mental Discipline">
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="1win: The Mathematical Game of Probability &amp; the Journey of Mental Discipline" decoding="async" loading="lazy" class="loaded">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <h2 class="truncate">1win: The Mathematical Game of Probability &amp; the Journey of Mental Discipline</h2>
+                                                <?php endif; ?>
+                                              
+                                            </div>
+                                        </a>
                                         </div>
-                                        <p class="card-excerpt font-size__small truncate">
-                                            1win Bangladesh: Where Probability Theory and Mental Discipline...</p>
-                                    </div>
-                                </a>
-                            </div>
                         </article>
                     </div>
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                            <div class="card-image">
-                                <a href="single-blog.html" aria-label="Why You should read reviews before downloading a game?">
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Why You should read reviews before downloading a game?" decoding="async" loading="lazy" class="loaded">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <h2 class="truncate">Why You should read reviews before downloading a game?</h2>
-                                        </div>
-                                        <p class="card-excerpt font-size__small truncate">
-                                            Before downloading and installing any type of mobile...</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                            <div class="card-image">
-                                <a href="single-blog.html" aria-label="Six6S Bangladesh Review – Betting Opportunity &amp; Guide How to Create an Account">
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Six6S Bangladesh Review – Betting Opportunity &amp; Guide How to Create an Account" decoding="async" loading="lazy" class="loaded">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <h2 class="truncate">Six6S Bangladesh Review – Betting Opportunity &amp; Guide How to Create an Account</h2>
-                                        </div>
-                                        <p class="card-excerpt font-size__small truncate">
-                                            The Six6S Bangladesh platform stands out as a versatile and...</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                            <div class="card-image">
-                                <a href="single-blog.html" aria-label="How to Deposit and Withdraw Money on 1win – Payment Methods &amp; Fast Transactions">
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="How to Deposit and Withdraw Money on 1win – Payment Methods &amp; Fast Transactions" decoding="async" loading="lazy" class="loaded">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <h2 class="truncate">How to Deposit and Withdraw Money on 1win – Payment Methods &amp; Fast Transactions</h2>
-                                        </div>
-                                        <p class="card-excerpt font-size__small truncate">
-                                            Online betting and casino gaming have become increasingly...</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                            <div class="card-image">
-                                <a href="single-blog.html" aria-label="What are the biggest Esports Titles in 2025?">
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="What are the biggest Esports Titles in 2025?" decoding="async" loading="lazy" class="loaded">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <h2 class="truncate">What are the biggest Esports Titles in 2025?</h2>
-                                        </div>
-                                        <p class="card-excerpt font-size__small truncate">
-                                            Esports has exploded even further in 2025. Streaming numbers...</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="flex-item">
-                        <article class="card has-shadow clickable">
-                            <div class="card-image">
-                                <a href="single-blog.html" aria-label="Baji Unlocked: Your Ultimate Guide to Betting Bliss">
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Baji Unlocked: Your Ultimate Guide to Betting Bliss" decoding="async" loading="lazy" class="loaded">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <h2 class="truncate">Baji Unlocked: Your Ultimate Guide to Betting Bliss</h2>
-                                        </div>
-                                        <p class="card-excerpt font-size__small truncate">
-                                            The Baji betting site emerges as a favoured platform among...</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="no-posts">
+                            <p><?php echo __('No blog posts found', 'Không tìm thấy bài viết nào'); ?></p>
+                                            </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
 
         <!-- pagination -->
+        <?php if (!empty($pagination) && isset($pagination['total_pages']) && $pagination['total_pages'] > 1): ?>
         <section>
             <div class="container">
                 <div class="wp-container archive-pagination">
-                    <div class="paginate-button active"><span aria-current="page" class="button clickable">1</span></div>
-                    <div class="paginate-button"><a class="button clickable" href="single-blog.html?page=2" aria-label="Go to page 2">2</a></div>
-                    <div class="paginate-button"><a class="next button clickable" href="single-blog.html?page=2" aria-label="Go to next page"><span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
+                    <?php 
+                    $current_page = $pagination['current_page'] ?? 1;
+                    $total_pages = $pagination['total_pages'] ?? 1;
+                    $base_url = base_url('blog');
+                    
+                    // Previous button
+                    if ($current_page > 1): 
+                        $prev_page = $current_page - 1;
+                        $prev_url = $prev_page == 1 ? $base_url : $base_url . '?page=' . $prev_page;
+                    ?>
+                        <div class="paginate-button">
+                            <a class="button clickable" href="<?php echo $prev_url; ?>" aria-label="Go to previous page">
+                                <span class="svg-icon" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
+                                        <path d="M442.15-480 605.08-317.08q8.3 8.31 8.5 20.89.19 12.57-8.5 21.27-8.7 8.69-21.08 8.69-12.38 0-21.08-8.69L374.15-445.23q-5.61-5.62-7.92-11.85-2.31-6.23-2.31-13.46t2.31-13.46q2.31-6.23 7.92-11.85L562.92-685.08q8.31-8.3 20.89-8.5 12.57-.19 21.27 8.5 8.69 8.7 8.69 21.08 0 12.38-8.69 21.08L442.15-480Z"></path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php 
+                    // Page numbers
+                    $start_page = max(1, $current_page - 2);
+                    $end_page = min($total_pages, $current_page + 2);
+                    
+                    for ($i = $start_page; $i <= $end_page; $i++): 
+                        $page_url = $i == 1 ? $base_url : $base_url . '?page=' . $i;
+                        $is_active = $i == $current_page;
+                    ?>
+                        <div class="paginate-button <?php echo $is_active ? 'active' : ''; ?>">
+                            <?php if ($is_active): ?>
+                                <span aria-current="page" class="button clickable"><?php echo $i; ?></span>
+                            <?php else: ?>
+                                <a class="button clickable" href="<?php echo $page_url; ?>" aria-label="Go to page <?php echo $i; ?>"><?php echo $i; ?></a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endfor; ?>
+                    
+                    <?php 
+                    // Next button
+                    if ($current_page < $total_pages): 
+                        $next_page = $current_page + 1;
+                        $next_url = $base_url . '?page=' . $next_page;
+                    ?>
+                        <div class="paginate-button">
+                            <a class="next button clickable" href="<?php echo $next_url; ?>" aria-label="Go to next page">
+                                <span class="svg-icon" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
                                     <path d="M517.85-480 354.92-642.92q-8.3-8.31-8.5-20.89-.19-12.57 8.5-21.27 8.7-8.69 21.08-8.69 12.38 0 21.08 8.69l179.77 179.77q5.61 5.62 7.92 11.85 2.31 6.23 2.31 13.46t-2.31 13.46q-2.31 6.23-7.92 11.85L397.08-274.92q-8.31 8.3-20.89 8.5-12.57.19-21.27-8.5-8.69-8.7-8.69-21.08 0-12.38 8.69-21.08L517.85-480Z"></path>
-                                </svg></span> </a></div>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
+        <?php endif; ?>
 
 
 <?php get_footer(); ?>

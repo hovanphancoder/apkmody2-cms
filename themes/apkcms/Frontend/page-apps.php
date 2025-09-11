@@ -10,6 +10,22 @@ App\Libraries\Fastlang::load('Homepage');
 //     'location' => 'footer'
 // ]);
 
+// ===== LẤY DỮ LIỆU APPS =====
+// Lấy danh sách apps từ database với posttype 'posts' (CHỈ 1 QUERY)
+$apps_data = get_posts([
+    'posttype' => 'posts',           // Sử dụng posttype 'posts'
+    'perPage' => 20,                 // 20 apps mỗi trang
+    'withCategories' => true,        // Lấy categories
+    'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
+    'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
+    'active' => true,                // Chỉ lấy bài active
+    'totalpage' => true              // Lấy thông tin phân trang
+]);
+
+// Tách dữ liệu apps và pagination (từ 1 query duy nhất)
+$apps = $apps_data['data'] ?? [];
+$pagination = $apps_data['pagination'] ?? [];
+
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
 get_template('_metas/meta_index', ['locale' => $locale]);
@@ -39,279 +55,65 @@ get_template('_metas/meta_index', ['locale' => $locale]);
         <section>
             <div class="container">
                 <div class="flex-container">
-                    <article class="flex-item"><a href="single-app.html?app= room-planner" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img fetchpriority="high" src="https://static.apkmody.com/play-lh.googleusercontent.com/e6kUFH_MspS1SZbCUDGVYnifmYmGkS9GnjD59NTcREArZ3WezoalwxJolzzpqLyZFUQ=s180-rw" alt="Room Planner icon" width="90" height="90"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Room Planner</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v1271
-                                    • Unlocked
-                                    <span class="app-genre">
-                                        • Art &amp; Design </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= avast-antivirus" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img fetchpriority="high" src="https://static.apkmody.com/play-lh.googleusercontent.com/iB6BymhdMsbDMyHddcNlv-a5isSKanuw8fOD9Y2A_qdVWIoU9nCl0XM_GYTskFm4V60=s180-rw" alt="Avast Antivirus icon" width="90" height="90"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Avast Antivirus</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v25.17.1
-                                    • Premium Unlocked
-                                    <span class="app-genre">
-                                        • Utilities </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= imprint" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img fetchpriority="high" src="https://static.apkmody.com/play-lh.googleusercontent.com/0l4M8q6BfoqPtzU88cBPwLSCeHo8RtxQfmjd_09Bu9ZqJFThSnAJ3p2nkzl1TLbPfkI=s180-rw" alt="Imprint icon" width="90" height="90"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Imprint</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v3.4.3
-                                    • Premium Unlocked
-                                    <span class="app-genre">
-                                        • Education </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= oculus" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/9FQK0AyVygCW__S12wPnysnzRNKJ1uxcev2aBwfgONKeSiqUIDqjHAYP4892yywhvA=s180-rw" alt="Meta Quest icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Meta Quest</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v335.0.0.17.109
-                                    <span class="app-genre">
-                                        • Entertainment </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star active"></span>
-                                        <span class="star active"></span>
-                                        <span class="star active"></span>
-                                        <span class="star active"></span>
-                                        <span class="star active"></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= toontap" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/SblkPuV4TJws08ei9XkebZz8y1Kw2ehD-PrPK6ZtCnlUxnWM_2sFCcuLO2IcIePZouc=s180-rw" alt="ToonTap icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">ToonTap</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v1.31.70
-                                    • Pro Unlocked
-                                    <span class="app-genre">
-                                        • Photos &amp; Videos </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= bandlab" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/wfWpJxIMDymGBN2IxIrHjFqS1HD-JZbaLYO5d1Vly2yCtKLUiiDz38LxB3dMh8L1WTA=s180-rw" alt="BandLab icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">BandLab</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v11.6.2
-                                    • Pro Unlocked
-                                    <span class="app-genre">
-                                        • Music &amp; Audio </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= babilala" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/mhb9RjCx7G7paMfKpXra4Gt33FcrbCQz7cPrILjm6d-VNSVYenAkPmpzN2UFdtvxJL-R=s180-rw" alt="Babilala icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Babilala</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v2.53
-                                    <span class="app-genre">
-                                        • Education </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= perfect365" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/gG8W_LKwH7j7zHeYbQMQnStRq406uY7mIZIVCVAhtxKvnpMe5MYRi8xUQlnwl6ABYVs=s180-rw" alt="Perfect365 icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Perfect365</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v10.5.26
-                                    • Pro Unlocked
-                                    <span class="app-genre">
-                                        • Photos &amp; Videos </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= filmorago" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/CLFmTKx4N6WymzRPO5jsd_-bgDOj_YKPNKFfZIS9oiHzq8LOJM4P7dUTu0C6m57rDYE=s180-rw" alt="FilmoraGo icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">FilmoraGo</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v14.9.60
-                                    • Premium Unlocked
-                                    <span class="app-genre">
-                                        • Photos &amp; Videos </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= cast-to-tv" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/4jy6KJtgO2ICYqUOg98wJ_SYuaROGudW-KibPjlhehxzCbsPHGmSNY8wIhyquvCqTqA=s180-rw" alt="Cast to TV icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Cast to TV</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v12.269
-                                    • Premium Unlocked
-                                    <span class="app-genre">
-                                        • Utilities </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= microsoft-teams" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/jKU64njy8urP89V1O63eJxMtvWjDGETPlHVIhDv9WZAYzsSxRWyWZkUlBJZj_HbkHA=s180-rw" alt="Microsoft Teams icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Microsoft Teams</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v1416/1.0.0.2025171603
-                                    <span class="app-genre">
-                                        • Utilities </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
-                    <article class="flex-item"><a href="single-app.html?app= real-drum" class="app clickable" aria-label="View app">
-                            <div class="app-icon">
-                                <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/A32tc8f0mo23wYkdY8Aax8mpJScTAI-rIELt9VgyULdpPLq4_GPMkT17YOSdkLw--w=s180-rw" alt="Real Drum icon" width="90" height="90" class="loaded"></div>
-                            <div class="app-name truncate">
-                                <h2 class="font-size__normal no-margin no-padding truncate">Real Drum</h2>
-                                <div class="app-sub-text font-size__small color__gray truncate">v11.11.3
-                                    • Premium Unlocked
-                                    <span class="app-genre">
-                                        • Music &amp; Audio </span></div>
-                                <div class="app-tags font-size__small">
-                                    <div class="app-rating">
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span>
-                                        <span class="star "></span></div>
-                                </div>
-                                <span class="app-sub-action font-size__small">
-                                    <span class="app-sub-action-button">
-                                        Get </span>
-                                </span>
-                            </div>
-                        </a></article>
+                    <?php if (!empty($apps)): ?>
+                        <?php foreach ($apps as $index => $app): ?>
+                            <article class="flex-item">
+                                <a href="<?php echo page_url($app['slug'] ?? '', 'posts'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
+                                    <div class="app-icon">
+                                        <?php
+                                        $featured_image = '';
+                                        if (!empty($app['feature'])) {
+                                            $image_data = is_string($app['feature']) ? json_decode($app['feature'], true) : $app['feature'];
+                                            if (isset($image_data['path'])) {
+                                                $featured_image = rtrim(base_url(), '/') . '/uploads/' . $image_data['path'];
+                                            }
+                                        }
+                                        if (empty($featured_image)) {
+                                            $featured_image = 'https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App';
+                                        }
+                                        ?>
+                                        <img fetchpriority="<?php echo $index < 3 ? 'high' : 'low'; ?>"
+                                             src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>"
+                                             alt="<?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon"
+                                             width="90" height="90"
+                                             loading="<?php echo $index < 3 ? 'eager' : 'lazy'; ?>"
+                                             class="<?php echo $index >= 3 ? 'loaded' : ''; ?>">
+                                    </div>
+                                    <div class="app-name truncate">
+                                        <h2 class="font-size__normal no-margin no-padding truncate"><?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></h2>
+                                        <div class="app-sub-text font-size__small color__gray truncate">
+                                            <?php
+                                            $version = $app['version'] ?? 'v1.0';
+                                            $status = $app['status'] ?? 'Free';
+                                            $genre = !empty($app['categories']) ? $app['categories'][0]['name'] ?? 'App' : 'App';
+                                            echo htmlspecialchars($version . ' • ' . $status . ' • ' . $genre, ENT_QUOTES, 'UTF-8');
+                                            ?>
+                                        </div>
+                                        <div class="app-tags font-size__small">
+                                            <div class="app-rating">
+                                                <?php
+                                                $rating = $app['rating_avg'] ?? 0;
+                                                for ($i = 1; $i <= 5; $i++):
+                                                    $class = $i <= $rating ? 'star filled' : 'star';
+                                                ?>
+                                                    <span class="<?php echo $class; ?>"></span>
+                                                <?php endfor; ?>
+                                            </div>
+                                        </div>
+                                        <span class="app-sub-action font-size__small">
+                                            <span class="app-sub-action-button">
+                                                Get
+                                            </span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </article>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="no-apps">
+                            <p><?php echo __('No apps found', 'Không tìm thấy app nào'); ?></p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -321,15 +123,45 @@ get_template('_metas/meta_index', ['locale' => $locale]);
         <section>
             <div class="container">
                 <div class="wp-container archive-pagination">
-                    <div class="paginate-button active"><span aria-current="page" class="button clickable">1</span></div>
-                    <div class="paginate-button"><a class="button clickable" href="single-app.html?page=2" aria-label="Go to page 2">2</a></div>
-                    <div class="paginate-button"><a class="button clickable" href="single-app.html?page=311" aria-label="Go to page 311">311</a></div>
-                    <div class="paginate-button"><a class="next button clickable" href="single-app.html?page=2" aria-label="Next page"><span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
-                                    <path d="M517.85-480 354.92-642.92q-8.3-8.31-8.5-20.89-.19-12.57 8.5-21.27 8.7-8.69 21.08-8.69 12.38 0 21.08 8.69l179.77 179.77q5.61 5.62 7.92 11.85 2.31 6.23 2.31 13.46t-2.31 13.46q-2.31 6.23-7.92 11.85L397.08-274.92q-8.31 8.3-20.89 8.5-12.57.19-21.27-8.5-8.69-8.7-8.69-21.08 0-12.38 8.69-21.08L517.85-480Z"></path>
-                                </svg></span> </a></div>
+                    <?php if (!empty($pagination) && $pagination['last_page'] > 1): ?>
+                        <?php if ($pagination['current_page'] > 1): ?>
+                            <div class="paginate-button">
+                                <a class="button clickable" href="?page=<?php echo $pagination['current_page'] - 1; ?>" aria-label="Previous page">
+                                    <span class="svg-icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
+                                            <path d="M442.15-480 605.08-317.08q8.3 8.31 8.5 20.89.19 12.57-8.5 21.27-8.7 8.69-21.08 8.69-12.38 0-21.08-8.69L373.65-505.23q-5.61-5.62-7.92-11.85-2.31-6.23-2.31-13.46t2.31-13.46q2.31-6.23 7.92-11.85L562.92-725.08q8.31-8.3 20.89-8.5 12.57-.19 21.27 8.5 8.69 8.7 8.69 21.08 0 12.38-8.69 21.08L442.15-480Z"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php for ($i = 1; $i <= $pagination['last_page']; $i++): ?>
+                            <?php if ($i == $pagination['current_page']): ?>
+                                <div class="paginate-button active">
+                                    <span aria-current="page" class="button clickable"><?php echo $i; ?></span>
+                                </div>
+                            <?php else: ?>
+                                <div class="paginate-button">
+                                    <a class="button clickable" href="?page=<?php echo $i; ?>" aria-label="Go to page <?php echo $i; ?>"><?php echo $i; ?></a>
+                                </div>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                        
+                        <?php if ($pagination['current_page'] < $pagination['last_page']): ?>
+                            <div class="paginate-button">
+                                <a class="next button clickable" href="?page=<?php echo $pagination['current_page'] + 1; ?>" aria-label="Next page">
+                                    <span class="svg-icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
+                                            <path d="M517.85-480 354.92-642.92q-8.3-8.31-8.5-20.89-.19-12.57 8.5-21.27 8.7-8.69 21.08-8.69 12.38 0 21.08 8.69l179.77 179.77q5.61 5.62 7.92 11.85 2.31 6.23 2.31 13.46t-2.31 13.46q-2.31 6.23-7.92 11.85L397.08-274.92q-8.31 8.3-20.89 8.5-12.57.19-21.27-8.5-8.69-8.7-8.69-21.08 0-12.38 8.69-21.08L517.85-480Z"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
-
 
 <?php get_footer(); ?>
