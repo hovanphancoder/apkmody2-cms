@@ -15,7 +15,7 @@ load_helpers(['languges']);
     <meta name="robots" content="noindex, nofollow">
     <title>Page Not Found - 404 Error</title>
     <meta name="description" content="The page you are looking for could not be found. Error 404.">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo base_url('favicon.ico'); ?>">
 
 <script src="https://cdn.tailwindcss.com"></script>
 

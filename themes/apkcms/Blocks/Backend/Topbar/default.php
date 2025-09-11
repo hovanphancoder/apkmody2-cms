@@ -26,7 +26,7 @@
         <?php endforeach; ?>
       </select>
     </form>
-    <button @click="theme = (theme === 'light' ? 'dark' : 'light')"
+    <button @click="theme = (theme === 'light' ? 'dark' : 'light');"
       class="p-2 rounded-md text-muted-foreground hover:bg-accent" title="Toggle Theme">
       <i data-lucide="sun" class="h-4 w-4 block dark:hidden"></i>
       <i data-lucide="moon" class="h-4 w-4 hidden dark:block"></i>

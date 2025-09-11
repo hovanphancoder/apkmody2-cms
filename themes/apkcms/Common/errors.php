@@ -21,7 +21,7 @@ if (!empty($trace) && preg_match('/App\\\\Controllers\\\\([^:]+)/', $trace, $mat
     <meta name="robots" content="noindex, nofollow">
     <title>Error <?php echo $statusCode; ?> - Internal Server Error</title>
     <meta name="description" content="An internal server error occurred. Error <?php echo $statusCode; ?>">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo base_url('favicon.ico'); ?>">
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
