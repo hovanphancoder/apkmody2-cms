@@ -38,7 +38,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                           
                             <div class="card-image">
                             <a href="single-blog.html" exploring-indias-cricket-fan-clubs"="" aria-label="Exploring India’s Cricket Fan Clubs">
-                                <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="image " decoding="async" fetchpriority="high" class="loaded">
+                                <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="image " decoding="async" fetchpriority="high" class="loaded">
                                 <div class="card-body">
                                     <div class="card-title">
                                         <h2 class="truncate">Exploring India’s Cricket Fan Clubs</h2>
@@ -54,7 +54,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                          <article class="card has-shadow clickable">
                              <div class="card-image">
                                  <a href="single-blog.html" aria-label="Teach Music Composition with Text to Speech AI in CapCut PC">
-                                     <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Teach Music Composition with Text to Speech AI in CapCut PC" decoding="async" loading="lazy" class="loaded">
+                                     <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Teach Music Composition with Text to Speech AI in CapCut PC" decoding="async" loading="lazy" class="loaded">
                                      <div class="card-body">
                                          <div class="card-title">
                                              <h2 class="truncate">Teach Music Composition with Text to Speech AI in CapCut PC</h2>
@@ -70,7 +70,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                          <article class="card has-shadow clickable">
                              <div class="card-image">
                                  <a href="single-blog.html" aria-label="Tips to Boost Your Mobile Gaming Experience">
-                                     <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Tips to Boost Your Mobile Gaming Experience" decoding="async" loading="lazy" class="loaded">
+                                     <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Tips to Boost Your Mobile Gaming Experience" decoding="async" loading="lazy" class="loaded">
                                      <div class="card-body">
                                          <div class="card-title">
                                              <h2 class="truncate">Tips to Boost Your Mobile Gaming Experience</h2>
@@ -86,7 +86,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <article class="card has-shadow clickable">
                             <div class="card-image">
                                 <a href="single-blog.html" aria-label="1win: The New Face of Patience, Thinking &amp; Digital Entertainment">
-                                    <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="1win: The New Face of Patience, Thinking &amp; Digital Entertainment" decoding="async" loading="lazy" class="loaded">
+                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="1win: The New Face of Patience, Thinking &amp; Digital Entertainment" decoding="async" loading="lazy" class="loaded">
                                     <div class="card-body">
                                         <div class="card-title">
                                             <h2 class="truncate">1win: The New Face of Patience, Thinking &amp; Digital Entertainment</h2>
@@ -102,7 +102,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <article class="card has-shadow clickable">
                             <div class="card-image">
                                 <a href="single-blog.html" aria-label="1win: The Mathematical Game of Probability &amp; the Journey of Mental Discipline">
-                                    <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="1win: The Mathematical Game of Probability &amp; the Journey of Mental Discipline" decoding="async" loading="lazy" class="loaded">
+                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="1win: The Mathematical Game of Probability &amp; the Journey of Mental Discipline" decoding="async" loading="lazy" class="loaded">
                                     <div class="card-body">
                                         <div class="card-title">
                                             <h2 class="truncate">1win: The Mathematical Game of Probability &amp; the Journey of Mental Discipline</h2>
@@ -118,7 +118,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <article class="card has-shadow clickable">
                             <div class="card-image">
                                 <a href="single-blog.html" aria-label="Why You should read reviews before downloading a game?">
-                                    <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Why You should read reviews before downloading a game?" decoding="async" loading="lazy" class="loaded">
+                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Why You should read reviews before downloading a game?" decoding="async" loading="lazy" class="loaded">
                                     <div class="card-body">
                                         <div class="card-title">
                                             <h2 class="truncate">Why You should read reviews before downloading a game?</h2>
@@ -134,7 +134,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <article class="card has-shadow clickable">
                             <div class="card-image">
                                 <a href="single-blog.html" aria-label="Six6S Bangladesh Review – Betting Opportunity &amp; Guide How to Create an Account">
-                                    <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Six6S Bangladesh Review – Betting Opportunity &amp; Guide How to Create an Account" decoding="async" loading="lazy" class="loaded">
+                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Six6S Bangladesh Review – Betting Opportunity &amp; Guide How to Create an Account" decoding="async" loading="lazy" class="loaded">
                                     <div class="card-body">
                                         <div class="card-title">
                                             <h2 class="truncate">Six6S Bangladesh Review – Betting Opportunity &amp; Guide How to Create an Account</h2>
@@ -150,7 +150,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <article class="card has-shadow clickable">
                             <div class="card-image">
                                 <a href="single-blog.html" aria-label="How to Deposit and Withdraw Money on 1win – Payment Methods &amp; Fast Transactions">
-                                    <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="How to Deposit and Withdraw Money on 1win – Payment Methods &amp; Fast Transactions" decoding="async" loading="lazy" class="loaded">
+                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="How to Deposit and Withdraw Money on 1win – Payment Methods &amp; Fast Transactions" decoding="async" loading="lazy" class="loaded">
                                     <div class="card-body">
                                         <div class="card-title">
                                             <h2 class="truncate">How to Deposit and Withdraw Money on 1win – Payment Methods &amp; Fast Transactions</h2>
@@ -166,7 +166,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <article class="card has-shadow clickable">
                             <div class="card-image">
                                 <a href="single-blog.html" aria-label="What are the biggest Esports Titles in 2025?">
-                                    <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="What are the biggest Esports Titles in 2025?" decoding="async" loading="lazy" class="loaded">
+                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="What are the biggest Esports Titles in 2025?" decoding="async" loading="lazy" class="loaded">
                                     <div class="card-body">
                                         <div class="card-title">
                                             <h2 class="truncate">What are the biggest Esports Titles in 2025?</h2>
@@ -182,7 +182,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <article class="card has-shadow clickable">
                             <div class="card-image">
                                 <a href="single-blog.html" aria-label="Baji Unlocked: Your Ultimate Guide to Betting Bliss">
-                                    <img width="540" height="360" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Baji Unlocked: Your Ultimate Guide to Betting Bliss" decoding="async" loading="lazy" class="loaded">
+                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/editors/blog-esports-titles-540x360.webp" alt="Baji Unlocked: Your Ultimate Guide to Betting Bliss" decoding="async" loading="lazy" class="loaded">
                                     <div class="card-body">
                                         <div class="card-title">
                                             <h2 class="truncate">Baji Unlocked: Your Ultimate Guide to Betting Bliss</h2>
