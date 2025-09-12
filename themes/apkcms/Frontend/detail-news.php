@@ -3,12 +3,7 @@ App\Libraries\Fastlang::load('Homepage');
 
 // ===== LẤY DỮ LIỆU BLOG POST =====
 // Lấy slug từ URL
-$slug = S_GET('slug', '');
-if (empty($slug)) {
-    // Redirect về trang blog nếu không có slug
-    header('Location: /blog');
-    exit;
-}
+$slug = get_current_slug();
 
 // Lấy dữ liệu bài viết từ database
 $post = get_post([
@@ -18,11 +13,13 @@ $post = get_post([
     'active' => true
 ]);
 
+// var_dump($post);
+// die;
 // Nếu không tìm thấy bài viết, redirect về trang blog
-if (!$post) {
-    header('Location: /blog');
-    exit;
-}
+// if (!$post) {
+//     header('Location: /blog');
+//     exit;
+// }
 
 // Lấy nội dung bài viết
 $post_content = $post['content'] ?? $post['description'] ?? '';
@@ -56,14 +53,14 @@ $related_posts = get_posts([
 $related_posts = $related_posts['data'] ?? [];
 
 
-var_dump($related_posts);
+// var_dump($related_posts);
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
 get_template('_metas/meta_index', ['locale' => $locale]);
 
 ?>
 
-<section>
+        <section>
             <div class="container">
 
                 <!-- breadcrumb -->

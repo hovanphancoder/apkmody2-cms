@@ -50,27 +50,27 @@ get_template('_metas/meta_index', ['locale' => $locale]);
 
 <!-- Games -->
 <section>
-    <div class="container">
-        <div id="breadcrumb" class="font-size__small color__gray truncate"><span><span><a class="color__gray" href="/" aria-label="Home">Home</a></span> / <span class="color__gray" aria-current="page">Games</span></span></div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h1 class="font-size__larger">Games</h1>
-        </div>
-        <div class="text-align__justify" style="font-size: 0.9em;">
+            <div class="container">
+                <div id="breadcrumb" class="font-size__small color__gray truncate"><span><span><a class="color__gray" href="/" aria-label="Home">Home</a></span> / <span class="color__gray" aria-current="page">Games</span></span></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h1 class="font-size__larger">Games</h1>
+                </div>
+                <div class="text-align__justify" style="font-size: 0.9em;">
             <p>Honestly, Game has become an indispensable part of players' youth. Most of all, it is the love and burning passion for Games that made us – the developers of APKMODY create this category. We hope that we can preserve the good memories and open up a new playing field for the next generation of gamers. Here you can find the best MOD APK, Paid APK and Original APK games. Countless exciting and new games are being updated and shared with you every day. In particular, we do these things completely for free without collecting a single penny from you. Feel free to consult, choose a game that suits you and create the best memories together.</p>
-        </div>
-        <div id="orderby" class="flex-cat-container">
-            <div class="flex-cat-item active"><a href="/games" aria-label="View all games">Updated</a></div>
-            <div class="flex-cat-item "><a href="single-app.html?filter=new" aria-label="New apps">New</a></div>
-            <div class="flex-cat-item "><a href="single-app.html?filter=popular" aria-label="Popular apps">Popular</a></div>
-            <div class="flex-cat-item "><a href="single-app.html?filter=premium" aria-label="Premium apps">Premium</button></div>
-        </div>
-    </div>
-</section>
+                </div>
+                <div id="orderby" class="flex-cat-container">
+                    <div class="flex-cat-item active"><a href="/games" aria-label="View all games">Updated</a></div>
+                    <div class="flex-cat-item "><a href="single-app.html?filter=new" aria-label="New apps">New</a></div>
+                    <div class="flex-cat-item "><a href="single-app.html?filter=popular" aria-label="Popular apps">Popular</a></div>
+                    <div class="flex-cat-item "><a href="single-app.html?filter=premium" aria-label="Premium apps">Premium</button></div>
+                </div>
+            </div>
+        </section>
 
-<!-- Games Section -->
-<section>
-    <div class="container">
-        <div class="flex-container">
+        <!-- Games Section -->
+        <section>
+            <div class="container">
+                <div class="flex-container">
             <?php if (!empty($games)): ?>
                 <?php foreach ($games as $index => $game): ?>
                     <article class="flex-item" aria-label="Link">
@@ -116,12 +116,12 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                                         ?>
                                             <span class="<?php echo $class; ?>"></span>
                                         <?php endfor; ?>
-                                    </div>
+                            </div>
                                 </div>
                                 <span class="app-sub-action font-size__small">
                                     <span class="app-sub-action-button">
                                         Get
-                                    </span>
+                                </span>
                                 </span>
                             </div>
                         </a>
@@ -132,15 +132,15 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                     <p><?php echo __('No games found', 'Không tìm thấy game nào'); ?></p>
                 </div>
             <?php endif; ?>
-        </div>
-    </div>
-</section>
+                </div>
+            </div>
+        </section>
 
 <!-- pagination -->
 <?php if (!empty($pagination) && isset($pagination['total_pages']) && $pagination['total_pages'] > 1): ?>
-<section>
-    <div class="container">
-        <div class="wp-container archive-pagination">
+        <section>
+            <div class="container">
+                <div class="wp-container archive-pagination">
             <?php 
             $current_page = $pagination['current_page'] ?? 1;
             $total_pages = $pagination['total_pages'] ?? 1;
@@ -190,15 +190,15 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                     <a class="next button clickable" href="<?php echo $next_url; ?>" aria-label="Go to next page">
                         <span class="svg-icon" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
-                                <path d="M517.85-480 354.92-642.92q-8.3-8.31-8.5-20.89-.19-12.57 8.5-21.27 8.7-8.69 21.08-8.69 12.38 0 21.08 8.69l179.77 179.77q5.61 5.62 7.92 11.85 2.31 6.23 2.31 13.46t-2.31 13.46q-2.31 6.23-7.92 11.85L397.08-274.92q-8.31 8.3-20.89 8.5-12.57.19-21.27-8.5-8.69-8.7-8.69-21.08 0-12.38 8.69-21.08L517.85-480Z"></path>
+                                    <path d="M517.85-480 354.92-642.92q-8.3-8.31-8.5-20.89-.19-12.57 8.5-21.27 8.7-8.69 21.08-8.69 12.38 0 21.08 8.69l179.77 179.77q5.61 5.62 7.92 11.85 2.31 6.23 2.31 13.46t-2.31 13.46q-2.31 6.23-7.92 11.85L397.08-274.92q-8.31 8.3-20.89 8.5-12.57.19-21.27-8.5-8.69-8.7-8.69-21.08 0-12.38 8.69-21.08L517.85-480Z"></path>
                             </svg>
                         </span>
                     </a>
                 </div>
             <?php endif; ?>
-        </div>
-    </div>
-</section>
+                </div>
+            </div>
+        </section>
 <?php endif; ?>
 
 <?php get_footer(); ?>

@@ -31,9 +31,9 @@ get_template('_metas/meta_index', ['locale' => $locale]);
         <!-- breadcrumb -->
         <section>
             <div class="container">
-                <div id="breadcrumb" class="font-size__small color__gray truncate"><span><span><a class="color__gray" href="/">Home</a></span> / <span class="color__gray" aria-current="page">Blog</span></span></div>
+                <div id="breadcrumb" class="font-size__small color__gray truncate"><span><span><a class="color__gray" href="/">Home</a></span> / <span class="color__gray" aria-current="page">News</span></span></div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h1 class="font-size__larger">Blog</h1>
+                    <h1 class="font-size__larger">News</h1>
                 </div>
                 <div class="text-align__justify" style="font-size: 0.9em;">
                     <p>Coming to the Blog, you will have access to important articles and information about Games &amp; Apps. We provide the most detailed instructions, ensuring players understand the gameplay and special symbols. Besides, we also share tips and tricks from the experience of veteran gamers, to help you play more smoothly. In addition, the news about games is also regularly updated here. It can be said that if you find this Blog, you have found a secret book about games!</p>

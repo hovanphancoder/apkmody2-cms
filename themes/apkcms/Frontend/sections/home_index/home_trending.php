@@ -21,18 +21,19 @@
                 ?>
                 
                 <div class="flex-container horizontal-scroll">
-                    <?php if (!empty($trending_posts) && is_array($trending_posts)): ?>
-                        <?php foreach ($trending_posts as $post): ?>
+                    <?php 
+                    // Kiểm tra cấu trúc dữ liệu
+                    if (isset($trending_posts['data'])) {
+                        $posts_data = $trending_posts['data'];
+                    } else {
+                        $posts_data = $trending_posts;
+                    }
+                    
+                    if (!empty($posts_data) && is_array($posts_data)): ?>
+                        <?php foreach ($posts_data as $post): ?>
                             <?php
                             // Lấy thông tin cơ bản
-                            // Kiểm tra cấu trúc dữ liệu nếu cần
-                            if (isset($post[0]) && is_array($post[0])) {
-                                // Nếu dữ liệu nested trong [0]
-                                $post_data = $post[0];
-                            } else {
-                                // Dữ liệu trực tiếp
-                                $post_data = $post;
-                            }
+                            $post_data = $post;
                             
                             $post_title = $post_data['title'] ?? 'Untitled';
                             $post_slug = $post_data['slug'] ?? '';
@@ -54,7 +55,7 @@
                             $category_name = !empty($categories) ? $categories[0]['name'] ?? 'General' : 'General';
                             
                             // Tạo URL
-                            $post_url = (APP_LANG === APP_LANG_DF) ? '/post/' . $post_slug : page_url($post_slug, 'posts');
+                                $post_url = (APP_LANG === APP_LANG_DF) ? '/post/' . $post_slug : page_url($post_slug, 'posts');
                             
                             // Tạo rating stars
                             $stars = '';

@@ -399,3 +399,51 @@ if (!function_exists('get_page_description')) {
     }
 }
 
+if (!function_exists('get_current_posttype')) {
+    function get_current_posttype()
+    {
+        $current_page = get_current_page();
+        if (!$current_page) {
+            return 'posts';
+        }
+        
+        // Check page type first
+        switch ($current_page['page_type']) {
+            case 'blog':
+                return 'news';
+            case 'apps':
+                return 'posts'; // Assuming apps are stored in posts table
+            case 'games':
+                return 'posts'; // Assuming games are stored in posts table
+            case 'single':
+                // For single pages, try to determine posttype from URL
+                $segments = $current_page['segments'];
+                if (!empty($segments)) {
+                    $first_segment = $segments[0];
+                    switch ($first_segment) {
+                        case 'blog':
+                            return 'news';
+                        case 'apps':
+                        case 'app':
+                            return 'posts';
+                        case 'games':
+                        case 'game':
+                            return 'posts';
+                        default:
+                            return 'posts';
+                    }
+                }
+                return 'posts';
+            default:
+                return 'posts';
+        }
+    }
+}
+
+if (!function_exists('is_posttype')) {
+    function is_posttype($posttype)
+    {
+        return get_current_posttype() === $posttype;
+    }
+}
+

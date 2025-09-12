@@ -6,16 +6,16 @@ App\Libraries\Fastlang::load('Homepage');
  
 
 $slug = get_current_slug();
+// var_dump($slug);
+    $post_data = get_post([
+        'slug' => $slug,
+        'posttype' => 'posts',
+        'withCategories' => true,
+        'active' => true
+    ]);
 
-// Lấy dữ liệu post từ database
-$post_data = get_post([
-    'slug' => $slug,
-    'posttype' => 'posts',
-    'withCategories' => true,
-    'active' => true
-]);
 
-// var_dump($post_data);
+
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
@@ -223,14 +223,20 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                 </div>
                 <!-- related -->
                 <?php
-                // Lấy related posts từ database
+                // Lấy related posts - thử cách khác
                 $related_posts = get_posts([
                     'posttype' => 'posts',
                     'perPage' => 10,
                     'withCategories' => true,
                     'active' => true,
-                    'exclude' => $post_data['id'] ?? 0
+                    'filters' => [
+                        ['id', '!=', $post_data['id'] ?? 0]
+                    ],
+                    'sort' => ['views', 'DESC']
                 ]);
+                
+              
+                // var_dump($related_posts);
                 
                 // Chỉ hiển thị container nếu có related posts
                 if (!empty($related_posts)):
@@ -238,10 +244,17 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                 <div class="related-posts">
                     <div class="entry-content entry-block">
                         <h2 class="font-size__medium no-margin">Recommended For You</h2>
-                        <div class="flex-container">
+                        <div class="flex-container-2 horizontal-scroll">
                             <?php
                             // Hiển thị related posts
-                            foreach ($related_posts as $related_post):
+                            // Kiểm tra cấu trúc dữ liệu 
+                            if (isset($related_posts['data'])) {
+                                $posts_data = $related_posts['data'];
+                            } else {
+                                $posts_data = $related_posts;
+                            }
+                            
+                            foreach ($posts_data as $index => $related_post):
                                 $related_title = $related_post['title'] ?? 'Untitled';
                                 $related_slug = $related_post['slug'] ?? 'app';
                                 $related_image = '';
@@ -264,15 +277,15 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                             ?>
                                 <article class="flex-item">
                                     <a href="<?php echo htmlspecialchars($related_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($related_slug, ENT_QUOTES, 'UTF-8'); ?> game">
-                                        <div class="app-icon">
+                                    <div class="app-icon">
                                             <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($related_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($related_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
-                                        </div>
-                                        <div class="app-name truncate">
+                                    </div>
+                                    <div class="app-name truncate">
                                             <h3 class="font-size__small no-margin no-padding truncate"><?php echo htmlspecialchars($related_title, ENT_QUOTES, 'UTF-8'); ?></h3>
-                                        </div>
+                                    </div>
                                     </a>
                                 </article>
-                            <?php endforeach; ?>
+                               <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
