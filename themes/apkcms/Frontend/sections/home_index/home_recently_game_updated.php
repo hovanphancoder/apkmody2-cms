@@ -1,4 +1,6 @@
 <?php
+use App\Models\FastModel;
+
 // Lấy dữ liệu Recently Updated Games từ database
 $recent_games_data = get_posts([
     'posttype' => 'posts',
@@ -13,8 +15,13 @@ $recent_games_data = get_posts([
 // Xử lý cấu trúc dữ liệu
 $recent_games = isset($recent_games_data['data']) ? $recent_games_data['data'] : $recent_games_data;
 
-// Lấy categories để hiển thị filter (type = 'games')
-$categories = get_terms('posts', 'category', APP_LANG);
+// Lấy categories để hiển thị filter (parent = 111)
+$categories = (new FastModel('fast_terms'))
+    ->where('posttype', 'posts')
+    ->where('type', 'category')
+    ->where('parent', 111)
+    ->where('lang', APP_LANG)
+    ->get();
 ?>
 
 <!-- Recently updated games Section -->
@@ -58,9 +65,9 @@ $categories = get_terms('posts', 'category', APP_LANG);
                                 }
                             }
                             
-                            if (empty($game_image)) {
-                                $game_image = 'https://via.placeholder.com/90x90/FF9800/FFFFFF?text=Game';
-                            }
+                            // if (empty($game_image)) {
+                            //     $game_image = 'https://via.placeholder.com/90x90/FF9800/FFFFFF?text=Game';
+                            // }
                             
                             // Lấy categories
                             $categories = $game['categories'] ?? [];

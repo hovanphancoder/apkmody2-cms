@@ -50,7 +50,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                             <div class="flex-item">
                                 <article class="card has-shadow clickable">
                                     <div class="card-image">
-                                        <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/blog/' . ($post['slug'] ?? '') : page_url($post['slug'] ?? '', 'news'); ?>" aria-label="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
+                                        <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/news/' . ($post['slug'] ?? '') : page_url($post['slug'] ?? '', 'news'); ?>" aria-label="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
                                             <?php 
                                             // Lấy hình ảnh featured
                                             $featured_image = '';
