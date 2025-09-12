@@ -58,7 +58,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                     <?php if (!empty($apps)): ?>
                         <?php foreach ($apps as $index => $app): ?>
                             <article class="flex-item">
-                                <a href="<?php echo page_url($app['slug'] ?? '', 'posts'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
+                                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/post/' . ($app['slug'] ?? '') : page_url($app['slug'] ?? '', 'posts'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
                                     <div class="app-icon">
                                         <?php
                                         $featured_image = '';

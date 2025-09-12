@@ -17,6 +17,45 @@ if (!defined('APP_THEME_PATH')) {
  * Custom function example
  * You can add your own functions here
  */
+
+// Hàm tạo URL sạch không hiển thị ngôn ngữ mặc định
+if (!function_exists('clean_page_url')) {
+    function clean_page_url($slug = '', $posttype = '', $lang = APP_LANG)
+    {
+        // Check if missing slug or posttype then return empty
+        if (empty($slug) && empty($posttype)) {
+            return base_url($lang);
+        }
+
+        // Normalize output URL
+        $lang = htmlspecialchars($lang, ENT_QUOTES, 'UTF-8');
+        $posttype = htmlspecialchars($posttype, ENT_QUOTES, 'UTF-8');
+        $slug = htmlspecialchars($slug, ENT_QUOTES, 'UTF-8');
+        
+        // Check if lang is default language, don't include it in URL
+        $is_default_lang = ($lang === APP_LANG_DF);
+        
+        // Create URL with structure ./lang/posttype/cat/slug (only if not default lang)
+        if (empty($slug)) {
+            if ($is_default_lang) {
+                return sprintf('/%s/', $posttype);
+            }
+            return sprintf('/%s/%s/', $lang, $posttype);
+        }
+        if (empty($posttype)) {
+            if ($is_default_lang) {
+                return sprintf('/%s/', $slug);
+            }
+            return sprintf('/%s/%s/', $lang, $slug);
+        }
+        
+        if ($is_default_lang) {
+            return sprintf('/%s/%s/', $posttype, $slug);
+        }
+        return sprintf('/%s/%s/%s/', $lang, $posttype, $slug);
+    }
+}
+
 if (!function_exists('my_custom_function')) {
     function my_custom_function($param = '') {
         return 'Custom function: ' . $param;
