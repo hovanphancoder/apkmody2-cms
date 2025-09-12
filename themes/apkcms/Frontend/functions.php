@@ -18,6 +18,40 @@ if (!defined('APP_THEME_PATH')) {
  * You can add your own functions here
  */
 
+// Hàm lấy slug cuối cùng từ get_current_page()
+if (!function_exists('get_current_slug')) {
+    function get_current_slug()
+    {
+        $current_page = get_current_page();
+        
+        if (!$current_page || empty($current_page['segments'])) {
+            return '';
+        }
+        
+        $segments = $current_page['segments'];
+        
+        // Lấy phần cuối cùng của segments
+        $last_segment = end($segments);
+        
+        // Kiểm tra xem có phải là slug không (không phải ngôn ngữ hoặc posttype)
+        $excluded_parts = ['vi', 'en', 'post', 'posts', 'game', 'games', 'app', 'apps', 'blog', 'blogs', 'page', 'pages'];
+        
+        if (!in_array($last_segment, $excluded_parts)) {
+            return $last_segment;
+        }
+        
+        // Nếu phần cuối là posttype, lấy phần trước đó
+        if (count($segments) >= 2) {
+            $second_last = $segments[count($segments) - 2];
+            if (!in_array($second_last, $excluded_parts)) {
+                return $second_last;
+            }
+        }
+        
+        return '';
+    }
+}
+
 // Hàm tạo URL sạch không hiển thị ngôn ngữ mặc định
 if (!function_exists('clean_page_url')) {
     function clean_page_url($slug = '', $posttype = '', $lang = APP_LANG)
@@ -136,27 +170,27 @@ if (!function_exists('custom_footer_content')) {
  * Custom CSS/JS enqueue
  * Add custom assets to specific pages
  */
-if (!function_exists('custom_enqueue_assets')) {
-    function custom_enqueue_assets() {
-        $current_page = get_current_page();
+// if (!function_exists('custom_enqueue_assets')) {
+//     function custom_enqueue_assets() {
+//         $current_page = get_current_page();
         
-        // Add custom CSS for specific pages
-        if (is_page('blog')) {
-            \System\Libraries\Render::asset('css', theme_assets('Assets/css/blog-custom.css'), [
-                'area' => 'frontend',
-                'location' => 'head'
-            ]);
-        }
+//         // Add custom CSS for specific pages
+//         if (is_page('blog')) {
+//             \System\Libraries\Render::asset('css', theme_assets('Assets/css/blog-custom.css'), [
+//                 'area' => 'frontend',
+//                 'location' => 'head'
+//             ]);
+//         }
         
-        // Add custom JS for specific pages
-        if (is_page('apps') || is_page('games')) {
-            \System\Libraries\Render::asset('js', theme_assets('Assets/js/download-counter.js'), [
-                'area' => 'frontend',
-                'location' => 'footer'
-            ]);
-        }
-    }
-}
+//         // Add custom JS for specific pages
+//         if (is_page('apps') || is_page('games')) {
+//             \System\Libraries\Render::asset('js', theme_assets('Assets/js/download-counter.js'), [
+//                 'area' => 'frontend',
+//                 'location' => 'footer'
+//             ]);
+//         }
+//     }
+// }
 
 /**
  * Custom post query
@@ -269,7 +303,7 @@ if (!function_exists('custom_pagination')) {
 if (!function_exists('init_theme_functions')) {
     function init_theme_functions() {
         // Enqueue custom assets
-        custom_enqueue_assets();
+        // custom_enqueue_assets();
         
         // Add any other initialization code here
     }

@@ -8,6 +8,7 @@ $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
 get_template('_metas/meta_index', ['locale' => $locale]);
 //....
 //End Get Object Data
+
 ?>
 
 

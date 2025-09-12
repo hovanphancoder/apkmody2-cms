@@ -1,14 +1,21 @@
 <?php
 App\Libraries\Fastlang::load('Homepage');
 
-// Load CSS assets (minified for production)
-// get_template('_metas/css_assets');
+// ===== LẤY DỮ LIỆU POST HIỆN TẠI =====
+// Lấy slug từ get_current_page()
+ 
 
-// Load JavaScript assets
-// \System\Libraries\Render::asset('js', theme_assets('Assets/js/script.min.js'), [
-//     'area' => 'frontend', 
-//     'location' => 'footer'
-// ]);
+$slug = get_current_slug();
+
+// Lấy dữ liệu post từ database
+$post_data = get_post([
+    'slug' => $slug,
+    'posttype' => 'posts',
+    'withCategories' => true,
+    'active' => true
+]);
+
+// var_dump($post_data);
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
@@ -21,25 +28,78 @@ get_template('_metas/meta_index', ['locale' => $locale]);
 
                 <!-- breadcrumb -->
                 <div class="entry-content">
-                    <div id="breadcrumb" class="margin-bottom-15 font-size__small color__gray truncate"><span><span>
-                                <a class="color__gray" href="/" aria-label="Home">Home</a></span> / <span><a class="color__gray" href="/games" aria-label="Games">Games</a></span> / <span><a class="color__gray" href="/games/football">Football</a></span> / <span class="color__gray" aria-current="page">Football League 2025</span></span>
+                    <div id="breadcrumb" class="margin-bottom-15 font-size__small color__gray truncate">
+                        <span>
+                            <span><a class="color__gray" href="/" aria-label="Home">Home</a></span> / 
+                            <span><a class="color__gray" href="/games" aria-label="Games">Games</a></span> / 
+                            <span><a class="color__gray" href="/games/<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?></a></span> / 
+                            <span class="color__gray" aria-current="page"><?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></span>
+                        </span>
                     </div>
                 </div>
 
                 <!-- Header App  -->
                 <div class="app app__large">
                     <div class="app-icon">
-                        <img fetchpriority="high" src="https://static.apkmody.com/play-lh.googleusercontent.com/koXfW3JR_z4_3KihWWL0k-Xhdc8Ak6kSMFrQFz2FqTULKuiC5L0w_LTTA37LFWYcF98=s180-rw" alt="Football League 2025 icon" width="90" height="90">
+                        <?php
+                        // Lấy hình ảnh featured
+                        $featured_image = '';
+                        if (!empty($post_data['feature'])) {
+                            $image_data = is_string($post_data['feature']) ? json_decode($post_data['feature'], true) : $post_data['feature'];
+                            if (isset($image_data['path'])) {
+                                $featured_image = rtrim(base_url(), '/') . '/uploads/' . $image_data['path'];
+                            }
+                        }
+                        ?>
+                        <?php if (!empty($featured_image)): ?>
+                            <img fetchpriority="high" src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
+                        <?php else: ?>
+                            <img fetchpriority="high" src="https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
+                        <?php endif; ?>
                     </div>
                     <div class="app-name">
-                        <h1 class="font-size__medium no-margin"><strong>Football League 2025</strong> <span> MOD APK (Menu, Unlimited Money) v0.1.63</span></h1><span class="font-size__small truncate"><a href="#publisher-items" aria-label="Jump to publisher-items">MOBILE SOCCER</a></span>
+                        <h1 class="font-size__medium no-margin" id="title-post">
+                            <strong><?php echo htmlspecialchars($post_data['title'] ?? 'updating', ENT_QUOTES, 'UTF-8'); ?></strong> 
+                            <span> MOD APK (Menu, Unlimited Money) <?php echo htmlspecialchars($post_data['version'] ?? 'v1.0.0', ENT_QUOTES, 'UTF-8'); ?></span>
+                        </h1>
+                        <span class="font-size__small truncate">
+                            <a href="#publisher-items" aria-label="Jump to publisher-items"><?php echo htmlspecialchars($post_data['author'] ?? 'Unknown', ENT_QUOTES, 'UTF-8'); ?></a>
+                        </span>
                     </div>
                 </div>
                 <!-- screenshots -->
+                <?php
+                // Lấy screenshots từ database
+                $screenshots = [];
+                
+                // Thử lấy từ field screenshots
+                if (!empty($post_data['screenshot'])) {
+                    $screenshots_data = is_string($post_data['screenshot']) ? json_decode($post_data['screenshot'], true) : $post_data['screenshot'];
+                    if (is_array($screenshots_data)) {
+                        $screenshots = $screenshots_data;
+                    }
+                }
+                
+                // Chỉ hiển thị container nếu có screenshots
+                if (!empty($screenshots)):
+                ?>
                 <div class="screenshots-container">
                     <div class="screenshots horizontal-scroll" id="lightgallery-container">
-                        <a class="screenshot" data-src="https://static.apkmody.com/play-lh.googleusercontent.com/ockaaHS5azBAVk_gXDAduOqqpSN8XYiTVIt6EYFkIkFpZ-eOOcw52NjTiWiiRsYPTAIk=-rw" data-lg-id="9c1f60f5-acfd-43ed-8f53-bad7a79b4817" aria-label="View screenshot"><img class="horizontal-screenshot" width="512" height="288" decoding="async" fetchpriority="high" src="https://static.apkmody.com/play-lh.googleusercontent.com/ockaaHS5azBAVk_gXDAduOqqpSN8XYiTVIt6EYFkIkFpZ-eOOcw52NjTiWiiRsYPTAIk=-rw" alt="Football League 2025 screenshot 1"></a><a class="screenshot" data-src="https://static.apkmody.com/play-lh.googleusercontent.com/hgpGsTiRbCVVpXx3hT3vyff_YRVQ3yLUHaXi3K6Cg2-BSsB4IC-sQNWW8f3YuyWuOa8=-rw" data-lg-id="c3ba47c3-320c-440a-94cc-daef04d8bd4e" aria-label="View screenshot"><img class="horizontal-screenshot loaded" width="512" height="288" decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/hgpGsTiRbCVVpXx3hT3vyff_YRVQ3yLUHaXi3K6Cg2-BSsB4IC-sQNWW8f3YuyWuOa8=-rw" alt="Football League 2025 screenshot 2"></a><a class="screenshot" data-src="https://static.apkmody.com/play-lh.googleusercontent.com/-HBcX-cd7HGDu5g-XH2d9KbQEmd8ZpeFnd3hj4uw50PJ-UL7SzdLAKV9SPljlHP8dk5j=-rw" data-lg-id="c326c8b4-9797-41fc-aba4-5fe69c15ac4d" aria-label="View screenshot"><img class="horizontal-screenshot loaded" width="512" height="288" decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/-HBcX-cd7HGDu5g-XH2d9KbQEmd8ZpeFnd3hj4uw50PJ-UL7SzdLAKV9SPljlHP8dk5j=-rw" alt="Football League 2025 screenshot 3"></a><a class="screenshot" data-src="https://static.apkmody.com/play-lh.googleusercontent.com/5IDRuyauJwzBed8m9cvDZg8l5YK9AaKO1UPEvQPJE1I4X858Iq05v6LnrFLwIs1wCfn-=-rw" data-lg-id="3b6e3232-8143-4d07-9b0d-020ee63a28f1" aria-label="View screenshot"><img class="horizontal-screenshot loaded" width="512" height="288" decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/5IDRuyauJwzBed8m9cvDZg8l5YK9AaKO1UPEvQPJE1I4X858Iq05v6LnrFLwIs1wCfn-=-rw" alt="Football League 2025 screenshot 4"></a><a class="screenshot" data-src="https://static.apkmody.com/play-lh.googleusercontent.com/egBVYHYXhodzaOcovqAe0zeGf8_JvMpkG1W1R7phmo3NWKunDLjDvNAtxDSVke42056P=-rw" data-lg-id="642d686e-36c2-4bd1-a7e7-f33c5a47a2d8" aria-label="View screenshot"><img class="horizontal-screenshot loaded" width="512" height="288" decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/egBVYHYXhodzaOcovqAe0zeGf8_JvMpkG1W1R7phmo3NWKunDLjDvNAtxDSVke42056P=-rw" alt="Football League 2025 screenshot 5"></a><a class="screenshot" data-src="https://static.apkmody.com/play-lh.googleusercontent.com/eEvYdVtG5tjzCH9FCRAZ0FhyAulkGtlyDpCjgX9e2tJ76JhpWzhsoWNdDtvAF-inemI=-rw" data-lg-id="a7468aea-9df4-43c8-be95-50ae1bd47802" aria-label="View screenshot"><img class="horizontal-screenshot loaded" width="512" height="288" decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/eEvYdVtG5tjzCH9FCRAZ0FhyAulkGtlyDpCjgX9e2tJ76JhpWzhsoWNdDtvAF-inemI=-rw" alt="Football League 2025 screenshot 6"></a><a class="screenshot" data-src="https://static.apkmody.com/play-lh.googleusercontent.com/XaQu51esZ7U233neypZq1_AwXCHH3fLbjxfy3GDN9yHItdiOJ_aUEwdwlZ0GjGUyAk2V=-rw" data-lg-id="fc6167af-903c-4777-b579-3911cc2eaf52" aria-label="View screenshot"><img class="horizontal-screenshot loaded" width="512" height="288" decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/XaQu51esZ7U233neypZq1_AwXCHH3fLbjxfy3GDN9yHItdiOJ_aUEwdwlZ0GjGUyAk2V=-rw" alt="Football League 2025 screenshot 7"></a></div>
+                        <?php
+                        // Hiển thị screenshots
+                        foreach ($screenshots as $index => $screenshot):
+                            // Lấy URL từ path
+                            $screenshot_url = rtrim(base_url(), '/') . '/uploads/' . $screenshot['path'];
+                            $screenshot_alt = $screenshot['name'] ?? ($post_data['title'] ?? 'App') . ' screenshot ' . ($index + 1);
+                            $screenshot_id = 'screenshot-' . $index . '-' . uniqid();
+                        ?>
+                            <a class="screenshot" data-src="<?php echo htmlspecialchars($screenshot_url, ENT_QUOTES, 'UTF-8'); ?>" data-lg-id="<?php echo $screenshot_id; ?>" aria-label="View screenshot">
+                                <img class="horizontal-screenshot <?php echo $index > 0 ? 'loaded' : ''; ?>" width="512" height="288" decoding="async" <?php echo $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?> src="<?php echo htmlspecialchars($screenshot_url, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($screenshot_alt, ENT_QUOTES, 'UTF-8'); ?>">
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
+                <?php endif; ?>
                 <!-- app info -->
                 <div class="entry-content border-block" id="app-info">
                     <h2 class="hide">App Info</h2>
@@ -48,45 +108,45 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                             <tbody>
                                 <tr>
                                     <th class="text-align__left font-size__small color__gray">Updated On</th>
-                                    <td class="text-align__right"><time datetime="2025-09-04T13:15:19+07:00">September 4, 2025</time></td>
+                                    <td class="text-align__right"><time datetime="<?php echo date('c', strtotime($post_data['updated_at'] ?? $post_data['created_at'] ?? 'now')); ?>"><?php echo date('F j, Y', strtotime($post_data['updated_at'] ?? $post_data['created_at'] ?? 'now')); ?></time></td>
                                 </tr>
                                 <tr>
                                     <th class="text-align__left font-size__small color__gray">Google Play ID</th>
-                                    <td class="text-align__right"><span class="truncate"><a class="color__black" href="https://play.google.com/store/apps/details?id=com.football.soccer.league" rel="noopener" target="_blank">com.football.soccer.league</a></span></td>
+                                    <td class="text-align__right"><span class="truncate"><a class="color__black" href="<?php echo htmlspecialchars($post_data['google_play_url'] ?? '#', ENT_QUOTES, 'UTF-8'); ?>" rel="noopener" target="_blank"><?php echo htmlspecialchars($post_data['google_play_id'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></a></span></td>
                                 </tr>
                                 <tr>
                                     <th class="text-align__left font-size__small color__gray">Category</th>
-                                    <td class="text-align__right"><span class="truncate"><a class="color__black" href="/games/football">Football</a></span></td>
+                                    <td class="text-align__right"><span class="truncate"><a class="color__black" href="/games/<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'General', ENT_QUOTES, 'UTF-8'); ?></a></span></td>
                                 </tr>
                                 <tr>
                                     <th class="text-align__left font-size__small color__gray">Version</th>
-                                    <td class="text-align__right"><span class="truncate">0.1.63</span></td>
+                                    <td class="text-align__right"><span class="truncate"><?php echo htmlspecialchars($post_data['version'] ?? 'v1.0.0', ENT_QUOTES, 'UTF-8'); ?></span></td>
                                 </tr>
                                 <tr>
                                     <th class="text-align__left font-size__small color__gray">Size</th>
-                                    <td class="text-align__right">204 MB</td>
+                                    <td class="text-align__right"><?php echo htmlspecialchars($post_data['size'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-align__left font-size__small color__gray">MOD Features</th>
-                                    <td class="text-align__right" aria-label="Link"><a href="#h-mod-apk-version-of-football-league-2025" class="color__black truncate">Menu, Unlimited Money</a></td>
+                                    <td class="text-align__right" aria-label="Link"><a href="#h-mod-apk-version-of-<?php echo htmlspecialchars($post_data['slug'] ?? 'app', ENT_QUOTES, 'UTF-8'); ?>" class="color__black truncate"><?php echo htmlspecialchars($post_data['mod_features'] ?? 'Menu, Unlimited Money', ENT_QUOTES, 'UTF-8'); ?></a></td>
                                 </tr>
                                 <tr>
                                     <th class="text-align__left font-size__small color__gray">Requires</th>
                                     <td class="text-align__right"><span class="color__green"><span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
                                                     <path d="M73.85-259.62q8.61-98.92 60.7-181.94 52.1-83.01 138.76-131.9l-68.23-118q-5.62-8.62-2.81-17.65 2.81-9.04 12.04-14.04 8-4.62 16.85-1.81 8.84 2.81 14.38 11.13l68.31 118.29q79.38-33.27 166.15-33.27 86.77 0 166.15 33.27l68.31-118.29q5.54-8.32 14.38-11.13 8.85-2.81 16.85 1.81 9.23 5 12.04 14.04 2.81 9.03-2.81 17.65l-68.23 118q86.66 48.89 138.76 131.9 52.09 83.02 60.7 181.94H73.85Zm221.59-101.53q19.41 0 32.75-13.4 13.35-13.41 13.35-32.81 0-19.41-13.4-32.76-13.4-13.34-32.81-13.34-19.41 0-32.75 13.4-13.35 13.4-13.35 32.81 0 19.4 13.4 32.75 13.4 13.35 32.81 13.35Zm369.23 0q19.41 0 32.75-13.4 13.35-13.41 13.35-32.81 0-19.41-13.4-32.76-13.4-13.34-32.81-13.34-19.41 0-32.75 13.4-13.35 13.4-13.35 32.81 0 19.4 13.4 32.75 13.4 13.35 32.81 13.35Z"></path>
-                                                </svg></span> </span> Android 5.0</td>
+                                                </svg></span> </span> <?php echo htmlspecialchars($post_data['android_version'] ?? 'Android 5.0', ENT_QUOTES, 'UTF-8'); ?></td>
                                 </tr>
                                 <tr class="collapse-row">
                                     <th class="text-align__left font-size__small color__gray">Price</th>
-                                    <td class="text-align__right">Free</td>
+                                    <td class="text-align__right"><?php echo htmlspecialchars($post_data['price'] ?? 'Free', ENT_QUOTES, 'UTF-8'); ?></td>
                                 </tr>
                                 <tr class="collapse-row">
                                     <th class="text-align__left font-size__small color__gray">Content Rating</th>
-                                    <td class="text-align__right">Everyone</td>
+                                    <td class="text-align__right"><?php echo htmlspecialchars($post_data['content_rating'] ?? 'Everyone', ENT_QUOTES, 'UTF-8'); ?></td>
                                 </tr>
                                 <tr class="collapse-row">
                                     <th class="text-align__left font-size__small color__gray">Internet Required</th>
-                                    <td class="text-align__right">Not Required</td>
+                                    <td class="text-align__right"><?php echo htmlspecialchars($post_data['internet_required'] ?? 'Not Required', ENT_QUOTES, 'UTF-8'); ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -114,7 +174,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                 <div class="entry-block entry-content main-entry-content">
                     <div class="entry-author" href="" aria-label="Author profile">
                         <a class="entry-author" href="/about/anh-pham" aria-label="Author profile">
-                            <img decoding="async" loading="lazy" src="images/editors/anhpham.jpg" alt="Author avatar" width="36" height="36" class="avatar circle loaded">
+                            <!-- <img decoding="async" loading="lazy" src="images/editors/anhpham.jpg" alt="Author avatar" width="36" height="36" class="avatar circle loaded"> -->
                             <div class="font-size__small">
                                 <span>Written by</span>
                                 <strong>Anh Pham</strong>
@@ -126,41 +186,11 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         <summary class="pointer"></summary>
                         <ul></ul>
                     </details>
-                    <p>Playing Football League 2025 you will have to admit this is a few highly realistic football games where everything on the pitch is extremely clean, extremely sharp. Motion effects, controls are also very accurate. It’s rare to find a football game that makes players feel relaxed and not confused right from the start.</p>
-                    <h2 class="font-size__medium wp-block-heading" id="h-introduce-about-football-league-2025">Introduce about Football League 2025</h2>
-                    <p>Experience football in depth with a clean interface!</p>
-                    <h3 class="font-size__normal wp-block-heading" id="h-football-game-with-clean-original-interface">Football game with clean, original interface</h3>
-                    <p>You have known many soccer games across platforms. But probably like me, many times I feel a little sad when I see the interface of the field matches.</p>
-                    <p>For many reasons, the previous football matches played always had something confusing. Sometimes because the game is greedy for too many control details, sometimes because of a detailed set of indicators in the corners of the screen. Some games are due to the wrong shooting angle, looking too closely at the player and forgetting the overall look. In summary, the most common drawback in other football games is that the graphic interface is not clean, not clear, and creates a feeling of originality.</p>
-                    <p>Fortunately, I have found a game that meets the criteria of being clean, minimalist and completely pure as I wished when I tried Football League 2025.</p>
-                    <h3 class="font-size__normal wp-block-heading" id="h-whats-special-about-football-league-2025">What’s special about Football League 2025?</h3>
-                    <p>First, as I just shared above, Football League 2025 will give you an extremely clean football playing experience on bright, modern graphics, reducing all unnecessary details to fully focus on the game. pitch. If you have experience playing football, you must have been very annoyed with games that contain many details that make the pitch no longer look pristine. Feeling a game of veteran focus will increase your inspiration to play football many times over, while providing a much more comfortable, lighter experience.</p>
-                    <p>Second, Football League 2025 is full of good features, players with smart AI. You can execute various soccer strategies with changing formations with soccer stars. Correspondingly, on the other side, your AI opponent also depends on your strategy to change the arrangement of people on the pitch, responding well to any changes from the player, making the match always happen coherently, smoothly and natural. The feeling of reciprocal interaction is therefore also going well.</p>
-                    <p>Third, Football League 2025 has accurate moving and animation effects. Every shot, every pass on the pitch, especially the scoring phase, is presented beautifully, properly, and transparently. You can clearly see each striker, the player’s ball appears first on the pitch. The goals and stunts have never been this beautiful.</p>
-                    <h3 class="font-size__normal wp-block-heading" id="h-is-it-difficult-to-control-everything-on-the-field">Is it difficult to control everything on the field?</h3>
-                    <p>When playing Football League 2025, the freedom and control of the player is almost unlimited. You can set your own football strategy for your team, then take control of the entire strategy execution process on the pitch yourself. Pressure your opponents, create stunts and score goals in your own way.</p>
-                    <p>Your ultimate goal in this game is to make your ideal team the world champion. Control strategy, formation, players, choose matches, focus talent on the team, change tactics that don’t fit… You have all the necessary rights to become a team manager.</p>
-                    <p>Not to mention, once you start controlling the players in battle, you will enjoy a concise, intuitive, minimalist control tool in one corner of the screen. Especially each action gives extremely high response speed, the player instantly executes every control you give, making the game never lag or have lag points.</p>
-                    <h3 class="font-size__normal wp-block-heading" id="h-many-competitive-game-modes">Many competitive game modes</h3>
-                    <p>Unlike many other soccer games where the game modes are made just to “fill in” the gaps in gameplay. Football League 2025 offers game modes as a platform for you to showcase your team management and game control talents, in different ways, not a form of “filling in the void”. Each mode itself is full in terms of gameplay, complete in terms of form and mission. You play to feel the difference in each gameplay.</p>
-                    <p>Players can choose to follow the Campaign Mode to follow the process of forming their ideal team, conquering all over the world, and pursuing their dream of becoming a world legend. You can choose to play against your friends to compete for your team management skills, or you can compete with players around the world on a list of the most talented managers. Every mode is fun, with comprehensive controls and a clean, dreamlike game interface.</p>
-                    <h3 class="font-size__normal wp-block-heading" id="h-impressive-numbers-in-football-league-2025">Impressive numbers in Football League 2025</h3>
-                    <p>Football League 2025 currently has more than 100 national teams and 330 world famous football clubs. You can choose any team, country or club to start different game modes of your choice.</p>
-                    <p>To reach even more global players, Football League 2025 offers multilingual support that can be quickly customized in the menu. There is support for using a controller to control in case you are used to playing console games before.</p>
-                    <h3 class="font-size__normal wp-block-heading" id="h-hundreds-of-top-leagues-in-the-world">Hundreds of top leagues in the world</h3>
-                    <p>The game also brings countless professional football matches and tournaments across the region. Some prominent names can be mentioned such as European Championship Cup, South American Championship Cup, English Cup, French Super Cup, Brazil Super Cup. Each match is set up in a separate stadium space, with different colors of participating teams, fans and commentators. Every time you play, choose a new team, participate in a new match, you obviously have a whole new experience.</p>
-                    <div class="wp-block-group">
-                        <div class="wp-block-group__inner-container is-layout-constrained wp-block-group-is-layout-constrained">
-                            <h2 class="font-size__medium wp-block-heading" id="h-mod-apk-version-of-football-league-2025">MOD APK version of Football League 2025</h2>
-                            <h3 class="font-size__normal wp-block-heading" id="h-mod-feature">MOD feature</h3>
-                            <ul class="wp-block-list">
-                                <li>Menu</li>
-                                <li>Unlimited Money</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <h2 class="font-size__medium wp-block-heading" id="h-download-football-league-2025-mod-apk-for-android">Download Football League 2025 MOD APK for Android</h2>
-                    <p>If you love football games, Football League 2025 is definitely not to be missed. Professional football game with clean graphics, attractive gameplay, instantaneous speed control, accurate physics will bring you an unforgettable football playing experience for many years.</p>
+                    <?php if (!empty($post_data['content'])): ?>
+                        <?php echo $post_data['content']; ?>
+                    <?php else: ?>
+                        <p></p>
+                    <?php endif; ?>
                     <div class="wp-container-flex-center font-size__small">
                         <a class="button button__small no-border no-border-radius color__blue" href="#comments" aria-label="View comments">
                             <span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 56 56">
@@ -179,6 +209,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                                     <div class="color__blue">Football League 2025 v0.1.61</div>
                                     <div class="color__gray font-size__small"><span class="app-tag">APK</span><span class="app-tag">MOD Menu</span>Unlimited Money</div>
                                 </div>
+
                             </div>
                         </a aria-label="Link"><a href="/games/football-league-2023/download/1" class="clickable">
                             <div class="download-item">
@@ -191,91 +222,61 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                         </a></div>
                 </div>
                 <!-- related -->
-                <div class=" related-posts">
+                <?php
+                // Lấy related posts từ database
+                $related_posts = get_posts([
+                    'posttype' => 'posts',
+                    'perPage' => 10,
+                    'withCategories' => true,
+                    'active' => true,
+                    'exclude' => $post_data['id'] ?? 0
+                ]);
+                
+                // Chỉ hiển thị container nếu có related posts
+                if (!empty($related_posts)):
+                ?>
+                <div class="related-posts">
                     <div class="entry-content entry-block">
                         <h2 class="font-size__medium no-margin">Recommended For You</h2>
-                        <div class="flex-container-2 horizontal-scroll">
-                            <article class="flex-item"><a href="/games/dream-league-soccer-2025" class="app clickable" aria-label="dream-league-soccer-2025 game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/lpM-C7HKz9mZO02AgKU3i0kqCzXVLgOP3-C3HA-ZPw2L1przi79Xw-IgVKqCeCkJsh4=s180-rw" alt="Dream League Soccer 2025 icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Dream League Soccer 2025</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/soccer-manager-2025" class="app clickable" aria-label="soccer-manager-2025 game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/fTxtPTiZz9441g5EDb5ChqyM3QeNXWpElvnzwt2n88_9m5uBz36o-WfUW_eHNO7njcjc=s180-rw" alt="Soccer Manager 2025 icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Soccer Manager 2025</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/head-ball-2" class="app clickable" aria-label="head-ball-2 game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/GN0Y533q0pdeTlp1UABvhPadWbUN19lbnKPG0Gs0v2V4Iqpjd-vgiTxSvu72KWV-qFw=s180-rw" alt="Head Ball 2 icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Head Ball 2</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/soccer-club-management-2025" class="app clickable" aria-label="soccer-club-management-2025 game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/G3EVhySyxa4ElNSWEgoLZHpdnP59aEXg3z_9cSdHZmDgpLk0S2p-a-iiDW-RrvQzJ8E=s180-rw" alt="Soccer Club Management 2025 icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Soccer Club Management 2025</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/world-soccer-league" class="app clickable" aria-label="world-soccer-league game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/6KPq0FnZb7MO5Q0qmE0u8uZXyo1p6djpzOGBW-jfF-ao5afbTK9n4noRyZoprTuvYZc=s180-rw" alt="World Soccer League icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">World Soccer League</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/top-football-manager-2024" class="app clickable" aria-label="top-football-manager-2024 game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/xcsuYsFo0yAInH_-k0qk8AMJA3pG9m9WDcPczD7t9s28adBc05gmzRxWM_1qAb80kmUL=s180-rw" alt="Top Football Manager 2025 icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Top Football Manager 2025</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/striker-manager-3" class="app clickable" aria-label="striker-manager-3 game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/dqQyVoFUVyZSFGGeyFZKyd0NXwM8-aDsGEYKMBZjKt-VMR70i6vdFPooR5EWuHexllI1=s180-rw" alt="Striker Manager 3 icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Striker Manager 3</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/retro-goal" class="app clickable" aria-label="retro-goal game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/HIZp9bVHS6FKdy-Lf813FfxfIK5XvUzq2-TQA6K1BlvEMcUacQhwRLl9XCtdIDEUGCM=s180-rw" alt="Retro Goal icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Retro Goal</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/fifa-mobile" class="app clickable" aria-label="fifa-mobile game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/iN2Ps0azmi8LXgqPQ8XSISrHx3BSugcIopD7fHr5GePrn4E-mE5wVXAxsu9Eu4YhXaU=s180-rw" alt="FIFA MOBILE icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">FIFA MOBILE</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/soccer-cup-2023" class="app clickable" aria-label="soccer-cup-2023 game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/4dfqEAT4m2BHli1gXk9CXjvep5pDXzI1MBHxkDqXETcT95AtJSV33PWNlOQTIrNbh-1g=s180-rw" alt="Soccer Cup 2025 icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Soccer Cup 2025</h3>
-                                    </div>
-                                </a></article>
-                            <article class="flex-item"><a href="/games/total-football" class="app clickable" aria-label="total-football game">
-                                    <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="https://static.apkmody.com/play-lh.googleusercontent.com/3KmgOASAJukrvg2iErpimpORfG5amBe1_-by-2-BNuBmQBW4IUJWUEMlPy0W8A2RrCw=s180-rw" alt="Total Football icon" width="90" height="90" class="loaded"></div>
-                                    <div class="app-name truncate">
-                                        <h3 class="font-size__small no-margin no-padding truncate">Total Football</h3>
-                                    </div>
-                                </a></article>
-
+                        <div class="flex-container">
+                            <?php
+                            // Hiển thị related posts
+                            foreach ($related_posts as $related_post):
+                                $related_title = $related_post['title'] ?? 'Untitled';
+                                $related_slug = $related_post['slug'] ?? 'app';
+                                $related_image = '';
+                                
+                                // Lấy hình ảnh featured
+                                if (!empty($related_post['feature'])) {
+                                    $image_data = is_string($related_post['feature']) ? json_decode($related_post['feature'], true) : $related_post['feature'];
+                                    if (isset($image_data['path'])) {
+                                        $related_image = rtrim(base_url(), '/') . '/uploads/' . $image_data['path'];
+                                    } elseif (is_string($related_post['feature'])) {
+                                        $related_image = $related_post['feature'];
+                                    }
+                                }
+                                
+                                if (empty($related_image)) {
+                                    $related_image = 'https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App';
+                                }
+                                
+                                $related_url = (APP_LANG === APP_LANG_DF) ? '/post/' . $related_slug : page_url($related_slug, 'posts');
+                            ?>
+                                <article class="flex-item">
+                                    <a href="<?php echo htmlspecialchars($related_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($related_slug, ENT_QUOTES, 'UTF-8'); ?> game">
+                                        <div class="app-icon">
+                                            <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($related_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($related_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
+                                        </div>
+                                        <div class="app-name truncate">
+                                            <h3 class="font-size__small no-margin no-padding truncate"><?php echo htmlspecialchars($related_title, ENT_QUOTES, 'UTF-8'); ?></h3>
+                                        </div>
+                                    </a>
+                                </article>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
                 <!-- comments -->
                 <div class="">
                     <div class="">
@@ -289,5 +290,28 @@ get_template('_metas/meta_index', ['locale' => $locale]);
 
             </div>
         </section>
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra xem có element #title-post không
+    const titleElement = document.getElementById('title-post');
+    
+    // Chỉ chạy JavaScript nếu có #title-post
+    if (titleElement) {
+        const topNavTitle = document.querySelector('.top-nav__title');
+        
+        if (topNavTitle) {
+            // Lấy text content và loại bỏ HTML tags
+            let titleText = titleElement.textContent || titleElement.innerText;
+            
+            // Loại bỏ phần "MOD APK (Menu, Unlimited Money) v1.0.0" để chỉ lấy tên app
+            titleText = titleText.replace(/\s+MOD APK.*$/i, '').trim();
+            
+            // Đưa text vào top-nav
+            topNavTitle.textContent = titleText;
+        }
+    }
+});
+</script>
 
 <?php get_footer(); ?>
+

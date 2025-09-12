@@ -14,7 +14,8 @@
             
             <!-- Page Title -->
             <div>
-                <span class="top-nav__title"><?= get_page_heading() ?></span>
+            
+                <span class="top-nav__title"></span>
             </div>
             
             <!-- Menu Button -->
@@ -27,7 +28,6 @@
                             <rect x="8" y="11" width="12" height="2" rx="1" fill="#000000"></rect>
                             <circle cx="4" cy="18" r="2" fill="#000000"></circle>
                             <rect x="8" y="17" width="12" height="2" rx="1" fill="#000000"></rect>
-                        </svg>
                     </span>
                 </button> -->
             </div>

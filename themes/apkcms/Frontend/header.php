@@ -20,10 +20,13 @@ $page_class = 'page-' . $current_page['page_type'];
     <?php if (!is_page('home')): ?>
         <?php
         $current_page = get_current_page();
+     
         if (is_page('apps')) {
             get_template('sections/top-nav/top-nav-app');
         } elseif (is_page('games')) {
             get_template('sections/top-nav/top-nav-game');
+        } elseif ($current_page['is_single']) {
+            get_template('sections/top-nav/top-nav-single');
         } else {
             get_template('sections/top-nav/top-nav-page');
         }
