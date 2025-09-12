@@ -22,20 +22,6 @@ $pagination = $posts_data['pagination'] ?? [];
 // echo '<pre style="background: #f0f0f0; padding: 10px; margin: 10px; border: 1px solid #ccc;">'; 
 // echo "Posts count: " . count($posts) . "\n";
 // echo "Posts type: " . gettype($posts) . "\n";
-if (!empty($posts) && is_array($posts)) {
-    echo "First post type: " . gettype($posts[0]) . "\n";
-    if (isset($posts[0]) && is_array($posts[0])) {
-        echo "First post keys: " . implode(', ', array_keys($posts[0])) . "\n";
-        print_r($posts[0]);
-    } else {
-        echo "First post is not array: ";
-        var_dump($posts[0]);
-    }
-} else {
-    echo "Posts is empty or not array\n";
-    var_dump($posts);
-}
-echo '</pre>';
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
@@ -64,7 +50,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                             <div class="flex-item">
                                 <article class="card has-shadow clickable">
                                     <div class="card-image">
-                                        <a href="<?php echo page_url($post['slug'] ?? '', 'news'); ?>" aria-label="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
+                                        <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/blog/' . ($post['slug'] ?? '') : page_url($post['slug'] ?? '', 'news'); ?>" aria-label="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
                                             <?php 
                                             // Lấy hình ảnh featured
                                             $featured_image = '';

@@ -44,7 +44,7 @@ return array (
     ),
   ),
   'url_rewrite' => array (
-    'value' => '[{"url_function":"FrontendController::index:index","middleware":[""],"url_struct":"/"},{"url_function":"FrontendController::index:page-$1","middleware":[],"url_struct":"/(:any)/"},{"url_function":"FrontendController::index:detail-news","middleware":[],"url_struct":"/news/(:any)/"}]',
+    'value' => '[{"url_function":"FrontendController::index:index","middleware":[""],"url_struct":"/"},{"url_function":"FrontendController::index:detail-$1:$2","middleware":[],"url_struct":"/(:any)/(:any)/"},{"url_function":"FrontendController::index:page-$1","middleware":[],"url_struct":"/(:any)/"},{"url_function":"FrontendController::index:page","middleware":[],"url_struct":"/page/(:any)/"}]',
   ),
   'cache' => array (
     'value' => '[{"cache_key":"cache_driver","cache_value":"cache_driver"},{"cache_key":"cache_host","cache_value":"127.0.0.1"},{"cache_key":"cache_port","cache_value":"6379"},{"cache_key":"cache_username","cache_value":"cache_username"},{"cache_key":"cache_password","cache_value":"cache_mobile"},{"cache_key":"cache_database","cache_value":"0"},{"cache_key":"cache_uri","cache_value":"cache_uri"},{"cache_key":"cache_params","cache_value":"page,paged,limit,sortby,sort,sc,order,orderby,id"}]',
