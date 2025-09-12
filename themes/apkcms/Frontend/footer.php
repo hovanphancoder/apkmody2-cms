@@ -1,3 +1,42 @@
+<?php
+use App\Models\FastModel;
+
+// Lấy categories games từ database (parent = 111)
+$games_categories = (new FastModel('fast_terms'))
+    ->where('posttype', 'posts')
+    ->where('type', 'category')
+    ->where('parent', 111)
+    ->where('lang', APP_LANG)
+    ->get();
+
+// Lấy categories apps từ database (parent = 112)
+$apps_categories = (new FastModel('fast_terms'))
+    ->where('posttype', 'posts')
+    ->where('type', 'category')
+    ->where('parent', 112)
+    ->where('lang', APP_LANG)
+    ->get();
+
+// Footer links - có thể chỉnh sửa sau
+$footer_links = [
+    'information' => [
+        ['name' => 'About us', 'url' => '/page/about'],
+        ['name' => 'Contact', 'url' => '/page/contact']
+    ],
+    'products' => [
+        ['name' => 'APK Downloader', 'url' => '/'],
+        ['name' => 'APKMODY Installer', 'url' => '/apps/apkmody-installer']
+    ],
+    'legal' => [
+        ['name' => 'Terms of service', 'url' => '/page/terms-of-service'],
+        ['name' => 'Privacy policy', 'url' => '/page/privacy-policy']
+    ],
+    'languages' => [
+        ['name' => 'English', 'url' => '/'],
+        ['name' => 'Tiếng Việt', 'url' => '/vi/']
+    ]
+];
+?>
    
     
 </main>
@@ -49,59 +88,17 @@
         <div class="container">
             <div class="sidenav__content liquid-glass liquid-glass__100">
                 <ul>
-                    <li><a href="/games" aria-label="View all games">All Games <span class="right color__gray"><span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 -960 960 960">
+                    <li><a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/posts/category' : page_url('', 'games'); ?>" aria-label="View all games">All Games <span class="right color__gray"><span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 -960 960 960">
                                         <path d="M220-270q-87.82 0-148.91-61.08T10-479.97q0-87.8 61.09-148.91Q132.18-690 220-690q34.97 0 67.1 12.42 32.13 12.43 57.98 35.27l76.46 67.39-45.38 40.15-71.24-62.92q-17.53-15.08-39.46-23.7-21.92-8.61-45.49-8.61-62.13 0-106.05 43.95Q70-542.11 70-479.94t43.92 106.06Q157.84-330 219.97-330q23.57 0 45.49-8.61 21.93-8.62 39.46-23.7l310-280q25.47-23.23 57.72-35.46Q704.9-690 740-690q87.82 0 148.91 61.08T950-480.03q0 87.8-61.09 148.91Q827.82-270 740-270q-35.08 0-66.96-12.62-31.89-12.61-58.12-35.07l-75.69-67.39 44.61-40.54 71.24 63.31q17.53 15.54 39.46 23.93 21.92 8.38 45.49 8.38 62.13 0 106.05-43.95Q890-417.89 890-480.06t-43.92-106.06Q802.16-630 740.03-630q-23.57 0-45.49 8.61-21.93 8.62-39.46 23.7l-310 280q-25.47 23.23-57.72 35.46Q255.1-270 220-270Z"></path>
                                     </svg></span> </span></a></li>
-                    <li>
-                        <a href="/games/action" aria-label="action games">Action <span class="right font-size__small color__gray">429</span></a></li>
-                    <li>
-                        <a href="/games/adventure" aria-label="adventure games">Adventure <span class="right font-size__small color__gray">224</span></a></li>
-                    <li>
-                        <a href="/games/arcade" aria-label="arcade games">Arcade <span class="right font-size__small color__gray">129</span></a></li>
-                    <li>
-                        <a href="/games/board" aria-label="board games">Board <span class="right font-size__small color__gray">45</span></a></li>
-                    <li>
-                        <a href="/games/card" aria-label="card games">Card <span class="right font-size__small color__gray">48</span></a></li>
-                    <li>
-                        <a href="/games/casual" aria-label="casual games">Casual <span class="right font-size__small color__gray">165</span></a></li>
-                    <li>
-                        <a href="/games/educational" aria-label="educational games">Educational <span class="right font-size__small color__gray">37</span></a></li>
-                    <li>
-                        <a href="/games/farming" aria-label="farming games">Farming <span class="right font-size__small color__gray">28</span></a></li>
-                    <li>
-                        <a href="/games/fighting" aria-label="fighting games">Fighting <span class="right font-size__small color__gray">43</span></a></li>
-                    <li>
-                        <a href="/games/football" aria-label="football games">Football <span class="right font-size__small color__gray">58</span></a></li>
-                    <li>
-                        <a href="/games/horror" aria-label="horror games">Horror <span class="right font-size__small color__gray">116</span></a></li>
-                    <li>
-                        <a href="/games/moba" aria-label="moba games">MOBA <span class="right font-size__small color__gray">8</span></a></li>
-                    <li>
-                        <a href="/games/music" aria-label="music games">Music <span class="right font-size__small color__gray">32</span></a></li>
-                    <li>
-                        <a href="/games/nsfw" aria-label="nsfw games">NSFW <span class="right font-size__small color__gray">20</span></a></li>
-                    <li>
-                        <a href="/games/platformer" aria-label="platformer games">Platformer <span class="right font-size__small color__gray">25</span></a></li>
-                    <li>
-                        <a href="/games/puzzle" aria-label="puzzle games">Puzzle <span class="right font-size__small color__gray">395</span></a></li>
-                    <li>
-                        <a href="/games/racing" aria-label="racing games">Racing <span class="right font-size__small color__gray">191</span></a></li>
-                    <li>
-                        <a href="/games/rpg" aria-label="rpg games">Role-playing <span class="right font-size__small color__gray">504</span></a></li>
-                    <li>
-                        <a href="/games/shooter" aria-label="shooter games">Shooter <span class="right font-size__small color__gray">110</span></a></li>
-                    <li>
-                        <a href="/games/simulation" aria-label="simulation games">Simulation <span class="right font-size__small color__gray">625</span></a></li>
-                    <li>
-                        <a href="/games/sports" aria-label="sports games">Sports <span class="right font-size__small color__gray">96</span></a></li>
-                    <li>
-                        <a href="/games/strategy" aria-label="strategy games">Strategy <span class="right font-size__small color__gray">251</span></a></li>
-                    <li>
-                        <a href="/games/survival" aria-label="survival games">Survival <span class="right font-size__small color__gray">58</span></a></li>
-                    <li>
-                        <a href="/games/tower-defense" aria-label="tower-defense games">Tower Defense <span class="right font-size__small color__gray">37</span></a></li>
-                    <li>
-                        <a href="/games/visual-novel" aria-label="visual-novel games">Visual Novel <span class="right font-size__small color__gray">56</span></a></li>
+                    <?php foreach ($games_categories as $category): ?>
+                        <li>
+                            <a href="<?php echo (APP_LANG === APP_LANG_DF) ? "/posts/category/{$category['slug']}" : page_url($category['slug'], 'games'); ?>" aria-label="<?php echo htmlspecialchars(strtolower($category['name']), ENT_QUOTES, 'UTF-8'); ?> games">
+                                <?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?> 
+                                <span class="right font-size__small color__gray"><?php echo $category['count'] ?? 0; ?></span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
@@ -113,49 +110,17 @@
         <div class="container">
             <div class="sidenav__content liquid-glass liquid-glass__100">
                 <ul>
-                    <li><a href="/apps" aria-label="View all apps">All Apps <span class="right color__gray"><span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 -960 960 960">
+                    <li><a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/posts/category' : page_url('', 'apps'); ?>" aria-label="View all apps">All Apps <span class="right color__gray"><span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 -960 960 960">
                                         <path d="M220-270q-87.82 0-148.91-61.08T10-479.97q0-87.8 61.09-148.91Q132.18-690 220-690q34.97 0 67.1 12.42 32.13 12.43 57.98 35.27l76.46 67.39-45.38 40.15-71.24-62.92q-17.53-15.08-39.46-23.7-21.92-8.61-45.49-8.61-62.13 0-106.05 43.95Q70-542.11 70-479.94t43.92 106.06Q157.84-330 219.97-330q23.57 0 45.49-8.61 21.93-8.62 39.46-23.7l310-280q25.47-23.23 57.72-35.46Q704.9-690 740-690q87.82 0 148.91 61.08T950-480.03q0 87.8-61.09 148.91Q827.82-270 740-270q-35.08 0-66.96-12.62-31.89-12.61-58.12-35.07l-75.69-67.39 44.61-40.54 71.24 63.31q17.53 15.54 39.46 23.93 21.92 8.38 45.49 8.38 62.13 0 106.05-43.95Q890-417.89 890-480.06t-43.92-106.06Q802.16-630 740.03-630q-23.57 0-45.49 8.61-21.93 8.62-39.46 23.7l-310 280q-25.47 23.23-57.72 35.46Q255.1-270 220-270Z"></path>
                                     </svg></span> </span></a></li>
-                    <li>
-                        <a href="/apps/art-design" aria-label="art-design apps">Art &amp; Design <span class="right font-size__small color__gray">46</span></a></li>
-                    <li>
-                        <a href="/apps/communication" aria-label="communication apps">Communication <span class="right font-size__small color__gray">43</span></a></li>
-                    <li>
-                        <a href="/apps/education" aria-label="education apps">Education <span class="right font-size__small color__gray">82</span></a></li>
-                    <li>
-                        <a href="/apps/emulator" aria-label="emulator apps">Emulator <span class="right font-size__small color__gray">30</span></a></li>
-                    <li>
-                        <a href="/apps/entertainment" aria-label="entertainment apps">Entertainment <span class="right font-size__small color__gray">139</span></a></li>
-                    <li>
-                        <a href="/apps/finance" aria-label="finance apps">Finance <span class="right font-size__small color__gray">30</span></a></li>
-                    <li>
-                        <a href="/apps/hacking-tools" aria-label="hacking-tools apps">Hacking Tools <span class="right font-size__small color__gray">4</span></a></li>
-                    <li>
-                        <a href="/apps/health-fitness" aria-label="health-fitness apps">Health &amp; Fitness <span class="right font-size__small color__gray">64</span></a></li>
-                    <li>
-                        <a href="/apps/house-home" aria-label="house-home apps">House &amp; Home <span class="right font-size__small color__gray">4</span></a></li>
-                    <li>
-                        <a href="/apps/music-audio" aria-label="music-audio apps">Music &amp; Audio <span class="right font-size__small color__gray">85</span></a></li>
-                    <li>
-                        <a href="/apps/nsfw-apps" aria-label="nsfw-apps apps">NSFW <span class="right font-size__small color__gray">2</span></a></li>
-                    <li>
-                        <a href="/apps/personalization" aria-label="personalization apps">Personalization <span class="right font-size__small color__gray">45</span></a></li>
-                    <li>
-                        <a href="/apps/photos-videos" aria-label="photos-videos apps">Photos &amp; Videos <span class="right font-size__small color__gray">252</span></a></li>
-                    <li>
-                        <a href="/apps/productivity" aria-label="productivity apps">Productivity <span class="right font-size__small color__gray">7</span></a></li>
-                    <li>
-                        <a href="/apps/shopping" aria-label="shopping apps">Shopping <span class="right font-size__small color__gray">2</span></a></li>
-                    <li>
-                        <a href="/apps/social" aria-label="social apps">Social <span class="right font-size__small color__gray">31</span></a></li>
-                    <li>
-                        <a href="/apps/sports-apps" aria-label="sports-apps apps">Sports <span class="right font-size__small color__gray">4</span></a></li>
-                    <li>
-                        <a href="/apps/travel-local" aria-label="travel-local apps">Travel &amp; Local <span class="right font-size__small color__gray">14</span></a></li>
-                    <li>
-                        <a href="/apps/utilities" aria-label="utilities apps">Utilities <span class="right font-size__small color__gray">335</span></a></li>
-                    <li>
-                        <a href="/apps/weather" aria-label="weather apps">Weather <span class="right font-size__small color__gray">14</span></a></li>
+                    <?php foreach ($apps_categories as $category): ?>
+                        <li>
+                            <a href="<?php echo (APP_LANG === APP_LANG_DF) ? "/posts/category/{$category['slug']}" : page_url($category['slug'], 'apps'); ?>" aria-label="<?php echo htmlspecialchars(strtolower($category['name']), ENT_QUOTES, 'UTF-8'); ?> apps">
+                                <?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?> 
+                                <span class="right font-size__small color__gray"><?php echo $category['count'] ?? 0; ?></span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
@@ -167,37 +132,51 @@
         <div class="container padding-top-15">
             <div class="flex flex__start flex__l4 flex__m2 flex__s1">
                 <div class="flex__item font-size__small">
-                    <div><strong>Infomation</strong></div>
+                    <div><strong>Information</strong></div>
                     <ul>
-                        <li>
-                            <a class="footer-link" href="/about" aria-label="About us">About us</a></li>
-                        <li>
-                            <a class="footer-link" href="/contact" aria-label="Contact us">Contact</a></li>
+                        <?php foreach ($footer_links['information'] as $link): ?>
+                            <li>
+                                <a class="footer-link" href="<?php echo htmlspecialchars($link['url'], ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                                    <?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="flex__item font-size__small">
                     <div><strong>Products &amp; Services</strong></div>
                     <ul>
-                        <li><a class="footer-link" href="/" aria-label="English version">APK Downloader</a></li>
-                        <li><a class="footer-link" href="/apps/apkmody-installer" aria-label="APKMody Installer">APKMODY Installer</a></li>
+                        <?php foreach ($footer_links['products'] as $link): ?>
+                            <li>
+                                <a class="footer-link" href="<?php echo htmlspecialchars($link['url'], ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                                    <?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="flex__item font-size__small">
                     <div><strong>Legal</strong></div>
                     <ul>
-                        <li>
-                            <a class="footer-link" href="/terms-of-service" aria-label="Terms of Service">Terms of service</a></li>
-                        <li>
-                            <a class="footer-link" href="/privacy-policy" aria-label="Privacy Policy">Privacy policy</a></li>
+                        <?php foreach ($footer_links['legal'] as $link): ?>
+                            <li>
+                                <a class="footer-link" href="<?php echo htmlspecialchars($link['url'], ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                                    <?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="flex__item font-size__small">
                     <div><strong>Languages</strong></div>
                     <ul>
-                        <li><a class="footer-link" href="/" aria-label="English version">
-                            <!-- <img src="images/editors/us.png" loading="lazy" alt="English flag" style="margin-bottom: 3px; width: 16px; height: 11px; display: block;" width="16" height="11" class="loaded">  -->
-                            English</a></li>
-                        <li><a class="footer-link" href="/vi/" aria-label="Tiếng Việt version"><!-- <img src="images/editors/vn.webp" loading="lazy" alt="Tiếng Việt flag" style="margin-bottom: 3px; width: 16px; height: 11px; display: block;" width="16" height="11" class="loaded"> --> Tiếng Việt</a></li>
+                        <?php foreach ($footer_links['languages'] as $link): ?>
+                            <li>
+                                <a class="footer-link" href="<?php echo htmlspecialchars($link['url'], ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?> version">
+                                    <?php echo htmlspecialchars($link['name'], ENT_QUOTES, 'UTF-8'); ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>

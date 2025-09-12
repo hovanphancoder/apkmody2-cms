@@ -27,18 +27,18 @@ $categories = (new FastModel('fast_terms'))
 <!-- Recently updated games Section -->
 <section class="section-recently-updated">
             <div class="container">
-                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/games' : page_url('', 'games'); ?>" aria-label="View all games">
+                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/posts/category' : page_url('', 'games'); ?>" aria-label="View all games">
                     <h2 class="font-size__medium color__black">Recently updated games</h2>
                 </a>
                 <p class="text-align__justify">What games have been updated? Browse through the following items to find out.</p>
                 <div class="flex-cat-container">
                     <div class="flex-cat-item active">
-                        <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/games/' : page_url('', 'games'); ?>" aria-label="View all games">All</a>
+                        <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/posts/category/' : page_url('', 'games'); ?>" aria-label="View all games">All</a>
                     </div>
                     <?php if (!empty($categories) && is_array($categories)): ?>
                         <?php foreach ($categories as $category): ?>
                             <div class="flex-cat-item">
-                                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/games/' . ($category['slug'] ?? '') : page_url($category['slug'] ?? '', 'games'); ?>" aria-label="<?php echo htmlspecialchars($category['name'] ?? '', ENT_QUOTES, 'UTF-8'); ?> games">
+                                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/posts/category/' . ($category['slug'] ?? '') : page_url($category['slug'] ?? '', 'games'); ?>" aria-label="<?php echo htmlspecialchars($category['name'] ?? '', ENT_QUOTES, 'UTF-8'); ?> games">
                                     <?php echo htmlspecialchars($category['name'] ?? 'Category', ENT_QUOTES, 'UTF-8'); ?>
                                 </a>
                             </div>

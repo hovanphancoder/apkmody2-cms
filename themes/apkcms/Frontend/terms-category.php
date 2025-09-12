@@ -10,21 +10,37 @@ App\Libraries\Fastlang::load('Homepage');
 //     'location' => 'footer'
 // ]);
 
-// ===== LẤY DỮ LIỆU APPS =====
-// Lấy danh sách apps từ database với posttype 'posts' (CHỈ 1 QUERY)
-$apps_data = get_posts([
+$slug = get_current_slug();
+
+// ===== LẤY THÔNG TIN TERM =====
+use App\Models\FastModel;
+
+// Lấy thông tin term theo slug
+$term = (new FastModel('fast_terms'))
+    ->where('slug', $slug)
+    ->where('lang', APP_LANG)
+    ->first();
+
+
+
+// ===== LẤY POSTS THEO TERM =====
+// Lấy danh sách posts theo term ID thông qua relationship table
+$posts_data = get_posts([
     'posttype' => 'posts',           // Sử dụng posttype 'posts'
-    'perPage' => 20,                 // 20 apps mỗi trang
+    'perPage' => 20,                 // 20 posts mỗi trang
     'withCategories' => true,        // Lấy categories
     'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
-    'totalpage' => true              // Lấy thông tin phân trang
+    'totalpage' => true,             // Lấy thông tin phân trang
+    'cat' => $term['id']             // Filter theo term ID (sử dụng cat thay vì filters)
 ]);
 
-// Tách dữ liệu apps và pagination (từ 1 query duy nhất)
-$apps = $apps_data['data'] ?? [];
-$pagination = $apps_data['pagination'] ?? [];
+
+
+// Tách dữ liệu posts và pagination
+$posts = $posts_data['data'] ?? [];
+$pagination = $posts_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
@@ -32,15 +48,20 @@ get_template('_metas/meta_index', ['locale' => $locale]);
 
 ?>
 
-     <!-- Apps Section -->
+     <!-- Category Section -->
      <section>
             <div class="container">
-                <div id="breadcrumb" class="font-size__small color__gray truncate"><span><span><a class="color__gray" href="/" aria-label="Home">Home</a></span> / <span class="color__gray" aria-current="page">Apps</span></span></div>
+                <div id="breadcrumb" class="font-size__small color__gray truncate">
+                    <span>
+                        <span><a class="color__gray" href="<?php echo (APP_LANG === APP_LANG_DF) ? '/' : page_url('', 'home'); ?>" aria-label="Home">Home</a></span> / 
+                        <span class="color__gray" aria-current="page"><?php echo htmlspecialchars($term['name'] ?? 'Category', ENT_QUOTES, 'UTF-8'); ?></span>
+                    </span>
+                </div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h1 class="font-size__larger">Apps</h1>
+                    <h1 class="font-size__larger"><?php echo htmlspecialchars($term['name'] ?? 'Category', ENT_QUOTES, 'UTF-8'); ?></h1>
                 </div>
                 <div class="text-align__justify" style="font-size: 0.9em;">
-                    <p>Add convenience to your phone with new apps updated on APKMODY. In this section, you can easily find different apps in every aspect such as watching movies, calculating, editing photos, finance, health… All of which have been researched, selected and trusted by us. Immediately download these applications to turn your phone into a “miniature library” with full of desirable utilities and entertainment.</p>
+                    <p><?php echo htmlspecialchars($term['description'] ?? 'Browse posts in this category.', ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
                 <div id="orderby" class="flex-cat-container">
                     <div class="flex-cat-item active" aria-label="Link"><a href="#" aria-label="Empty link">Updated</a></div>
@@ -51,48 +72,46 @@ get_template('_metas/meta_index', ['locale' => $locale]);
             </div>
         </section>
 
-        <!-- Apps Section -->
+        <!-- Posts Section -->
         <section>
             <div class="container">
                 <div class="flex-container">
-                    <?php if (!empty($apps)): ?>
-                        <?php foreach ($apps as $index => $app): ?>
+                    <?php if (!empty($posts)): ?>
+                        <?php foreach ($posts as $index => $post): ?>
                             <article class="flex-item">
-                                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/post/' . ($app['slug'] ?? '') : page_url($app['slug'] ?? '', 'posts'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
+                                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/post/' . ($post['slug'] ?? '') : page_url($post['slug'] ?? '', 'posts'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
                                     <div class="app-icon">
                                         <?php
                                         $featured_image = '';
-                                        if (!empty($app['feature'])) {
-                                            $image_data = is_string($app['feature']) ? json_decode($app['feature'], true) : $app['feature'];
+                                        if (!empty($post['feature'])) {
+                                            $image_data = is_string($post['feature']) ? json_decode($post['feature'], true) : $post['feature'];
                                             if (isset($image_data['path'])) {
                                                 $featured_image = rtrim(base_url(), '/') . '/uploads/' . $image_data['path'];
                                             }
                                         }
-                                        if (empty($featured_image)) {
-                                            $featured_image = 'https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App';
-                                        }
+                                      
                                         ?>
                                         <img fetchpriority="<?php echo $index < 3 ? 'high' : 'low'; ?>"
                                              src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>"
-                                             alt="<?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon"
+                                             alt="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon"
                                              width="90" height="90"
                                              loading="<?php echo $index < 3 ? 'eager' : 'lazy'; ?>"
                                              class="<?php echo $index >= 3 ? 'loaded' : ''; ?>">
                                     </div>
                                     <div class="app-name truncate">
-                                        <h2 class="font-size__normal no-margin no-padding truncate"><?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></h2>
+                                        <h2 class="font-size__normal no-margin no-padding truncate"><?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></h2>
                                         <div class="app-sub-text font-size__small color__gray truncate">
                                             <?php
-                                            $version = $app['version'] ?? 'v1.0';
-                                            $status = $app['status'] ?? 'Free';
-                                            $genre = !empty($app['categories']) ? $app['categories'][0]['name'] ?? 'App' : 'App';
+                                            $version = $post['version'] ?? 'v1.0';
+                                            $status = $post['status'] ?? 'Free';
+                                            $genre = !empty($post['categories']) ? $post['categories'][0]['name'] ?? 'App' : 'App';
                                             echo htmlspecialchars($version . ' • ' . $status . ' • ' . $genre, ENT_QUOTES, 'UTF-8');
                                             ?>
                                         </div>
                                         <div class="app-tags font-size__small">
                                             <div class="app-rating">
                                                 <?php
-                                                $rating = $app['rating_avg'] ?? 0;
+                                                $rating = $post['rating_avg'] ?? 0;
                                                 for ($i = 1; $i <= 5; $i++):
                                                     $class = $i <= $rating ? 'star filled' : 'star';
                                                 ?>

@@ -34,12 +34,12 @@ $categories = (new FastModel('fast_terms'))
                 <p class="text-align__justify">Newly updated applications will be placed here. Your life will certainly be a lot easier thanks to the huge application store that APKMODY is building.</p>
                 <div class="flex-cat-container">
                     <div class="flex-cat-item active">
-                        <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/apps' : page_url('', 'apps'); ?>" aria-label="View all apps">All</a>
+                        <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/posts/category' : page_url('', 'apps'); ?>" aria-label="View all apps">All</a>
                     </div>
                     <?php if (!empty($categories) && is_array($categories)): ?>
                         <?php foreach ($categories as $category): ?>
                             <div class="flex-cat-item">
-                                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/apps/' . ($category['slug'] ?? '') : page_url($category['slug'] ?? '', 'apps'); ?>" aria-label="<?php echo htmlspecialchars($category['name'] ?? '', ENT_QUOTES, 'UTF-8'); ?> apps">
+                                <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/posts/category/' . ($category['slug'] ?? '') : page_url($category['slug'] ?? '', 'apps'); ?>" aria-label="<?php echo htmlspecialchars($category['name'] ?? '', ENT_QUOTES, 'UTF-8'); ?> apps">
                                     <?php echo htmlspecialchars($category['name'] ?? 'Category', ENT_QUOTES, 'UTF-8'); ?>
                                 </a>
                             </div>
@@ -66,9 +66,9 @@ $categories = (new FastModel('fast_terms'))
                                 }
                             }
                             
-                            if (empty($app_image)) {
-                                $app_image = 'https://via.placeholder.com/90x90/4CAF50/FFFFFF?text=App';
-                            }
+                            // if (empty($app_image)) {
+                            //     $app_image = 'https://via.placeholder.com/90x90/4CAF50/FFFFFF?text=App';
+                            // }
                             
                             // Lấy categories
                             $categories = $app['categories'] ?? [];
