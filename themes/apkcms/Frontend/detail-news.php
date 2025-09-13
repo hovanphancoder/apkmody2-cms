@@ -140,7 +140,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                                         <div class="flex-item">
                                             <article class="card has-shadow clickable">
                                                 <div class="card-image">
-                                                    <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/blog/' . ($related_post['slug'] ?? '') : page_url($related_post['slug'] ?? '', 'news'); ?>" 
+                                                    <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/news/' . ($related_post['slug'] ?? '') : page_url($related_post['slug'] ?? '', 'news'); ?>" 
                                                        aria-label="<?php echo htmlspecialchars($related_post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
                                                         <?php 
                                                         // Lấy hình ảnh featured cho bài viết liên quan

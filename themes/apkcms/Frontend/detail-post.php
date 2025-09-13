@@ -35,7 +35,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                     <div id="breadcrumb" class="margin-bottom-15 font-size__small color__gray truncate">
                         <span>
                             <span><a class="color__gray" href="/" aria-label="Home">Home</a></span> / 
-                            <span><a class="color__gray" href="/<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?></a></span> / 
+                            <span><a class="color__gray" href="/posts/category/<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?></a></span> / 
                             <span class="color__gray" aria-current="page"><?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></span>
                         </span>
                     </div>
@@ -309,25 +309,25 @@ get_template('_metas/meta_single', ['locale' => $locale]);
             </div>
         </section>
         <!-- <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize table of contents
-    const tocTrigger = document.getElementById('toc-trigger');
-    const tableOfContent = document.getElementById('table-of-content');
-    
-    if (tocTrigger && tableOfContent) {
-        tocTrigger.addEventListener('click', function() {
-            const isOpen = tableOfContent.hasAttribute('open');
-            if (isOpen) {
-                tableOfContent.removeAttribute('open');
-                tocTrigger.textContent = 'Show Contents';
-            } else {
-                tableOfContent.setAttribute('open', '');
-                tocTrigger.textContent = 'Hide Contents';
-            }
-        });
-    }
-});
-</script> -->
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize table of contents
+                const tocTrigger = document.getElementById('toc-trigger');
+                const tableOfContent = document.getElementById('table-of-content');
+                
+                if (tocTrigger && tableOfContent) {
+                    tocTrigger.addEventListener('click', function() {
+                        const isOpen = tableOfContent.hasAttribute('open');
+                        if (isOpen) {
+                            tableOfContent.removeAttribute('open');
+                            tocTrigger.textContent = 'Show Contents';
+                        } else {
+                            tableOfContent.setAttribute('open', '');
+                            tocTrigger.textContent = 'Hide Contents';
+                        }
+                    });
+                }
+            });
+            </script> -->
         <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Kiểm tra xem có element #title-post không

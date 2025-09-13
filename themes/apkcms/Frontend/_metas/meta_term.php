@@ -14,56 +14,56 @@ $meta = new MetaBlock();
 // $posttype = $current_page['page_slug'];
 $slug = get_current_slug();
 
-// Lấy thông tin term từ slug
-$term = get_term([
-    'slug' => $slug,
-    'active' => true,
-    'lang' => APP_LANG
-]);
 
-// Kiểm tra term có tồn tại không
+
+// Lấy thông tin term từ slug
+// $term = get_term([
+//     'slug' => $slug,
+//     'active' => true,
+//     'lang' => APP_LANG
+// ]);
+
+
+// Check if page exists, if not use default values
 if (!$term) {
-    // Nếu không tìm thấy term, sử dụng giá trị mặc định
-    $term_title = 'Category';
-    $term_description = option('site_description', APP_LANG);
-    $term_seo_title = 'Category - ' . option('site_title', APP_LANG);
-    $term_seo_desc = $term_description;
+    $term = [
+        'seo_title' => option('site_title', APP_LANG),
+        'seo_desc' => option('site_description', APP_LANG),
+        'description' => option('site_description', APP_LANG)
+    ];
 } else {
-    // Tạo dữ liệu term cho meta tags
-    $term_title = $term['name'] ?? $term['title'] ?? 'Category';
-    $term_description = $term['description'] ?? $term['content'] ?? option('site_description', APP_LANG);
-    $term_seo_title = $term['seo_title'] ?? $term_title . ' - ' . option('site_title', APP_LANG);
-    $term_seo_desc = $term['seo_desc'] ?? $term_description;
+    $term['seo_title'] = $term['seo_title'] ?? $term['title'] ?? option('site_title', APP_LANG);
+    $term['seo_desc'] = $term['seo_desc'] ?? $term['description'] ?? option('site_description', APP_LANG);
 }
 
 $meta
-    ->title($term_seo_title)
-    ->description($term_seo_desc)
+    ->title($term['seo_title'])
+    ->description($term['seo_desc'])
     ->robots('index, follow')
     ->canonical(base_url());
 // Add basic meta tags
 $meta
     ->custom('<meta name="generator" content="CMSFullForm">')
     ->custom('<meta name="language" content="' . APP_LANG . '">')
-    ->custom('<meta name="author" content="' . $term_seo_title . '">')
+    ->custom('<meta name="author" content="' . $term['seo_title'] . '">')
     ->custom('<meta name="theme-color" content="#354BD9">');
 
 // Add Open Graph tags
 $meta
     ->og('locale', APP_LANG . '_' . strtoupper(APP_LANG))
     ->og('type', 'website')
-    ->og('title', $term_seo_title)
-    ->og('description', $term_seo_desc)
+    ->og('title', $term['seo_title'])
+    ->og('description', $term['seo_desc'])
     ->og('url', base_url())
-    ->og('site_name', $term_seo_title)
+    ->og('site_name', $term['seo_title'])
     ->og('updated_time', date('c'));
 
 // Add Twitter Card tags
 $meta
     ->twitter('card', 'summary_large_image')
-    ->twitter('title', $term_seo_title)
-    ->twitter('description', $term_seo_desc)
-    ->twitter('site', '@' . $term_seo_title);
+    ->twitter('title', $term['seo_title'])
+    ->twitter('description', $term['seo_desc'])
+    ->twitter('site', '@' . $term['seo_title']);
 
 // Add favicon if available
 if (option('site_logo')) {
@@ -81,26 +81,26 @@ $schemaGraph = new SchemaGraph(base_url());
 // 1. WebPage Schema
 $webPageSchema = new WebPage([
     'url' => base_url(),
-    'name' => $term_seo_title,
-    'description' => $term_seo_desc
+    'name' => $term['seo_title'],
+    'description' => $term['seo_desc']
 ]);
 
 // 2. BreadcrumbList Schema
 $breadcrumbSchema = BreadcrumbList::forHomepage([
     'url' => base_url(),
-    'siteName' => $term_seo_title
+    'siteName' => $term['seo_title']
 ]);
 
 // 3. WebSite Schema  
 $webSiteSchema = new WebSite([
-    'name' => $term_seo_title,
-    'description' => $term_seo_desc
+    'name' => $term['seo_title'],
+    'description' => $term['seo_desc']
 ]);
 
 // 4. Organization Schema
 $organizationSchema = new Organization([
-    'name' => $term_seo_title,
-    'description' => $term_seo_desc,
+    'name' => $term['seo_title'],
+    'description' => $term['seo_desc'],
     'logo' => option('site_logo', APP_LANG),
     'email' => option('site_email'),
     'telephone' => option('site_phone'),
