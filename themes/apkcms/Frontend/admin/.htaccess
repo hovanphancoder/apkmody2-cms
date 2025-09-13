@@ -1,0 +1,13 @@
+# Protect admin directory
+Order Deny,Allow
+Deny from all
+
+# Allow only localhost and specific IPs
+Allow from 127.0.0.1
+Allow from ::1
+Allow from localhost
+
+# Allow access with admin parameter
+RewriteEngine On
+RewriteCond %{QUERY_STRING} admin=1
+RewriteRule ^(.*)$ $1 [L]

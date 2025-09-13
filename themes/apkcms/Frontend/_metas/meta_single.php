@@ -10,11 +10,18 @@ use App\Blocks\Schema\Templates\FAQPage;
 use App\Blocks\Meta\MetaBlock;
 // Create meta tags for homepage directly from MetaBlock
 
+$current_page = get_current_page();
+$posttype = $current_page['page_slug'];
+if($posttype != 'news'){
+    $posttype = 'posts';
+}
+
+
+
 $slug = get_current_slug();
-// var_dump($slug);
 $post_data = get_post([
     'slug' => $slug,
-    'posttype' => 'posts',
+    'posttype' => $posttype,
     'withCategories' => true,
     'active' => true,
     'lang' => APP_LANG // Thêm check ngôn ngữ

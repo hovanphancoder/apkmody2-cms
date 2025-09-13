@@ -172,11 +172,13 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                 <!-- Contents -->
                 <div class="entry-block entry-content main-entry-content">
                     <div class="entry-author" href="" aria-label="Author profile">
-                        <a class="entry-author" href="/about/anh-pham" aria-label="Author profile">
-                            <!-- <img decoding="async" loading="lazy" src="images/editors/anhpham.jpg" alt="Author avatar" width="36" height="36" class="avatar circle loaded"> -->
+                        <a class="entry-author" href="#" aria-label="Author profile">
+                            <img decoding="async" loading="lazy" 
+                                 src="/themes/apkcms/Frontend/images/default-user.png" 
+                                 alt="Author avatar" width="36" height="36" class="avatar circle loaded">
                             <div class="font-size__small">
                                 <span>Written by</span>
-                                <strong>Anh Pham</strong>
+                                <strong>Admin</strong>
                             </div>
                         </a>
                         <div class="font-size__small"><button id="toc-trigger" aria-label="Toggle table of contents">Show Contents</button></div>
@@ -199,7 +201,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
 
                 </div>
                 <!-- versions -->
-                <div class="entry-content" id="main-download-list">
+                <!-- <div class="entry-content" id="main-download-list">
                     <h2 class="font-size__medium no-margin">Available Versions</h2>
                     <div class="download-list margin-top-10"><a href="/games/football-league-2023/download/0" class="clickable" aria-label="Download football-league-2023">
                             <div class="download-item">
@@ -219,7 +221,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                                 </div>
                             </div>
                         </a></div>
-                </div>
+                </div> -->
                 <!-- related -->
                 <?php
                 // Lấy related posts - thử cách khác
@@ -302,6 +304,26 @@ get_template('_metas/meta_single', ['locale' => $locale]);
 
             </div>
         </section>
+        <!-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize table of contents
+    const tocTrigger = document.getElementById('toc-trigger');
+    const tableOfContent = document.getElementById('table-of-content');
+    
+    if (tocTrigger && tableOfContent) {
+        tocTrigger.addEventListener('click', function() {
+            const isOpen = tableOfContent.hasAttribute('open');
+            if (isOpen) {
+                tableOfContent.removeAttribute('open');
+                tocTrigger.textContent = 'Show Contents';
+            } else {
+                tableOfContent.setAttribute('open', '');
+                tocTrigger.textContent = 'Hide Contents';
+            }
+        });
+    }
+});
+</script> -->
         <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Kiểm tra xem có element #title-post không
@@ -324,6 +346,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+
 
 <?php get_footer(); ?>
 

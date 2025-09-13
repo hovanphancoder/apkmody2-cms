@@ -65,7 +65,7 @@ get_template('_metas/meta_page', ['locale' => $locale]);
                         <?php foreach ($apps as $index => $app): ?>
                             <article class="flex-item">
                                 <a href="<?php echo (APP_LANG === APP_LANG_DF) ? '/post/' . ($app['slug'] ?? '') : page_url($app['slug'] ?? '', 'posts'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>">
-                                    <div class="app-icon">
+                            <div class="app-icon">
                                         <?php
                                         $featured_image = '';
                                         if (!empty($app['feature'])) {
@@ -84,8 +84,8 @@ get_template('_metas/meta_page', ['locale' => $locale]);
                                              width="90" height="90"
                                              loading="<?php echo $index < 3 ? 'eager' : 'lazy'; ?>"
                                              class="<?php echo $index >= 3 ? 'loaded' : ''; ?>">
-                                    </div>
-                                    <div class="app-name truncate">
+                            </div>
+                            <div class="app-name truncate">
                                         <h2 class="font-size__normal no-margin no-padding truncate"><?php echo htmlspecialchars($app['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></h2>
                                         <div class="app-sub-text font-size__small color__gray truncate">
                                             <?php
@@ -94,9 +94,9 @@ get_template('_metas/meta_page', ['locale' => $locale]);
                                             $genre = !empty($app['categories']) ? $app['categories'][0]['name'] ?? 'App' : 'App';
                                             echo htmlspecialchars($version . ' • ' . $status . ' • ' . $genre, ENT_QUOTES, 'UTF-8');
                                             ?>
-                                        </div>
-                                        <div class="app-tags font-size__small">
-                                            <div class="app-rating">
+                            </div>
+                                <div class="app-tags font-size__small">
+                                    <div class="app-rating">
                                                 <?php
                                                 $rating = $app['rating_avg'] ?? 0;
                                                 for ($i = 1; $i <= 5; $i++):
@@ -104,21 +104,21 @@ get_template('_metas/meta_page', ['locale' => $locale]);
                                                 ?>
                                                     <span class="<?php echo $class; ?>"></span>
                                                 <?php endfor; ?>
-                                            </div>
-                                        </div>
-                                        <span class="app-sub-action font-size__small">
-                                            <span class="app-sub-action-button">
+                            </div>
+                                </div>
+                                <span class="app-sub-action font-size__small">
+                                    <span class="app-sub-action-button">
                                                 Get
-                                            </span>
-                                        </span>
-                                    </div>
+                                </span>
+                                </span>
+                            </div>
                                 </a>
                             </article>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="no-apps">
                             <p><?php echo __('No apps found', 'Không tìm thấy app nào'); ?></p>
-                        </div>
+                                </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -159,7 +159,7 @@ get_template('_metas/meta_page', ['locale' => $locale]);
                                 <a class="next button clickable" href="?page=<?php echo $pagination['current_page'] + 1; ?>" aria-label="Next page">
                                     <span class="svg-icon" aria-hidden="true">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
-                                            <path d="M517.85-480 354.92-642.92q-8.3-8.31-8.5-20.89-.19-12.57 8.5-21.27 8.7-8.69 21.08-8.69 12.38 0 21.08 8.69l179.77 179.77q5.61 5.62 7.92 11.85 2.31 6.23 2.31 13.46t-2.31 13.46q-2.31 6.23-7.92 11.85L397.08-274.92q-8.31 8.3-20.89 8.5-12.57.19-21.27-8.5-8.69-8.7-8.69-21.08 0-12.38 8.69-21.08L517.85-480Z"></path>
+                                    <path d="M517.85-480 354.92-642.92q-8.3-8.31-8.5-20.89-.19-12.57 8.5-21.27 8.7-8.69 21.08-8.69 12.38 0 21.08 8.69l179.77 179.77q5.61 5.62 7.92 11.85 2.31 6.23 2.31 13.46t-2.31 13.46q-2.31 6.23-7.92 11.85L397.08-274.92q-8.31 8.3-20.89 8.5-12.57.19-21.27-8.5-8.69-8.7-8.69-21.08 0-12.38 8.69-21.08L517.85-480Z"></path>
                                         </svg>
                                     </span>
                                 </a>

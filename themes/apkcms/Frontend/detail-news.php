@@ -37,7 +37,7 @@ if (!empty($post['feature'])) {
 
 // Lấy thông tin tác giả
 $author_name = $post['author_name'] ?? 'Admin';
-$author_avatar = $post['author_avatar'] ?? 'images/editors/anhpham.jpg';
+$author_avatar = '/themes/apkcms/Frontend/images/default-user.png';
 
 // Lấy categories
 $categories = $post['categories'] ?? [];
@@ -68,7 +68,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                     <div id="breadcrumb" class="margin-bottom-15 font-size__small color__gray truncate">
                         <span>
                             <span><a class="color__gray" href="/" aria-label="Home">Home</a></span> / 
-                            <span><a class="color__gray" href="/blog" aria-label="Blog">Blog</a></span> / 
+                            <span><a class="color__gray" href="/news/" aria-label="Blog">News</a></span> / 
                             <span class="color__gray" aria-current="page"><?php echo htmlspecialchars($post_title, ENT_QUOTES, 'UTF-8'); ?></span>
                         </span>
                     </div>
@@ -90,7 +90,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                 <div class="entry-block entry-content main-entry-content" style="height: auto !important;">
 
                     <div class="entry-author" href="" aria-label="Author profile">
-                        <a class="entry-author" href="/about/<?php echo strtolower(str_replace(' ', '-', $author_name)); ?>" aria-label="Author profile">
+                        <a class="entry-author" href="#" aria-label="Author profile">
                             <img decoding="async" loading="lazy" 
                                  src="<?php echo htmlspecialchars($author_avatar, ENT_QUOTES, 'UTF-8'); ?>" 
                                  alt="Author avatar" width="36" height="36" class="avatar circle loaded">
@@ -185,4 +185,61 @@ get_template('_metas/meta_single', ['locale' => $locale]);
             </div>
         </section>
 
+<!-- CSS for TOC functionality -->
+<style>
+#table-of-content {
+    display: none;
+}
+
+#table-of-content[open] {
+    display: block;
+}
+</style>
+
+<!-- Initialize TOC functionality -->
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize table of contents
+    const tocTrigger = document.getElementById('toc-trigger');
+    const tableOfContent = document.getElementById('table-of-content');
+    
+    if (tocTrigger && tableOfContent) {
+        tocTrigger.addEventListener('click', function() {
+            const isOpen = tableOfContent.hasAttribute('open');
+            if (isOpen) {
+                tableOfContent.removeAttribute('open');
+                tocTrigger.textContent = 'Show Contents';
+            } else {
+                tableOfContent.setAttribute('open', '');
+                tocTrigger.textContent = 'Hide Contents';
+            }
+        });
+    }
+});
+</script> -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra xem có element #title-post không
+    const titleElement = document.getElementById('title-post');
+    
+    // Chỉ chạy JavaScript nếu có #title-post
+    if (titleElement) {
+        const topNavTitle = document.querySelector('.top-nav__title');
+        
+        if (topNavTitle) {
+            // Lấy text content và loại bỏ HTML tags
+            let titleText = titleElement.textContent || titleElement.innerText;
+            
+            // Loại bỏ phần "MOD APK (Menu, Unlimited Money) v1.0.0" để chỉ lấy tên app
+            titleText = titleText.replace(/\s+MOD APK.*$/i, '').trim();
+            
+            // Đưa text vào top-nav
+            topNavTitle.textContent = titleText;
+        }
+    }
+});
+</script>
+
+<!-- Load main script -->
+<!-- <script src="/themes/<?php echo APP_THEME_NAME; ?>/Frontend/Assets/js/script.js"></script> -->
 <?php get_footer(); ?>
