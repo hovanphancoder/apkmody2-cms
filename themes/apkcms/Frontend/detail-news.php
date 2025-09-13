@@ -56,7 +56,7 @@ $related_posts = $related_posts['data'] ?? [];
 // var_dump($related_posts);
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_index', ['locale' => $locale]);
+get_template('_metas/meta_single', ['locale' => $locale]);
 
 ?>
 

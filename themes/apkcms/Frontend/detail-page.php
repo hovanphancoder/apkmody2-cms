@@ -4,7 +4,7 @@ App\Libraries\Fastlang::load('Homepage');
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_index', ['locale' => $locale]);
+get_template('_metas/meta_page', ['locale' => $locale]);
 //....
 //End Get Object Data
 

@@ -9,49 +9,36 @@ use App\Blocks\Schema\Templates\FAQPage;
 // Include Meta blocks
 use App\Blocks\Meta\MetaBlock;
 // Create meta tags for homepage directly from MetaBlock
-
-$slug = get_current_slug();
-// var_dump($slug);
-$post_data = get_post([
-    'slug' => $slug,
-    'posttype' => 'posts',
-    'withCategories' => true,
-    'active' => true,
-    'lang' => APP_LANG // Thêm check ngôn ngữ
-]);
-
-
-
 $meta = new MetaBlock();
 
 $meta
-    ->title($post_data['seo_title'].' - '.option('site_title', APP_LANG))
-    ->description( $post_data['seo_desc'])
+    ->title(option('site_title', APP_LANG))
+    ->description(option('site_desc', APP_LANG))
     ->robots('index, follow')
     ->canonical(base_url());
 // Add basic meta tags
 $meta
     ->custom('<meta name="generator" content="CMSFullForm">')
     ->custom('<meta name="language" content="' . APP_LANG . '">')
-    ->custom('<meta name="author" content="' .$post_data['seo_title'].' - '.option('site_title', APP_LANG) . '">')
+    ->custom('<meta name="author" content="' . option('site_title', APP_LANG) . '">')
     ->custom('<meta name="theme-color" content="#354BD9">');
 
 // Add Open Graph tags
 $meta
     ->og('locale', $locale)
     ->og('type', 'website')
-    ->og('title',$post_data['seo_title'].' - '.option('site_title', APP_LANG))
-    ->og('description', $post_data['seo_desc'])
+    ->og('title', option('site_title', APP_LANG))
+    ->og('description', option('site_desc', APP_LANG))
     ->og('url', base_url())
-    ->og('site_name',$post_data['seo_title'].' - '.option('site_title', APP_LANG))
+    ->og('site_name', option('site_title', APP_LANG))
     ->og('updated_time', date('c'));
 
 // Add Twitter Card tags
 $meta
     ->twitter('card', 'summary_large_image')
-    ->twitter('title',$post_data['seo_title'].' - '.option('site_title', APP_LANG))
-    ->twitter('description', $post_data['seo_desc'])
-    ->twitter('site', '@' .$post_data['seo_title'].' - '.option('site_title', APP_LANG));
+    ->twitter('title', option('site_title', APP_LANG))
+    ->twitter('description', option('site_desc', APP_LANG))
+    ->twitter('site', '@' . option('site_title', APP_LANG));
 
 // Add favicon if available
 if (option('site_logo')) {
@@ -69,26 +56,26 @@ $schemaGraph = new SchemaGraph(base_url());
 // 1. WebPage Schema
 $webPageSchema = new WebPage([
     'url' => base_url(),
-    'name' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG),
-    'description' => $post_data['seo_desc']
+    'name' => option('site_title', APP_LANG),
+    'description' => option('site_desc', APP_LANG)
 ]);
 
 // 2. BreadcrumbList Schema
 $breadcrumbSchema = BreadcrumbList::forHomepage([
     'url' => base_url(),
-    'siteName' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG)
+    'siteName' => option('site_title', APP_LANG)
 ]);
 
 // 3. WebSite Schema  
 $webSiteSchema = new WebSite([
-    'name' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG),
-    'description' => $post_data['seo_desc']
+    'name' => option('site_title', APP_LANG),
+    'description' => option('site_desc', APP_LANG)
 ]);
 
 // 4. Organization Schema
 $organizationSchema = new Organization([
-    'name' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG),
-    'description' => $post_data['seo_desc'],
+    'name' => option('site_title', APP_LANG),
+    'description' => option('site_desc', APP_LANG),
     'logo' => option('site_logo', APP_LANG),
     'email' => option('site_email'),
     'telephone' => option('site_phone'),

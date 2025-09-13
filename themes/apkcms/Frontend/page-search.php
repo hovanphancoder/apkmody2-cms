@@ -12,11 +12,10 @@ App\Libraries\Fastlang::load('Homepage');
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_index', ['locale' => $locale]);
+get_template('_metas/meta_page', ['locale' => $locale]);
 $searchQuery = $_GET['s'];
 
-// Lấy search query từ URL
-$search_query = S_GET('q', '');
+
 
 $search_data = get_posts([
    'posttype' => 'posts',           // Sử dụng posttype 'posts'
@@ -25,15 +24,16 @@ $search_data = get_posts([
    'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
    'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
    'active' => true,                // Chỉ lấy bài active
-   'search' => $search_query,       // Search query
-   'searchcolumns' => ['title'] // Columns to search in
+   'search' => $searchQuery,       // Search query
+   'searchcolumns' => ['title'],    // Tìm kiếm trong title
+   'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 ?>
 
          <section>
             <div class="container">
                   <h1 class="font-size__medium no-margin" id="title-post">
-                     <strong>Search </strong> 
+                     <strong>Search Results</strong> 
                      <?php if (!empty($search_query)): ?>
                         <!-- <span>for: "<?php echo htmlspecialchars($search_query, ENT_QUOTES, 'UTF-8'); ?>"</span> -->
                      <?php endif; ?>

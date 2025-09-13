@@ -11,7 +11,8 @@ $recent_games_data = get_posts([
     'perPage' => 8,
     'totalpage' => true,             // Lấy thông tin phân trang
     'cat' => 111,         
-    'withCategories' => true
+    'withCategories' => true,
+    'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
 // Xử lý cấu trúc dữ liệu
@@ -66,10 +67,6 @@ $categories = (new FastModel('fast_terms'))
                                     $game_image = $game['feature'];
                                 }
                             }
-                            
-                            // if (empty($game_image)) {
-                            //     $game_image = 'https://via.placeholder.com/90x90/FF9800/FFFFFF?text=Game';
-                            // }
                             
                             // Lấy categories
                             $categories = $game['categories'] ?? [];

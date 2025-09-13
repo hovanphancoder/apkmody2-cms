@@ -20,7 +20,8 @@ $apps_data = get_posts([
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
     'totalpage' => true,             // Lấy thông tin phân trang
-    'cat' => 112                     // Filter theo rel_id = 112 (apps category)
+    'cat' => 112,                    // Filter theo rel_id = 112 (apps category)
+    'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
 // Tách dữ liệu apps và pagination (từ 1 query duy nhất)
@@ -29,7 +30,7 @@ $pagination = $apps_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_index', ['locale' => $locale]);
+get_template('_metas/meta_page', ['locale' => $locale]);
 
 ?>
 
@@ -44,10 +45,14 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                     <p>Add convenience to your phone with new apps updated on APKMODY. In this section, you can easily find different apps in every aspect such as watching movies, calculating, editing photos, finance, health… All of which have been researched, selected and trusted by us. Immediately download these applications to turn your phone into a “miniature library” with full of desirable utilities and entertainment.</p>
                 </div>
                 <div id="orderby" class="flex-cat-container">
-                    <div class="flex-cat-item active" aria-label="Link"><a href="#" aria-label="Empty link">Updated</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="/new" aria-label="New content">New</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="/popular" aria-label="Popular content">Popular</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="/premium" aria-label="Premium content">Premium</button></div>
+                    <?php 
+                    $current_url = $_SERVER['REQUEST_URI'];
+                    $base_url = strtok($current_url, '?'); // Lấy URL không có query parameters
+                    ?>
+                    <div class="flex-cat-item active" aria-label="Link"><a href="<?php echo $base_url; ?>" aria-label="Updated content">Updated</a></div>
+                    <div class="flex-cat-item " aria-label="Link"><a href="<?php echo $base_url . '?sort=new'; ?>" aria-label="New content">New</a></div>
+                    <div class="flex-cat-item " aria-label="Link"><a href="<?php echo $base_url . '?sort=popular'; ?>" aria-label="Popular content">Popular</a></div>
+                    <div class="flex-cat-item " aria-label="Link"><a href="<?php echo $base_url . '?sort=premium'; ?>" aria-label="Premium content">Premium</a></div>
                 </div>
             </div>
         </section>

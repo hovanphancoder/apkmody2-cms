@@ -12,7 +12,8 @@ $recent_apps_data = get_posts([
     'perPage' => 8,
     'totalpage' => true,             // Lấy thông tin phân trang
     'cat' => 112,         
-    'withCategories' => true
+    'withCategories' => true,
+    'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
 // Xử lý cấu trúc dữ liệu
@@ -67,10 +68,7 @@ $categories = (new FastModel('fast_terms'))
                                     $app_image = $app['feature'];
                                 }
                             }
-                            
-                            // if (empty($app_image)) {
-                            //     $app_image = 'https://via.placeholder.com/90x90/4CAF50/FFFFFF?text=App';
-                            // }
+                        
                             
                             // Lấy categories
                             $categories = $app['categories'] ?? [];

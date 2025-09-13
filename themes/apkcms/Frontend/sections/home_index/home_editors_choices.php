@@ -8,7 +8,8 @@ $games_data = get_posts([
     'sort' => ['rating_total', 'DESC'],
     'perPage' => 10,
     'withCategories' => true,
-    'cat' => 111 // Filter theo rel_id = 111 (games category)
+    'cat' => 111, // Filter theo rel_id = 111 (games category)
+    'lang' => APP_LANG // Thêm check ngôn ngữ
 ]);
 
 $apps_data = get_posts([
@@ -19,7 +20,8 @@ $apps_data = get_posts([
     'sort' => ['rating_total', 'DESC'],
     'perPage' => 10,
     'withCategories' => true,
-    'cat' => 112 // Filter theo rel_id = 112 (apps category)
+    'cat' => 112, // Filter theo rel_id = 112 (apps category)
+    'lang' => APP_LANG // Thêm check ngôn ngữ
 ]);
 
 // Xử lý cấu trúc dữ liệu
@@ -95,9 +97,7 @@ $apps = isset($apps_data['data']) ? $apps_data['data'] : $apps_data;
                                 }
                             }
                             
-                            if (empty($app_image)) {
-                                $app_image = 'https://via.placeholder.com/90x90/4CAF50/FFFFFF?text=App';
-                            }
+                          
                             
                             $app_url = (APP_LANG === APP_LANG_DF) ? '/app/' . $app_slug : page_url($app_slug, 'apps');
                             ?>

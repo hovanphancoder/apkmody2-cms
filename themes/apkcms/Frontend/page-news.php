@@ -11,7 +11,8 @@ $posts_data = get_posts([
     'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
-    'totalpage' => true              // Lấy thông tin phân trang
+    'totalpage' => true,             // Lấy thông tin phân trang
+    'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
 // Tách dữ liệu posts và pagination (từ 1 query duy nhất)
@@ -25,7 +26,7 @@ $pagination = $posts_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_index', ['locale' => $locale]);
+get_template('_metas/meta_page', ['locale' => $locale]);
 
 ?>
         <!-- breadcrumb -->

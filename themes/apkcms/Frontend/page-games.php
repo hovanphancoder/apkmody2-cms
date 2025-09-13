@@ -20,7 +20,8 @@ $games_data = get_posts([
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
     'totalpage' => true,             // Lấy thông tin phân trang
-    'cat' => 111                     // Filter theo rel_id = 111 (games category)
+    'cat' => 111,                    // Filter theo rel_id = 111 (games category)
+    'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
 // Tách dữ liệu games và pagination (từ 1 query duy nhất)
@@ -45,7 +46,7 @@ $pagination = $games_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_index', ['locale' => $locale]);
+get_template('_metas/meta_page', ['locale' => $locale]);
 
 ?>
 
@@ -60,10 +61,14 @@ get_template('_metas/meta_index', ['locale' => $locale]);
             <p>Honestly, Game has become an indispensable part of players' youth. Most of all, it is the love and burning passion for Games that made us – the developers of APKMODY create this category. We hope that we can preserve the good memories and open up a new playing field for the next generation of gamers. Here you can find the best MOD APK, Paid APK and Original APK games. Countless exciting and new games are being updated and shared with you every day. In particular, we do these things completely for free without collecting a single penny from you. Feel free to consult, choose a game that suits you and create the best memories together.</p>
                 </div>
                 <div id="orderby" class="flex-cat-container">
-                    <div class="flex-cat-item active"><a href="/games" aria-label="View all games">Updated</a></div>
-                    <div class="flex-cat-item "><a href="single-app.html?filter=new" aria-label="New apps">New</a></div>
-                    <div class="flex-cat-item "><a href="single-app.html?filter=popular" aria-label="Popular apps">Popular</a></div>
-                    <div class="flex-cat-item "><a href="single-app.html?filter=premium" aria-label="Premium apps">Premium</button></div>
+                    <?php 
+                    $current_url = $_SERVER['REQUEST_URI'];
+                    $base_url = strtok($current_url, '?'); // Lấy URL không có query parameters
+                    ?>
+                    <div class="flex-cat-item active"><a href="<?php echo $base_url; ?>" aria-label="View all games">Updated</a></div>
+                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=new'; ?>" aria-label="New games">New</a></div>
+                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=popular'; ?>" aria-label="Popular games">Popular</a></div>
+                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=premium'; ?>" aria-label="Premium games">Premium</a></div>
                 </div>
             </div>
         </section>

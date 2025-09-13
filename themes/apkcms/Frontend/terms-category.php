@@ -33,7 +33,8 @@ $posts_data = get_posts([
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
     'totalpage' => true,             // Lấy thông tin phân trang
-    'cat' => $term['id']             // Filter theo term ID (sử dụng cat thay vì filters)
+    'cat' => $term['id'],            // Filter theo term ID (sử dụng cat thay vì filters)
+    'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
 
@@ -44,7 +45,7 @@ $pagination = $posts_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_index', ['locale' => $locale]);
+get_template('_metas/meta_page', ['locale' => $locale]);
 
 ?>
 
@@ -64,10 +65,14 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                     <p><?php echo htmlspecialchars($term['description'] ?? 'Browse posts in this category.', ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
                 <div id="orderby" class="flex-cat-container">
-                    <div class="flex-cat-item active" aria-label="Link"><a href="#" aria-label="Empty link">Updated</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="/new" aria-label="New content">New</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="/popular" aria-label="Popular content">Popular</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="/premium" aria-label="Premium content">Premium</button></div>
+                <?php 
+                    $current_url = $_SERVER['REQUEST_URI'];
+                    $base_url = strtok($current_url, '?'); // Lấy URL không có query parameters
+                    ?>
+                    <div class="flex-cat-item active"><a href="<?php echo $base_url; ?>" aria-label="View all games">Updated</a></div>
+                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=new'; ?>" aria-label="New games">New</a></div>
+                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=popular'; ?>" aria-label="Popular games">Popular</a></div>
+                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=premium'; ?>" aria-label="Premium games">Premium</a></div>
                 </div>
             </div>
         </section>
