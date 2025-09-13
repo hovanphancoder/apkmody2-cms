@@ -31,8 +31,7 @@ get_template('_metas/meta_index', ['locale' => $locale]);
                     <div id="breadcrumb" class="margin-bottom-15 font-size__small color__gray truncate">
                         <span>
                             <span><a class="color__gray" href="/" aria-label="Home">Home</a></span> / 
-                            <span><a class="color__gray" href="/games" aria-label="Games">Games</a></span> / 
-                            <span><a class="color__gray" href="/games/<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?></a></span> / 
+                            <span><a class="color__gray" href="/<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($post_data['categories'][0]['name'] ?? 'general', ENT_QUOTES, 'UTF-8'); ?></a></span> / 
                             <span class="color__gray" aria-current="page"><?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?></span>
                         </span>
                     </div>

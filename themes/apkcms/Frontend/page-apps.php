@@ -19,7 +19,8 @@ $apps_data = get_posts([
     'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
-    'totalpage' => true              // Lấy thông tin phân trang
+    'totalpage' => true,             // Lấy thông tin phân trang
+    'cat' => 112                     // Filter theo rel_id = 112 (apps category)
 ]);
 
 // Tách dữ liệu apps và pagination (từ 1 query duy nhất)

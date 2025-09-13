@@ -14,7 +14,6 @@
             
             <!-- Page Title -->
             <div>
-            
                 <span class="top-nav__title"></span>
             </div>
             
