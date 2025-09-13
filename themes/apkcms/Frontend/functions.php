@@ -447,4 +447,111 @@ if (!function_exists('is_posttype')) {
     }
 }
 
+if (!function_exists('get_user_by_id')) {
+    /**
+     * Lấy thông tin user theo ID
+     * 
+     * @param int $user_id ID của user
+     * @param string $lang Ngôn ngữ (mặc định: APP_LANG)
+     * @return array|null Thông tin user hoặc null nếu không tìm thấy
+     */
+    function get_user_by_id($user_id, $lang = null)
+    {
+        if (empty($user_id) || !is_numeric($user_id)) {
+            return null;
+        }
+        
+        $lang = $lang ?? APP_LANG;
+        
+        try {
+            $user_data = \App\Models\FastModel::table('fast_users')
+                ->where('id', $user_id)
+                ->where('active', 1)
+                ->first();
+            
+            if ($user_data && is_array($user_data)) {
+                return $user_data;
+            }
+            
+            return null;
+        } catch (Exception $e) {
+            error_log('Error getting user by ID: ' . $e->getMessage());
+            return null;
+        }
+    }
+}
+
+if (!function_exists('get_user_name')) {
+    /**
+     * Lấy tên user theo ID
+     * 
+     * @param mixed $user_id ID của user (có thể là int, string, hoặc null)
+     * @param string $lang Ngôn ngữ (mặc định: APP_LANG)
+     * @return string Tên user hoặc 'Admin' nếu không tìm thấy
+     */
+    function get_user_name($user_id, $lang = null)
+    {
+        // Kiểm tra input cơ bản
+        if (empty($user_id)) {
+            return 'Admin';
+        }
+        
+        // Chuyển đổi thành số nếu có thể
+        $user_id = (int) $user_id;
+        if ($user_id <= 0) {
+            return 'Admin';
+        }
+        
+        try {
+            $user_data = get_user_by_id($user_id, $lang);
+            
+            if ($user_data && is_array($user_data)) {
+                return $user_data['name'] ?? $user_data['username'] ?? $user_data['display_name'] ?? $user_data['title'] ?? 'Admin';
+            }
+        } catch (Exception $e) {
+            error_log('Error in get_user_name: ' . $e->getMessage());
+        }
+        
+        return 'Admin';
+    }
+}
+
+if (!function_exists('get_user_avatar')) {
+    /**
+     * Lấy avatar user theo ID
+     * 
+     * @param mixed $user_id ID của user (có thể là int, string, hoặc null)
+     * @param string $lang Ngôn ngữ (mặc định: APP_LANG)
+     * @return string Đường dẫn avatar hoặc avatar mặc định
+     */
+    function get_user_avatar($user_id, $lang = null)
+    {
+        // Kiểm tra input cơ bản
+        if (empty($user_id)) {
+            return '/themes/apkcms/Frontend/images/default-user.png';
+        }
+        
+        // Chuyển đổi thành số nếu có thể
+        $user_id = (int) $user_id;
+        if ($user_id <= 0) {
+            return '/themes/apkcms/Frontend/images/default-user.png';
+        }
+        
+        try {
+            $user_data = get_user_by_id($user_id, $lang);
+            
+            if ($user_data && is_array($user_data)) {
+                $avatar = $user_data['avatar'] ?? $user_data['profile_image'] ?? $user_data['image'] ?? null;
+                if ($avatar) {
+                    return $avatar;
+                }
+            }
+        } catch (Exception $e) {
+            error_log('Error in get_user_avatar: ' . $e->getMessage());
+        }
+        
+        return '/themes/apkcms/Frontend/images/default-user.png';
+    }
+}
+
 

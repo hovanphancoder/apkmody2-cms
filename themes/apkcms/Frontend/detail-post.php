@@ -15,26 +15,11 @@ $post_data = get_post([
     'lang' => APP_LANG
 ]);
 
-// Lấy thông tin tác giả - kiểm tra các key có thể có
-$author_name = $post_data['author_name'] ?? $post_data['author'] ?? $post_data['created_by'] ?? $post_data['user_name'] ?? 'Admin';
-$author_avatar = $post_data['author_avatar'] ?? $post_data['user_avatar'] ?? '/themes/apkcms/Frontend/images/default-user.png';
+// Lấy thông tin tác giả đăng bài
+$author = 'Admin'; // Mặc định
+$author_avatar = '/themes/apkcms/Frontend/images/default-user.png'; // Mặc định
 
-// Debug để xem tất cả keys và giá trị author
-echo '<div style="background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; font-family: monospace;">';
-echo '<h4>Debug Post Data - Author Info:</h4>';
-echo '<strong>All available keys:</strong><br>';
-foreach($post_data as $key => $value) {
-    if(strpos($key, 'author') !== false || strpos($key, 'user') !== false || strpos($key, 'created') !== false) {
-        echo "• <strong>$key</strong>: " . (is_string($value) ? $value : gettype($value)) . "<br>";
-    }
-}
-echo '<br><strong>Author name attempts:</strong><br>';
-echo "author_name: " . ($post_data['author_name'] ?? 'NULL') . "<br>";
-echo "author: " . ($post_data['author'] ?? 'NULL') . "<br>";
-echo "created_by: " . ($post_data['created_by'] ?? 'NULL') . "<br>";
-echo "user_name: " . ($post_data['user_name'] ?? 'NULL') . "<br>";
-echo "Final author_name: <strong>" . $author_name . "</strong><br>";
-echo '</div>';
+
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
@@ -72,7 +57,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                         <?php if (!empty($featured_image)): ?>
                             <img fetchpriority="high" src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
                         <?php else: ?>
-                            <img fetchpriority="high" src="https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
+                            <!-- <img fetchpriority="high" src="https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90"> -->
                         <?php endif; ?>
                     </div>
                     <div class="app-name">
@@ -81,7 +66,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                             <span>  <?php echo htmlspecialchars($post_data['mod_features'] ?? '', ENT_QUOTES, 'UTF-8'); ?></span>
                         </h1>
                         <span class="font-size__small truncate">
-                            <!-- <a href="#publisher-items" aria-label="Jump to publisher-items"><?php echo htmlspecialchars($author_name, ENT_QUOTES, 'UTF-8'); ?></a> -->
+                            <!-- <a href="#publisher-items" aria-label="Jump to publisher-items"><?php echo htmlspecialchars($author, ENT_QUOTES, 'UTF-8'); ?></a> -->
                         </span>
                     </div>
                 </div>
@@ -193,11 +178,11 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                     <div class="entry-author" href="" aria-label="Author profile">
                         <a class="entry-author" href="#" aria-label="Author profile">
                             <img decoding="async" loading="lazy" 
-                                 src="/themes/apkcms/Frontend/images/default-user.png" 
+                                 src="<?php echo htmlspecialchars($author_avatar, ENT_QUOTES, 'UTF-8'); ?>" 
                                  alt="Author avatar" width="36" height="36" class="avatar circle loaded">
                             <div class="font-size__small">
                                 <span>Written by</span>
-                                <strong><?php echo htmlspecialchars($author_name, ENT_QUOTES, 'UTF-8'); ?></strong>
+                                <strong><?=$author?></strong>
                             </div>
                         </a>
                         <div class="font-size__small"><button id="toc-trigger" aria-label="Toggle table of contents">Show Contents</button></div>
