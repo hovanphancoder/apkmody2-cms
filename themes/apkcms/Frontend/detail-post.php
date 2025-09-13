@@ -274,9 +274,9 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                                     }
                                 }
                                 
-                                if (empty($related_image)) {
-                                    $related_image = 'https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App';
-                                }
+                                // if (empty($related_image)) {
+                                //     $related_image = 'https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App';
+                                // }
                                 
                                 $related_url = (APP_LANG === APP_LANG_DF) ? '/post/' . $related_slug : page_url($related_slug, 'posts');
                             ?>

@@ -45,7 +45,7 @@ $pagination = $posts_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_page', ['locale' => $locale]);
+get_template('_metas/meta_term', ['locale' => $locale]);
 
 ?>
 
