@@ -74,6 +74,12 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                     </div>
                 </div>
                 
+                <div class="app-name">
+                        <h1 class="" id="title-post">
+                            <strong><?php echo htmlspecialchars($post_title, ENT_QUOTES, 'UTF-8'); ?></strong> 
+                        </h1>
+                        
+                    </div>
                 <!-- primary image -->
                 <?php if (!empty($featured_image)): ?>
                 <div id="primaryimage">
