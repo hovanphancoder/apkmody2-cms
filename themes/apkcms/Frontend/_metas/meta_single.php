@@ -32,7 +32,7 @@ $post_data = get_post([
 $meta = new MetaBlock();
 
 $meta
-    ->title($post_data['seo_title'].' - '.option('site_title', APP_LANG))
+    ->title($post_data['seo_title'])
     ->description( $post_data['seo_desc'])
     ->robots('index, follow')
     ->canonical(base_url());
@@ -40,25 +40,25 @@ $meta
 $meta
     ->custom('<meta name="generator" content="CMSFullForm">')
     ->custom('<meta name="language" content="' . APP_LANG . '">')
-    ->custom('<meta name="author" content="' .$post_data['seo_title'].' - '.option('site_title', APP_LANG) . '">')
+    ->custom('<meta name="author" content="' .$post_data['seo_title'] . '">')
     ->custom('<meta name="theme-color" content="#354BD9">');
 
 // Add Open Graph tags
 $meta
     ->og('locale', $locale)
     ->og('type', 'website')
-    ->og('title',$post_data['seo_title'].' - '.option('site_title', APP_LANG))
+    ->og('title',$post_data['seo_title'])
     ->og('description', $post_data['seo_desc'])
     ->og('url', base_url())
-    ->og('site_name',$post_data['seo_title'].' - '.option('site_title', APP_LANG))
+    ->og('site_name',$post_data['seo_title'])
     ->og('updated_time', date('c'));
 
 // Add Twitter Card tags
 $meta
     ->twitter('card', 'summary_large_image')
-    ->twitter('title',$post_data['seo_title'].' - '.option('site_title', APP_LANG))
+    ->twitter('title',$post_data['seo_title'])
     ->twitter('description', $post_data['seo_desc'])
-    ->twitter('site', '@' .$post_data['seo_title'].' - '.option('site_title', APP_LANG));
+    ->twitter('site', '@' .$post_data['seo_title']);
 
 // Add favicon if available
 if (option('site_logo')) {
@@ -76,25 +76,25 @@ $schemaGraph = new SchemaGraph(base_url());
 // 1. WebPage Schema
 $webPageSchema = new WebPage([
     'url' => base_url(),
-    'name' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG),
+    'name' =>$post_data['seo_title'],
     'description' => $post_data['seo_desc']
 ]);
 
 // 2. BreadcrumbList Schema
 $breadcrumbSchema = BreadcrumbList::forHomepage([
     'url' => base_url(),
-    'siteName' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG)
+    'siteName' =>$post_data['seo_title']
 ]);
 
 // 3. WebSite Schema  
 $webSiteSchema = new WebSite([
-    'name' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG),
+    'name' =>$post_data['seo_title'],
     'description' => $post_data['seo_desc']
 ]);
 
 // 4. Organization Schema
 $organizationSchema = new Organization([
-    'name' =>$post_data['seo_title'].' - '.option('site_title', APP_LANG),
+    'name' =>$post_data['seo_title'],
     'description' => $post_data['seo_desc'],
     'logo' => option('site_logo', APP_LANG),
     'email' => option('site_email'),

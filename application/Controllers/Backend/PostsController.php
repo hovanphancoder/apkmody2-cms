@@ -143,8 +143,7 @@ class PostsController extends BackendController {
         if(empty($postType)) {
             if(APP_DEBUGBAR) {
                 echo "postType not found";
-                print_r($_POST);
-                die;
+                
             }
            redirect(admin_url());
         }

@@ -7,15 +7,34 @@ App\Libraries\Fastlang::load('Homepage');
 
 $slug = get_current_slug();
 // var_dump($slug);
-    $post_data = get_post([
-        'slug' => $slug,
-        'posttype' => 'posts',
-        'withCategories' => true,
-        'active' => true
-    ]);
+$post_data = get_post([
+    'slug' => $slug,
+    'posttype' => 'posts',
+    'withCategories' => true,
+    'active' => true,
+    'lang' => APP_LANG
+]);
 
+// Lấy thông tin tác giả - kiểm tra các key có thể có
+$author_name = $post_data['author_name'] ?? $post_data['author'] ?? $post_data['created_by'] ?? $post_data['user_name'] ?? 'Admin';
+$author_avatar = $post_data['author_avatar'] ?? $post_data['user_avatar'] ?? '/themes/apkcms/Frontend/images/default-user.png';
 
-
+// Debug để xem tất cả keys và giá trị author
+echo '<div style="background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; font-family: monospace;">';
+echo '<h4>Debug Post Data - Author Info:</h4>';
+echo '<strong>All available keys:</strong><br>';
+foreach($post_data as $key => $value) {
+    if(strpos($key, 'author') !== false || strpos($key, 'user') !== false || strpos($key, 'created') !== false) {
+        echo "• <strong>$key</strong>: " . (is_string($value) ? $value : gettype($value)) . "<br>";
+    }
+}
+echo '<br><strong>Author name attempts:</strong><br>';
+echo "author_name: " . ($post_data['author_name'] ?? 'NULL') . "<br>";
+echo "author: " . ($post_data['author'] ?? 'NULL') . "<br>";
+echo "created_by: " . ($post_data['created_by'] ?? 'NULL') . "<br>";
+echo "user_name: " . ($post_data['user_name'] ?? 'NULL') . "<br>";
+echo "Final author_name: <strong>" . $author_name . "</strong><br>";
+echo '</div>';
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
@@ -59,10 +78,10 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                     <div class="app-name">
                         <h1 class="font-size__medium no-margin" id="title-post">
                             <strong><?php echo htmlspecialchars($post_data['title'] ?? 'updating', ENT_QUOTES, 'UTF-8'); ?></strong> 
-                            <span> MOD APK (Menu, Unlimited Money) <?php echo htmlspecialchars($post_data['version'] ?? 'v1.0.0', ENT_QUOTES, 'UTF-8'); ?></span>
+                            <span>  <?php echo htmlspecialchars($post_data['mod_features'] ?? '', ENT_QUOTES, 'UTF-8'); ?></span>
                         </h1>
                         <span class="font-size__small truncate">
-                            <a href="#publisher-items" aria-label="Jump to publisher-items"><?php echo htmlspecialchars($post_data['author'] ?? 'Unknown', ENT_QUOTES, 'UTF-8'); ?></a>
+                            <!-- <a href="#publisher-items" aria-label="Jump to publisher-items"><?php echo htmlspecialchars($author_name, ENT_QUOTES, 'UTF-8'); ?></a> -->
                         </span>
                     </div>
                 </div>
@@ -178,7 +197,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                                  alt="Author avatar" width="36" height="36" class="avatar circle loaded">
                             <div class="font-size__small">
                                 <span>Written by</span>
-                                <strong>Admin</strong>
+                                <strong><?php echo htmlspecialchars($author_name, ENT_QUOTES, 'UTF-8'); ?></strong>
                             </div>
                         </a>
                         <div class="font-size__small"><button id="toc-trigger" aria-label="Toggle table of contents">Show Contents</button></div>
