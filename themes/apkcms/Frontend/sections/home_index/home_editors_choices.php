@@ -54,10 +54,7 @@ $apps = isset($apps_data['data']) ? $apps_data['data'] : $apps_data;
                                 }
                             }
                             
-                            if (empty($game_image)) {
-                                $game_image = 'https://via.placeholder.com/90x90/2196F3/FFFFFF?text=Game';
-                            }
-                            
+                         
                             $game_url = (APP_LANG === APP_LANG_DF) ? '/post/' . $game_slug : page_url($game_slug, 'games');
                             ?>
                             <article class="flex-item">
@@ -99,7 +96,7 @@ $apps = isset($apps_data['data']) ? $apps_data['data'] : $apps_data;
                             
                           
                             
-                            $app_url = (APP_LANG === APP_LANG_DF) ? '/app/' . $app_slug : page_url($app_slug, 'apps');
+                            $app_url = (APP_LANG === APP_LANG_DF) ? '/post/' . $app_slug : page_url($app_slug, 'apps');
                             ?>
                             <article class="flex-item">
                                 <a href="<?php echo htmlspecialchars($app_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?> icon">
