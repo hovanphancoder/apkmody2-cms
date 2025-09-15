@@ -60,7 +60,7 @@ class TermsModel extends BaseModel {
                 'null' => true
             ],
             'lang' => [
-                'type' => 'varchar(2)',
+                'type' => 'varchar(3)',
                 'null' => true
             ],
             'id_main' => [

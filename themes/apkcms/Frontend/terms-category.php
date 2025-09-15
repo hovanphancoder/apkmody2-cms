@@ -21,8 +21,6 @@ $term = (new FastModel('fast_terms'))
     ->where('lang', APP_LANG)
     ->first();
 
-
-
 // ===== LẤY POSTS THEO TERM =====
 // Lấy danh sách posts theo term ID thông qua relationship table
 $posts_data = get_posts([
@@ -59,7 +57,7 @@ get_template('_metas/meta_term', ['locale' => $locale]);
                     </span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h1 class="font-size__larger"><?php echo htmlspecialchars($term['name'] ?? 'Category', ENT_QUOTES, 'UTF-8'); ?></h1>
+                    <h1 class="font-size__larger" id="title-post"><?php echo htmlspecialchars($term['name'] ?? 'Category', ENT_QUOTES, 'UTF-8'); ?></h1>
                 </div>
                 <div class="text-align__justify" style="font-size: 0.9em;">
                     <p><?php echo htmlspecialchars($term['description'] ?? 'Browse posts in this category.', ENT_QUOTES, 'UTF-8'); ?></p>
@@ -187,5 +185,27 @@ get_template('_metas/meta_term', ['locale' => $locale]);
                 </div>
             </div>
         </section>
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra xem có element #title-post không
+    const titleElement = document.getElementById('title-post');
+    
+    // Chỉ chạy JavaScript nếu có #title-post
+    if (titleElement) {
+        const topNavTitle = document.querySelector('.top-nav__title');
+        
+        if (topNavTitle) {
+            // Lấy text content và loại bỏ HTML tags
+            let titleText = titleElement.textContent || titleElement.innerText;
+            
+            // Loại bỏ phần "MOD APK (Menu, Unlimited Money) v1.0.0" để chỉ lấy tên app
+            titleText = titleText.replace(/\s+MOD APK.*$/i, '').trim();
+            
+            // Đưa text vào top-nav
+            topNavTitle.textContent = titleText;
+        }
+    }
+});
+</script>
 
 <?php get_footer(); ?>

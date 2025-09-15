@@ -3,18 +3,20 @@
 use System\Libraries\Session;
 use App\Libraries\Fastlang as Flang;
 use System\Libraries\Render;
+// Load language files
+Flang::load('Terms', APP_LANG);
 $breadcrumbs = array(
   [
-      'name' => 'Dashboard',
+      'name' => __('Dashboard'),
       'url' => admin_url('home')
   ],
   [
-      'name' => 'Terms',
+      'name' => __('Terms'),
       'url' => admin_url('terms'),
       'active' => true
   ]
 );
-Render::block('Backend\Header', ['layout' => 'default', 'title' => $title ?? 'Terms', 'breadcrumb' => $breadcrumbs]);
+Render::block('Backend\Header', ['layout' => 'default', 'title' => __('Terms Management'), 'breadcrumb' => $breadcrumbs]);
 function buildOptions($tree, $level = 0, $current_id = null, $parent = null)
 {
     $output = '';
@@ -39,6 +41,12 @@ function buildOptions($tree, $level = 0, $current_id = null, $parent = null)
     }
 
     return $output;
+}
+
+// allTerm to options for languages tức là chuyển thành option select cho từng ngôn ngữ
+$termsLanguages = [];
+foreach ($allTerm as $term) {
+    $termsLanguages[$term['lang']][] = $term;
 }
 // Lấy các tham số GET
 $search      = $_GET['q']        ?? '';
@@ -81,11 +89,11 @@ $posttype    = $_GET['posttype'] ?? 'default';
   
   async deleteSelected() {
     if (this.selectedItems.length === 0) {
-      alert('Please select items to delete');
+      alert('<?= __('Please select items to delete') ?>');
       return;
     }
     
-    if (!confirm('Are you sure you want to delete selected items?')) {
+    if (!confirm('<?= __('Are you sure you want to delete selected items?') ?>')) {
       return;
     }
     
@@ -115,11 +123,11 @@ $posttype    = $_GET['posttype'] ?? 'default';
       if (data.status === 'success') {
         window.location.reload();
       } else {
-        alert(data.message || 'Error deleting items');
+        alert(data.message || '<?= __('Error deleting items') ?>');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Network error occurred');
+      alert('<?= __('Network error occurred') ?>');
     } finally {
       this.isDeleting = false;
     }
@@ -145,8 +153,8 @@ $posttype    = $_GET['posttype'] ?? 'default';
   <!-- Header & Filter -->
   <div class="flex flex-col gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-foreground">Terms Management</h1>
-      <p class="text-muted-foreground">Manage terms and categories for your content</p>
+      <h1 class="text-2xl font-bold text-foreground"><?= __('Terms Management') ?></h1>
+      <p class="text-muted-foreground"><?= __('Manage terms and categories for your content') ?></p>
     </div>
 
     <!-- Thông báo -->
@@ -165,7 +173,7 @@ $posttype    = $_GET['posttype'] ?? 'default';
             <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4"></i>
             <input 
               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10" 
-              placeholder="<?= Flang::_e('search_terms') ?? 'Search terms...' ?>" 
+              placeholder="<?= __('Search') ?>..." 
               name="q" 
               value="<?= htmlspecialchars($search) ?>"
               @keydown.enter="$event.target.closest('form').submit()"
@@ -200,7 +208,7 @@ $posttype    = $_GET['posttype'] ?? 'default';
           >
             <i x-show="!isDeleting" data-lucide="trash2" class="h-4 w-4 mr-2"></i>
             <i x-show="isDeleting" data-lucide="loader-2" class="h-4 w-4 mr-2 animate-spin"></i>
-            <span x-text="isDeleting ? 'Deleting...' : 'Delete Selected'"></span>
+            <span x-text="isDeleting ? '<?= __('Deleting...') ?>' : '<?= __('Delete Selected') ?>'"></span>
           </button>
           
           <!-- Add New Button -->
@@ -210,7 +218,7 @@ $posttype    = $_GET['posttype'] ?? 'default';
             class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 whitespace-nowrap w-full lg:w-auto">
             <i x-show="!showForm" data-lucide="plus" class="h-4 w-4 mr-2"></i>
             <i x-show="showForm" data-lucide="x" class="h-4 w-4 mr-2"></i>
-            <span x-text="showForm ? '<?= Flang::_e('hide_form') ?? 'Hide Form' ?>' : '<?= Flang::_e('add_term') ?? 'Add Term' ?>'"></span>
+            <span x-text="showForm ? '<?= __('Hide Form') ?>' : '<?= __('Add Term') ?>'"></span>
           </button>
         </div>
       </form>
@@ -241,7 +249,6 @@ $posttype    = $_GET['posttype'] ?? 'default';
         <div>
           <label for="lang" class="block text-sm font-medium mb-2"><?= Flang::_e('lable_lang') ?></label>
           <select id="lang" name="lang" class="flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" required>
-            <option value=""><?= Flang::_e('select_lang') ?></option>
             <?php foreach ($langActive as $lang) { ?>
               <option value="<?= $lang['code'] ?>" <?= $lang['code'] == APP_LANG ? 'selected' : '' ?>><?= $lang['name'] ?></option>
             <?php } ?>
@@ -250,7 +257,7 @@ $posttype    = $_GET['posttype'] ?? 'default';
         
         <!-- Parent -->
         <?php if (isset($currentTermInfo['hierarchical']) && $currentTermInfo['hierarchical']) { ?>
-          <div id="parent-container" style="display: none;">
+          <div id="parent-container">
             <label for="parent" class="block text-sm font-medium mb-2"><?= Flang::_e('lable_parent') ?></label>
             <select id="parent" name="parent" class="flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
               <option value=""><?= Flang::_e('select_parent') ?></option>
@@ -306,21 +313,21 @@ $posttype    = $_GET['posttype'] ?? 'default';
   <div class="bg-card card-content !p-0 border overflow-hidden">
     <div class="overflow-x-auto">
       <div class="relative w-full overflow-auto">
-        <table class="w-full caption-bottom text-sm">
+        <table class="w-full caption-bottom text-sm table-fixed">
           <thead class="[&_tr]:border-b">
             <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
               <!-- Checkbox Select All -->
               <th class="px-4 py-3 text-center align-middle bg-menu-background-hover text-menu-text-hover font-medium w-12">
                 <input type="checkbox" id="selectAll" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" @change="toggleSelectAll()">
               </th>
-              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium">ID</th>
-              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium"><?= Flang::_e('table_name') ?></th>
-              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium"><?= Flang::_e('table_slug') ?></th>
-              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium"><?= Flang::_e('table_post_type') ?></th>
-              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium"><?= Flang::_e('table_type') ?></th>
-              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium"><?= Flang::_e('table_lang') ?></th>
-              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium"><?= Flang::_e('table_parent') ?></th>
-              <th class="px-4 py-3 text-center align-middle bg-menu-background-hover text-menu-text-hover font-medium"><?= Flang::_e('table_action') ?></th>
+              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium w-16 whitespace-nowrap"><?= __('ID') ?></th>
+              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium w-80 whitespace-nowrap"><?= __('Name') ?></th>
+              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium w-32 whitespace-nowrap"><?= __('Slug') ?></th>
+              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium w-24 whitespace-nowrap"><?= __('Post Type') ?></th>
+              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium w-24 whitespace-nowrap"><?= __('Type') ?></th>
+              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium w-20 whitespace-nowrap"><?= __('Language') ?></th>
+              <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium w-32 whitespace-nowrap"><?= __('Parent') ?></th>
+              <th class="px-4 py-3 text-center align-middle bg-menu-background-hover text-menu-text-hover font-medium w-24 whitespace-nowrap"><?= __('Actions') ?></th>
             </tr>
           </thead>
           <tbody class="[&_tr:last-child]:border-0">
@@ -335,23 +342,23 @@ $posttype    = $_GET['posttype'] ?? 'default';
                     <input type="checkbox" class="row-checkbox h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" 
                            value="<?= $node['id'] ?>" @change="updateSelectedItems()">
                   </td>
-                  <td class="px-4 py-1 align-middle font-medium text-foreground"><?= htmlspecialchars($node['id'] ?? 'N/A') ?></td>
-                  <td class="px-4 py-1 align-middle text-foreground">
+                  <td class="px-4 py-1 align-middle font-medium text-foreground whitespace-nowrap"><?= htmlspecialchars($node['id'] ?? 'N/A') ?></td>
+                  <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[300px]" title="<?= htmlspecialchars($node['name']) ?>">
                     <a href="<?= admin_url('terms/edit/' . $node['id'] . '?posttype=' . $node['posttype'] . '&type=' . $node['type']); ?>" class="text-primary hover:underline hover:text-primary/80 transition-colors">
                       <?= str_repeat('&mdash; ', $level) . htmlspecialchars($node['name']); ?>
                     </a>
                   </td>
-                <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($node['slug']); ?></td>
-                <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($node['posttype']); ?></td>
-                <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($node['type']); ?></td>
-                <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($node['lang_name']); ?></td>
-                <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($node['parent_name'] ?? 'No'); ?></td>
+                <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[120px]" title="<?= htmlspecialchars($node['slug']) ?>"><?= htmlspecialchars($node['slug']); ?></td>
+                <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[80px]" title="<?= htmlspecialchars($node['posttype']) ?>"><?= htmlspecialchars($node['posttype']); ?></td>
+                <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[80px]" title="<?= htmlspecialchars($node['type']) ?>"><?= htmlspecialchars($node['type']); ?></td>
+                <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[60px]" title="<?= htmlspecialchars($node['lang_name']) ?>"><?= htmlspecialchars($node['lang_name']); ?></td>
+                <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[120px]" title="<?= htmlspecialchars($node['parent_name'] ?? 'No') ?>"><?= htmlspecialchars($node['parent_name'] ?? 'No'); ?></td>
                 <td class="px-4 py-1 align-middle text-center">
                   <div class="flex items-center gap-1 justify-center">
-                    <a href="<?= admin_url('terms/edit/' . $node['id'] . '?posttype=' . $node['posttype'] . '&type=' . $node['type']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0" title="Edit Term">
+                    <a href="<?= admin_url('terms/edit/' . $node['id'] . '?posttype=' . $node['posttype'] . '&type=' . $node['type']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0 flex-shrink-0" title="<?= __('Edit Term') ?>">
                       <i data-lucide="square-pen" class="h-4 w-4"></i>
                     </a>
-                    <a href="<?= admin_url('terms/delete/' . $node['id'] . '?posttype=' . $node['posttype'] . '&type=' . $node['type']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0" onclick="return confirm('<?= Flang::_e('confirm_delete') ?>')" title="Delete Term">
+                    <a href="<?= admin_url('terms/delete/' . $node['id'] . '?posttype=' . $node['posttype'] . '&type=' . $node['type']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0 flex-shrink-0" onclick="return confirm('<?= __('Are you sure you want to delete this item?') ?>')" title="<?= __('Delete Term') ?>">
                       <i data-lucide="trash2" class="h-4 w-4"></i>
                     </a>
                 </div>
@@ -369,7 +376,7 @@ $posttype    = $_GET['posttype'] ?? 'default';
               renderTermRows($tree);
         } else {
             ?>
-              <tr><td colspan="9" class="text-center py-4 text-muted-foreground">No terms found.</td></tr>
+              <tr><td colspan="9" class="text-center py-4 text-muted-foreground"><?= __('No terms found.') ?></td></tr>
                                             <?php } ?>
                                             </tbody>
                                         </table>
@@ -377,5 +384,40 @@ $posttype    = $_GET['posttype'] ?? 'default';
                                 </div>
                             </div>
                         </div>
+
+<script>
+    const dataTermsLanguages = <?= json_encode($termsLanguages) ?>;
+    
+    // Hàm cập nhật parent options
+    function updateParentOptions(selectedLang) {
+        const parentSelect = document.getElementById('parent');
+        
+        // Xóa tất cả options hiện tại (trừ option đầu tiên)
+        parentSelect.innerHTML = '<option value=""><?= Flang::_e('select_parent') ?></option>';
+        
+        // Thêm options từ ngôn ngữ được chọn
+        if (dataTermsLanguages[selectedLang]) {
+            dataTermsLanguages[selectedLang].forEach(function(term) {
+                const option = document.createElement('option');
+                option.value = term.id;
+                option.textContent = term.name;
+                parentSelect.appendChild(option);
+            });
+        }
+    }
+    
+    // Load parent options khi trang được tải
+    document.addEventListener('DOMContentLoaded', function() {
+        const langSelect = document.getElementById('lang');
+        if (langSelect) {
+            updateParentOptions(langSelect.value);
+        }
+    });
+    
+    // Cập nhật parent options khi lang thay đổi
+    document.getElementById('lang').addEventListener('change', function() {
+        updateParentOptions(this.value);
+    });
+</script>
 
 <?php Render::block('Backend\Footer', ['layout' => 'default']); ?>

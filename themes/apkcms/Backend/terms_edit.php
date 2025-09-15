@@ -35,6 +35,15 @@ function buildOptions($tree, $level = 0, $current_id = null, $parent = null)
 
     return $output;
 }
+// allTerm to options for languages tức là chuyển thành option select cho từng ngôn ngữ
+$termsLanguages = [];
+foreach ($allTerm as $term) {
+    // nếu là current term thì không thêm vào
+    if($term['id'] == $data['id']) {
+        continue;
+    }
+    $termsLanguages[$term['lang']][] = $term;
+}
 ?>
 <!-- [ Main Content ] start -->
 <div class="pc-container">
@@ -96,8 +105,7 @@ function buildOptions($tree, $level = 0, $current_id = null, $parent = null)
                                     <div class="w-full md:w-1/2 px-2 mb-4">
                                         <label for="lang" class="block font-bold mb-2"><?= Flang::_e('lable_lang') ?></label>
                                         <select id="lang" name="lang" class="appearance-none border border-input rounded w-full form-control leading-tight focus:outline-none px-3 py-2 bg-background text-foreground" required>
-                                            <option value=""><?= Flang::_e('select_lang') ?></option>
-                                            <?php foreach ($lang as $item) { ?>
+                                            <?php foreach ($langActive as $item) { ?>
                                                 <option value="<?= $item['code'] ?>" <?= $data['lang'] == $item['code'] ? 'selected' : '' ?>><?= $item['name'] ?></option>
                                             <?php } ?>
                                         </select>
@@ -110,11 +118,10 @@ function buildOptions($tree, $level = 0, $current_id = null, $parent = null)
                                         <?php endif; ?>
                                     </div>
                                     <!-- parent -->
-                                    <?php if (isset($currentTermInfo['hierarchical']) && $currentTermInfo['hierarchical'] == 1) { ?>
+                                    <?php if (isset($currentTermInfo['hierarchical']) && $currentTermInfo['hierarchical']) { ?>
                                         <div class="w-full md:w-1/2 px-2 mb-4" id="parent-container">
                                             <label for="parent" class="block font-bold mb-2"><?= Flang::_e('lable_parent') ?></label>
                                             <select id="parent" name="parent" class="appearance-none border border-input rounded w-full form-control leading-tight focus:outline-none px-3 py-2 bg-background text-foreground">
-                                                <option value=""><?= Flang::_e('select_parent') ?></option>
                                                 <?= buildOptions($tree, 0, $data['id'], $data['parent']) ?>
                                             </select>
                                         </div>
@@ -178,4 +185,39 @@ Render::block('Backend\Footer', ['layout' => 'default']);
     var defaultLang = '<?php if (isset($default_lang)) {
                             echo $default_lang;
                         }; ?>';
+    
+    const dataTermsLanguages = <?= json_encode($termsLanguages) ?>;
+    
+    // Hàm cập nhật parent options
+    function updateParentOptions(selectedLang) {
+        const parentSelect = document.getElementById('parent');
+        
+        if (!parentSelect) return;
+        
+        // Xóa tất cả options hiện tại (trừ option đầu tiên)
+        parentSelect.innerHTML = '<option value=""><?= Flang::_e('select_parent') ?></option>';
+        
+        // Thêm options từ ngôn ngữ được chọn
+        if (dataTermsLanguages[selectedLang]) {
+            dataTermsLanguages[selectedLang].forEach(function(term) {
+                const option = document.createElement('option');
+                option.value = term.id;
+                option.textContent = term.name;
+                parentSelect.appendChild(option);
+            });
+        }
+    }
+    
+    // Load parent options khi trang được tải
+    document.addEventListener('DOMContentLoaded', function() {
+        const langSelect = document.getElementById('lang');
+        if (langSelect) {
+            updateParentOptions(langSelect.value);
+        }
+    });
+    
+    // Cập nhật parent options khi lang thay đổi
+    document.getElementById('lang').addEventListener('change', function() {
+        updateParentOptions(this.value);
+    });
 </script>

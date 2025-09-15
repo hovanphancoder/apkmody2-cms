@@ -14,11 +14,10 @@ $meta = new MetaBlock();
 // $posttype = $current_page['page_slug'];
 $slug = get_current_slug();
 
-
 // Lấy thông tin term từ slug
-$term = get_term_by_slug($slug, '', 'category', APP_LANG, true);
+$term = get_term_by_slug($slug, 'posts', 'category', APP_LANG, false);
 
-var_dump($term);
+// var_dump($term);
 
 // Check if page exists, if not use default values
 if (!$term) {

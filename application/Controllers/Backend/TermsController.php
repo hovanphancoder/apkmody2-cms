@@ -27,10 +27,8 @@ class TermsController extends BackendController {
     }
 
     // Display list of all terms
-    // Display list of all terms
     public function index() {
         Render::asset('js', 'js/jstring.1.1.0.js', ['area' => 'backend', 'location' => 'footer']);
-        $langActive = $this->LanguagesModel->getActiveLanguages();
         $this->data('csrf_token', Session::csrf_token(600));
         if(HAS_GET('type') && HAS_GET('posttype'))
         {
@@ -38,9 +36,8 @@ class TermsController extends BackendController {
             $posttype = S_GET('posttype') ?? '';
             $posttypeData = $this->PosttypeModel->getPostTypeBySlug($posttype);
             if(empty($posttypeData)) {
-                redirect(admin_url('terms'));
+                redirect(admin_url('/'));
             }
-            
             $termsInfo = is_string($posttypeData['terms']) ? json_decode($posttypeData['terms'], true) : [];
             $currentTermInfo = [];
             foreach($termsInfo as $termInfo) {
@@ -50,23 +47,28 @@ class TermsController extends BackendController {
                 }
             }
             if(empty($currentTermInfo)) {
-                redirect(admin_url('terms'));
+                redirect(admin_url('/'));
             }
             $languagesPosttype = is_string($posttypeData['languages']) ? json_decode($posttypeData['languages'], true) : [];
             $termsLang= [];
-            foreach($langActive as $lang) {
-                if(in_array($lang['code'], $languagesPosttype)) {
-                    $termsLang[] = $lang;
+            // check lang có phải bằng all không
+            if(in_array('all', $languagesPosttype)) {
+                $termsLang = [['code' => 'all', 'name' => 'All']];
+            } else {
+                foreach(APP_LANGUAGES as $key => $lang) {
+                    if(in_array($key, $languagesPosttype)) {
+                        $lang['code'] = $key;
+                        $termsLang[] = $lang;
+                    }
                 }
             }
-            $default_lang = $this->LanguagesModel->getDefaultLanguage()['code'];
-            $mainterms = $this->termsModel->getTermsByTypeAndPostTypeAndLang($posttype, $type, $default_lang);
+            $mainterms = $this->termsModel->getTermsByTypeAndPostTypeAndLang($posttype, $type, APP_LANG_DF);
             if(!empty($mainterms)) {
                 $this->data('mainterms', $mainterms);
             }
             $allTerm = $this->termsModel->getTermsByTypeAndPostType($posttype, $type);
             $tree = $this->treeTerm($allTerm);
-            $this->data('default_lang', $default_lang);
+            $this->data('default_lang', APP_LANG_DF);
             $this->data('title', Flang::_e('title_index') . ' - ' . $posttype . ($type ? ' - ' . $type : ''));
             $this->data('type', $type); 
             $this->data('currentTermInfo', $currentTermInfo);
@@ -74,7 +76,6 @@ class TermsController extends BackendController {
             $this->data('allTerm', $allTerm);
             $this->data('langActive', $termsLang);
             $this->data('tree', $tree);
-            // $this->render('backend', 'Backend/Terms/index');
             echo Render::html('Backend/terms_index', $this->data);
         } else {
             $allTerm = $this->termsModel->getTaxonomies();
@@ -83,7 +84,7 @@ class TermsController extends BackendController {
             $this->data('allTerm', $allTerm);
             $this->data('title', Flang::_e('title_index'));
             $this->data('tree', $tree);
-            $this->data('langActive', $langActive);
+            $this->data('langActive', array_keys(APP_LANGUAGES));
             // $this->render('backend', 'Backend/Terms/index');
             echo Render::html('Backend/terms_index', $this->data);
         }    
@@ -259,6 +260,8 @@ class TermsController extends BackendController {
     public function edit($termId) {
         $type = S_GET('type') ?? '';
         $posttype = S_GET('posttype')?? '';
+        $posttypeData = $this->PosttypeModel->getPostTypeBySlug($posttype);
+            $languagesPosttype = is_string($posttypeData['languages']) ? json_decode($posttypeData['languages'], true) : [];
         if(HAS_POST('name')) {
             $input = [
                 'name' => S_POST('name'),
@@ -315,7 +318,7 @@ class TermsController extends BackendController {
                 ],
     
             ];
-
+            
             $validator = new Validate();
             if (!$validator->check($input, $rules)) {
                 // Get errors and display
@@ -333,15 +336,36 @@ class TermsController extends BackendController {
             }
 
         }
-        $default_lang = $this->LanguagesModel->getDefaultLanguage()['code'];
-
+            // check lang có phải bằng all không
+            if(in_array('all', $languagesPosttype)) {
+                $termsLang = [['code' => 'all', 'name' => 'All']];
+            } else {
+                foreach(APP_LANGUAGES as $key => $lang) {
+                    if(in_array($key, $languagesPosttype)) {
+                        $lang['code'] = $key;
+                        $termsLang[] = $lang;
+                    }
+                }
+            }
+        $termsInfo = is_string($posttypeData['terms']) ? json_decode($posttypeData['terms'], true) : [];
+        $currentTermInfo = [];
+        foreach($termsInfo as $termInfo) {
+            if($termInfo['type'] == $type) {
+                $currentTermInfo = $termInfo;
+                break;
+            }
+        }
+        $allTerm = $this->termsModel->getTermsByTypeAndPostType($posttype, $type);
         $data = $this->termsModel->getTermById($termId);
         $lang = $this->LanguagesModel->getActiveLanguages();
         $tree = $this->treeTerm($this->termsModel->getTermsByTypeAndPostType($posttype, $type));
         $this->data('csrf_token', Session::csrf_token(600));
-        $this->data('default_lang', $default_lang);
+        $this->data('default_lang', APP_LANG_DF);
         $this->data('title', 'Edit term');
         $this->data('lang', $lang);
+        $this->data('langActive', $termsLang);
+        $this->data('currentTermInfo', $currentTermInfo);
+        $this->data('allTerm', $allTerm);
         $this->data('data', $data);
         $this->data('tree', $tree);
         echo Render::html('Backend/terms_edit', $this->data);
