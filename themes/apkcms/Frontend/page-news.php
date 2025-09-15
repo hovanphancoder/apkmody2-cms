@@ -94,7 +94,7 @@ get_template('_metas/meta_page', $meta_data);
                                             }
                                             ?>
                                             <img width="360" height="180" 
-                                                 src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, " UTF-8'); ?>" 
+                                                 src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>" 
                                                  alt="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>" 
                                                  decoding="async" 
                                                  loading="<?php echo $index < 3 ? 'eager' : 'lazy'; ?>" 
