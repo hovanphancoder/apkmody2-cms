@@ -10,7 +10,6 @@ $recent_apps_data = get_posts([
     ],
     'sort' => ['updated_at', 'DESC'],
     'perPage' => 8,
-    'totalpage' => true,             // Lấy thông tin phân trang
     'cat' => 112,         
     'withCategories' => true,
     'lang' => APP_LANG               // Thêm check ngôn ngữ

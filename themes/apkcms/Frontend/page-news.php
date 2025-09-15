@@ -10,8 +10,6 @@ $posts_data = get_posts([
     'withCategories' => true,        // Lấy categories
     'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
-    'active' => true,                // Chỉ lấy bài active
-    'totalpage' => true,             // Lấy thông tin phân trang
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 

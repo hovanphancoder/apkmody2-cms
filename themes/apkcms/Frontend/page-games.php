@@ -11,12 +11,32 @@ App\Libraries\Fastlang::load('Homepage');
 // ]);
 
 // ===== LẤY DỮ LIỆU GAMES =====
+// Xử lý sorting
+$sort_param = S_GET('sort', 'all');
+$sort_array = ['created_at', 'DESC']; // Default sort
+
+switch ($sort_param) {
+    case 'updated':
+        $sort_array = ['updated_at', 'DESC'];
+        break;
+    case 'popular':
+        $sort_array = ['views', 'DESC'];
+        break;
+    case 'rating':
+        $sort_array = ['rating_total', 'DESC'];
+        break;
+    case 'all':
+    default:
+        $sort_array = ['created_at', 'DESC'];
+        break;
+}
+
 // Lấy danh sách games từ database với posttype 'posts' (CHỈ 1 QUERY)
 $games_data = get_posts([
     'posttype' => 'posts',           // Sử dụng posttype 'posts'
     'perPage' => 20,                 // 20 games mỗi trang
     'withCategories' => true,        // Lấy categories
-    'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
+    'sort' => $sort_array,           // Sắp xếp theo tham số từ URL
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
     'totalpage' => true,             // Lấy thông tin phân trang
@@ -83,10 +103,10 @@ get_template('_metas/meta_page', $meta_data);
                     $current_url = $_SERVER['REQUEST_URI'];
                     $base_url = strtok($current_url, '?'); // Lấy URL không có query parameters
                     ?>
-                    <div class="flex-cat-item active"><a href="<?php echo $base_url; ?>" aria-label="View all games">Updated</a></div>
-                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=new'; ?>" aria-label="New games">New</a></div>
-                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=popular'; ?>" aria-label="Popular games">Popular</a></div>
-                    <div class="flex-cat-item "><a href="<?php echo $base_url . '?sort=premium'; ?>" aria-label="Premium games">Premium</a></div>
+                    <div class="flex-cat-item <?php echo !isset($_GET['sort']) || $_GET['sort'] == 'all' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>" aria-label="View all games">All</a></div>
+                    <div class="flex-cat-item <?php echo isset($_GET['sort']) && $_GET['sort'] == 'updated' ? 'active' : ''; ?>"><a href="<?php echo $base_url . '?sort=updated'; ?>" aria-label="Updated games">Updated</a></div>
+                    <div class="flex-cat-item <?php echo isset($_GET['sort']) && $_GET['sort'] == 'popular' ? 'active' : ''; ?>"><a href="<?php echo $base_url . '?sort=popular'; ?>" aria-label="Popular games">Popular</a></div>
+                    <div class="flex-cat-item <?php echo isset($_GET['sort']) && $_GET['sort'] == 'rating' ? 'active' : ''; ?>"><a href="<?php echo $base_url . '?sort=rating'; ?>" aria-label="Top rated games">Rating</a></div>
                 </div>
             </div>
         </section>

@@ -11,15 +11,34 @@ App\Libraries\Fastlang::load('Homepage');
 // ]);
 
 // ===== LẤY DỮ LIỆU APPS =====
+// Xử lý sorting
+$sort_param = S_GET('sort', 'all');
+$sort_array = ['created_at', 'DESC']; // Default sort
+
+switch ($sort_param) {
+    case 'updated':
+        $sort_array = ['updated_at', 'DESC'];
+        break;
+    case 'popular':
+        $sort_array = ['views', 'DESC'];
+        break;
+    case 'rating':
+        $sort_array = ['rating_total', 'DESC'];
+        break;
+    case 'all':
+    default:
+        $sort_array = ['created_at', 'DESC'];
+        break;
+}
+
 // Lấy danh sách apps từ database với posttype 'posts' (CHỈ 1 QUERY)
 $apps_data = get_posts([
     'posttype' => 'posts',           // Sử dụng posttype 'posts'
     'perPage' => 20,                 // 20 apps mỗi trang
     'withCategories' => true,        // Lấy categories
-    'sort' => ['created_at', 'DESC'], // Sắp xếp theo ngày tạo mới nhất
+    'sort' => $sort_array,           // Sắp xếp theo tham số từ URL
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
-    'totalpage' => true,             // Lấy thông tin phân trang
     'cat' => 112,                    // Filter theo rel_id = 112 (apps category)
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
@@ -67,10 +86,10 @@ get_template('_metas/meta_page', $meta_data);
                     $current_url = $_SERVER['REQUEST_URI'];
                     $base_url = strtok($current_url, '?'); // Lấy URL không có query parameters
                     ?>
-                    <div class="flex-cat-item active" aria-label="Link"><a href="<?php echo $base_url; ?>" aria-label="Updated content">Updated</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="<?php echo $base_url . '?sort=new'; ?>" aria-label="New content">New</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="<?php echo $base_url . '?sort=popular'; ?>" aria-label="Popular content">Popular</a></div>
-                    <div class="flex-cat-item " aria-label="Link"><a href="<?php echo $base_url . '?sort=premium'; ?>" aria-label="Premium content">Premium</a></div>
+                    <div class="flex-cat-item <?php echo !isset($_GET['sort']) || $_GET['sort'] == 'all' ? 'active' : ''; ?>" aria-label="Link"><a href="<?php echo $base_url; ?>" aria-label="All apps">All</a></div>
+                    <div class="flex-cat-item <?php echo isset($_GET['sort']) && $_GET['sort'] == 'updated' ? 'active' : ''; ?>" aria-label="Link"><a href="<?php echo $base_url . '?sort=updated'; ?>" aria-label="Updated content">Updated</a></div>
+                    <div class="flex-cat-item <?php echo isset($_GET['sort']) && $_GET['sort'] == 'popular' ? 'active' : ''; ?>" aria-label="Link"><a href="<?php echo $base_url . '?sort=popular'; ?>" aria-label="Popular content">Popular</a></div>
+                    <div class="flex-cat-item <?php echo isset($_GET['sort']) && $_GET['sort'] == 'rating' ? 'active' : ''; ?>" aria-label="Link"><a href="<?php echo $base_url . '?sort=rating'; ?>" aria-label="Top rated content">Rating</a></div>
                 </div>
             </div>
         </section>
