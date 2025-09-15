@@ -19,16 +19,12 @@
             
             <!-- Menu Button -->
             <div style="text-align: end;">
-                <!-- <button class="clickable sidenav-trigger" type="button" aria-label="Categories" data-target="menu-app">
-                    <span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                            <circle cx="4" cy="6" r="2" fill="#000000"></circle>
-                            <rect x="8" y="5" width="12" height="2" rx="1" fill="#000000"></rect>
-                            <circle cx="4" cy="12" r="2" fill="#000000"></circle>
-                            <rect x="8" y="11" width="12" height="2" rx="1" fill="#000000"></rect>
-                            <circle cx="4" cy="18" r="2" fill="#000000"></circle>
-                            <rect x="8" y="17" width="12" height="2" rx="1" fill="#000000"></rect>
-                    </span>
-                </button> -->
+             
+                    <!-- <a href="download.html" class="top-nav__button clickable" aria-label="Download" id="top-download-button">
+                    <span class="svg-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
+                            <path d="M480-343.54q-7.23 0-13.46-2.31-6.23-2.3-11.85-7.92L330.31-478.15q-8.92-8.93-8.81-20.89.12-11.96 8.81-21.27 9.31-9.3 21.38-9.61 12.08-.31 21.39 9L450-444v-306q0-12.77 8.62-21.38Q467.23-780 480-780t21.38 8.62Q510-762.77 510-750v306l76.92-76.92q8.93-8.92 21.19-8.81 12.27.12 21.58 9.42 8.69 9.31 9 21.08.31 11.77-9 21.08L505.31-353.77q-5.62 5.62-11.85 7.92-6.23 2.31-13.46 2.31ZM252.31-180Q222-180 201-201q-21-21-21-51.31v-78.46q0-12.77 8.62-21.38 8.61-8.62 21.38-8.62t21.38 8.62q8.62 8.61 8.62 21.38v78.46q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h455.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46v-78.46q0-12.77 8.62-21.38 8.61-8.62 21.38-8.62t21.38 8.62q8.62 8.61 8.62 21.38v78.46Q780-222 759-201q-21 21-51.31 21H252.31Z"></path>
+                        </svg></span>
+                </a> -->
             </div>
         </div>
     </div>

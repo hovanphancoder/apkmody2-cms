@@ -186,7 +186,7 @@ $footer_links = [
     <script>
         // Preload critical JS
         const script = document.createElement('script');
-        script.src = '/themes/apkcms/Frontend/Assets/js/script.js';
+        script.src = '/themes/apkcms/Frontend/Assets/js/script.min.js';
         script.async = true;
         script.defer = true;
         document.head.appendChild(script);

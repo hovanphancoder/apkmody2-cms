@@ -328,30 +328,9 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                 }
             });
             </script> -->
-        <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Kiểm tra xem có element #title-post không
-    const titleElement = document.getElementById('title-post');
-    
-    // Chỉ chạy JavaScript nếu có #title-post
-    if (titleElement) {
-        const topNavTitle = document.querySelector('.top-nav__title');
-        
-        if (topNavTitle) {
-            // Lấy text content và loại bỏ HTML tags
-            let titleText = titleElement.textContent || titleElement.innerText;
-            
-            // Loại bỏ phần "MOD APK (Menu, Unlimited Money) v1.0.0" để chỉ lấy tên app
-            titleText = titleText.replace(/\s+MOD APK.*$/i, '').trim();
-            
-            // Đưa text vào top-nav
-            topNavTitle.textContent = titleText;
-        }
-    }
-});
-</script>
 
-
+<!-- Load single page script -->
+<script src="/themes/<?php echo APP_THEME_NAME; ?>/Frontend/Assets/js/single.min.js"></script>
 
 <?php get_footer(); ?>
 

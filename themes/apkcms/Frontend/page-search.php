@@ -13,12 +13,11 @@ App\Libraries\Fastlang::load('Homepage');
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
 $searchQuery = $_GET['s'];
-
 // Tạo mảng dữ liệu để truyền vào template
 $meta_data = [
     'locale' => $locale,
-    'page_title' => 'Search Results' . ($searchQuery ? ' for "' . htmlspecialchars($searchQuery, ENT_QUOTES, 'UTF-8') . '"' : '') . ' - ' . option('site_title', APP_LANG),
-    'page_description' => 'Search results' . ($searchQuery ? ' for "' . htmlspecialchars($searchQuery, ENT_QUOTES, 'UTF-8') . '"' : '') . ' - ' . option('site_description', APP_LANG),
+    'page_title' => 'Search Results' . ($searchQuery ?  '' : '') . ' - ' . option('site_title', APP_LANG),
+    'page_description' => 'Search results' . ($searchQuery ?  '' : '') . ' - ' . option('site_description', APP_LANG),
     'page_type' => 'search',
     'search_query' => $searchQuery,
     'current_lang' => APP_LANG,
@@ -49,11 +48,12 @@ $search_data = get_posts([
          <section>
             <div class="container">
                      <div class="app-name">
+                        <br><br>
                         <h1 class="font-size__medium no-margin" id="title-post">Search</h1>
                         <div class="font-size__small truncate">
-                           <strong>Search Results</strong> 
-                              <?php if (!empty($search_query)): ?>
-                                 <!-- <span>for: "<?php echo htmlspecialchars($search_query, ENT_QUOTES, 'UTF-8'); ?>"</span> -->
+                           <strong>Search Results:</strong> 
+                              <?php if (!empty($searchQuery)): ?>
+                                 <span><?php echo htmlspecialchars($searchQuery, ENT_QUOTES, 'UTF-8'); ?></span>
                               <?php endif; ?>
                         </div>
                     </div>

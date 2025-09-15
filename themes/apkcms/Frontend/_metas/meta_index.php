@@ -107,5 +107,5 @@ if (!empty($logoUrl)) {
 get_header([
     'meta' => $meta->render(),
     'schema' => $schemaGraph->render(),
-    'append' => '<link rel="stylesheet" href="/themes/'.APP_THEME_NAME.'/Frontend/Assets/css/styles.css" as="style" type="text/css" media="all" />'
+    'append' => '<link rel="stylesheet" href="/themes/'.APP_THEME_NAME.'/Frontend/Assets/css/styles.min.css" as="style" type="text/css" media="all" />'
 ]);
