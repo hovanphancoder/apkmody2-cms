@@ -4,13 +4,9 @@
 // Lấy dữ liệu Recently Updated Apps từ database
 $recent_apps_data = get_posts([
     'posttype' => 'posts',
-    'filters' => [
-        'status' => 'active'
-    ],
     'sort' => ['updated_at', 'DESC'],
-    'perPage' => 8,
-    'cat' => 112,         
-    // 'withCategories' => true,
+    'limit' => 8,
+    'cat' => option('themes_appsid'), 
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 

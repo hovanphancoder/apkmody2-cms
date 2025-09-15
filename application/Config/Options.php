@@ -105,4 +105,10 @@ return array (
   'plugins_active' => array (
     'value' => '[{"name":"reactix"}]',
   ),
+  'themes_gamesid' => array (
+    'value' => '111',
+  ),
+  'themes_appsid' => array (
+    'value' => '112',
+  ),
 );

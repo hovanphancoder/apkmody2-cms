@@ -26,8 +26,10 @@ if (!function_exists('get_posts')) {
     {
         /* ---------- 0. Mặc định ---------- */
         $defaults = [
-            'posttype'        => 'stories',
-            'filters'         => [],
+            'posttype'        => 'posts',
+            'filters' => [
+                'status' => 'active'
+            ],
             'cat'             => null,   // 1 id_main
             'cat__in'         => [],     // multiple id_main
             'cat__not_in'     => [],
@@ -40,6 +42,9 @@ if (!function_exists('get_posts')) {
             'searchcolumns'   => ['search_string'],
             'totalpage'      => false,
         ];
+        if (isset($args['limit']) && $args['limit'] > 0) {
+            $args['perPage'] = $args['limit'];
+        }
         $args = array_replace($defaults, $args);
 
         /* ---------- 1. Tên bảng ---------- */

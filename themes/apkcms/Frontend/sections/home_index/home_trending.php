@@ -8,11 +8,8 @@
                 // Lấy dữ liệu trending từ database
                 $trending_posts = get_posts([
                     'posttype' => 'posts',
-                    'filters' => [
-                        'status' => 'active'
-                    ],
                     'sort' => ['views', 'DESC'],
-                    'perPage' => 8,
+                    'limit' => 8,
                     // 'withCategories' => true,
                     'lang' => APP_LANG // Thêm check ngôn ngữ
                 ]);

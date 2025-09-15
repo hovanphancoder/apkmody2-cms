@@ -39,7 +39,7 @@ $apps_data = get_posts([
     'sort' => $sort_array,           // Sắp xếp theo tham số từ URL
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
-    'cat' => 112,                    // Filter theo rel_id = 112 (apps category)
+    'cat' => option('themes_appsid'), // Filter theo apps category ID từ options
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 

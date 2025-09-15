@@ -2,25 +2,17 @@
 // Lấy dữ liệu Editors' Choices từ database
 $games_data = get_posts([
     'posttype' => 'posts',
-    'filters' => [
-        'status' => 'active'
-    ],
     'sort' => ['rating_total', 'DESC'],
-    'perPage' => 10,
-    // 'withCategories' => true,
-    'cat' => 111, // Filter theo rel_id = 111 (games category)
+    'limit' => 10,
+    'cat' => option('themes_gamesid'), // Games category ID từ options
     'lang' => APP_LANG // Thêm check ngôn ngữ
 ]);
 
 $apps_data = get_posts([
     'posttype' => 'posts',
-    'filters' => [
-        'status' => 'active'
-    ],
     'sort' => ['rating_total', 'DESC'],
-    'perPage' => 10,
-    'withCategories' => true,
-    'cat' => 112, // Filter theo rel_id = 112 (apps category)
+    'limit' => 10,
+    'cat' => option('themes_appsid'), // Apps category ID từ options
     'lang' => APP_LANG // Thêm check ngôn ngữ
 ]);
 

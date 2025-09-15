@@ -3,13 +3,9 @@
 // Lấy dữ liệu Recently Updated Games từ database
 $recent_games_data = get_posts([
     'posttype' => 'posts',
-    'filters' => [
-        'status' => 'active'
-    ],
     'sort' => ['updated_at', 'DESC'],
-    'perPage' => 8,
-    'cat' => 111,         
-    // 'withCategories' => true,
+    'limit' => 8,
+    'cat' => option('themes_gamesid'), 
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
