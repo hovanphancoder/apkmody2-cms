@@ -35,7 +35,7 @@ $meta
     ->title($post_data['seo_title'])
     ->description( $post_data['seo_desc'])
     ->robots('index, follow')
-    ->canonical(base_url());
+    ->canonical(base_url($_SERVER['REQUEST_URI']));
 // Add basic meta tags
 $meta
     ->custom('<meta name="generator" content="CMSFullForm">')
@@ -49,7 +49,7 @@ $meta
     ->og('type', 'website')
     ->og('title',$post_data['seo_title'])
     ->og('description', $post_data['seo_desc'])
-    ->og('url', base_url())
+    ->og('url', base_url($_SERVER['REQUEST_URI']))
     ->og('site_name',$post_data['seo_title'])
     ->og('updated_time', date('c'));
 

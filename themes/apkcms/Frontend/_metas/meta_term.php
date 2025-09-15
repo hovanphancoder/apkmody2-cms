@@ -35,7 +35,7 @@ $meta
     ->title($term['seo_title'])
     ->description($term['seo_desc'])
     ->robots('index, follow')
-    ->canonical(base_url());
+    ->canonical($_SERVER['REQUEST_URI']);
 // Add basic meta tags
 $meta
     ->custom('<meta name="generator" content="CMSFullForm">')

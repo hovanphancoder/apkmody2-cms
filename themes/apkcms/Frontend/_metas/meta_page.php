@@ -48,7 +48,7 @@ $meta
     ->title($page['seo_title'])
     ->description($page['seo_desc'])
     ->robots('index, follow')
-    ->canonical(base_url());
+    ->canonical(base_url($_SERVER['REQUEST_URI']));
 // Add basic meta tags
 $meta
     ->custom('<meta name="generator" content="CMSFullForm">')
@@ -62,7 +62,7 @@ $meta
     ->og('type', 'website')
     ->og('title', $page['seo_title'])
     ->og('description', $page['seo_desc'])
-    ->og('url', base_url())
+    ->og('url', base_url($_SERVER['REQUEST_URI']))
     ->og('site_name', $page['seo_title'])
     ->og('updated_time', date('c'));
 
@@ -84,18 +84,18 @@ if (option('site_logo')) {
 }
 
 // Create Schema Graph by format RankMath
-$schemaGraph = new SchemaGraph(base_url());
+$schemaGraph = new SchemaGraph(base_url($_SERVER['REQUEST_URI']));
 
 // 1. WebPage Schema
 $webPageSchema = new WebPage([
-    'url' => base_url(),
+    'url' => base_url($_SERVER['REQUEST_URI']),
     'name' => $page['seo_title'],
     'description' => $page['seo_desc']
 ]);
 
 // 2. BreadcrumbList Schema
 $breadcrumbSchema = BreadcrumbList::forHomepage([
-    'url' => base_url(),
+    'url' => base_url($_SERVER['REQUEST_URI']),
     'siteName' => $page['seo_title']
 ]);
 
