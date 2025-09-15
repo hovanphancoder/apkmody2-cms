@@ -29,7 +29,6 @@ get_template('_metas/meta_single', ['locale' => $locale]);
 
 <section>
             <div class="container">
-
                 <!-- breadcrumb -->
                 <div class="entry-content">
                     <div id="breadcrumb" class="margin-bottom-15 font-size__small color__gray truncate">
@@ -55,7 +54,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                         }
                         ?>
                         <?php if (!empty($featured_image)): ?>
-                            <img fetchpriority="high" src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, " UTF-8'); ?>" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
+                            <img fetchpriority="high" src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
                         <?php else: ?>
                             <!-- <img fetchpriority="high" src="https://via.placeholder.com/90x90/2196F3/FFFFFF?text=App" alt="<?php echo htmlspecialchars($post_data['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90"> -->
                         <?php endif; ?>
@@ -178,7 +177,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                     <div class="entry-author" href="" aria-label="Author profile">
                         <a class="entry-author" href="#" aria-label="Author profile">
                             <img decoding="async" loading="lazy" 
-                                 src="<?php echo htmlspecialchars($author_avatar, ENT_QUOTES, " UTF-8'); ?>" 
+                                 src="<?php echo htmlspecialchars($author_avatar, ENT_QUOTES, 'UTF-8'); ?>" 
                                  alt="Author avatar" width="36" height="36" class="avatar circle loaded">
                             <div class="font-size__small">
                                 <span>Written by</span>
@@ -283,7 +282,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                                 <article class="flex-item">
                                     <a href="<?php echo htmlspecialchars($related_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($related_slug, ENT_QUOTES, 'UTF-8'); ?> game">
                                     <div class="app-icon">
-                                            <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($related_image, ENT_QUOTES, " UTF-8'); ?>" alt="<?php echo htmlspecialchars($related_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
+                                            <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($related_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($related_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
                                     </div>
                                     <div class="app-name truncate">
                                             <h3 class="font-size__small no-margin no-padding truncate"><?php echo htmlspecialchars($related_title, ENT_QUOTES, 'UTF-8'); ?></h3>
