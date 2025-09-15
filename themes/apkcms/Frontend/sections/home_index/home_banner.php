@@ -54,21 +54,21 @@ $site_description = 'The best free APK app store for Android. Where you can down
                             <a href="#" aria-label="apkmody 2025">
 
 
-                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2025" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/hero-banner.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%" loading="lazy">
+                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2025" src="/themes/apkcms/Frontend/images/hero-banner.webp"  style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%">
                             </a>
                         </div>
                         <div class="hero-slide">
                             <a href="#" aria-label="apkmody 2024">
 
 
-                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/hero-banner-2.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%" loading="lazy">
+                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="/themes/apkcms/Frontend/images/hero-banner-2.webp"  style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%">
                             </a>
                         </div>
                         <div class="hero-slide">
                             <a href="#" aria-label="apkmody 2024">
 
 
-                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/hero-banner-3.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%" loading="lazy">
+                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="/themes/apkcms/Frontend/images/hero-banner-3.webp"  style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%">
                             </a>
                         </div>
                     </div>
@@ -106,7 +106,7 @@ $site_description = 'The best free APK app store for Android. Where you can down
                                     <div class="card-image">
                                         <a href="<?php echo htmlspecialchars($app_url, ENT_QUOTES, 'UTF-8'); ?>" aria-label="<?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?> MOD APK cover">
                                             <?php if (!empty($app_image)): ?>
-                                                <img width="360" height="180" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="<?php echo htmlspecialchars($app_image, ENT_QUOTES, "UTF-8'); ? loading="lazy">" alt="<?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?> MOD APK cover" decoding="async" <?php echo $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?> class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <img width="360" height="180" src="<?php echo htmlspecialchars($app_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?> MOD APK cover" decoding="async" <?php echo $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?> class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                             <?php endif; ?>
                                             <div class="app-placeholder" style="display: none; width: 100%; height: 100%; background: <?php echo $placeholder_color; ?>; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: bold;">
                                                 <?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?>

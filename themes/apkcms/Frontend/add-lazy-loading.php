@@ -25,7 +25,7 @@ function addLazyLoading($content) {
         }
         
         // Add lazy loading attributes
-        return '<img' . $beforeSrc . 'src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="' . $src . '"' . $afterSrc . ' loading="lazy">';
+        return '<img' . $beforeSrc . 'src=""  . $src . '"' . $afterSrc . '>';
     };
     
     return preg_replace_callback($pattern, $replacement, $content);

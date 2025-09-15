@@ -85,7 +85,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                 <div id="primaryimage">
                     <figure>
                         <img width="540" height="360" 
-                             src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, "UTF-8'); ? loading="lazy">" 
+                             src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, " UTF-8'); ?>" 
                              alt="<?php echo htmlspecialchars($post_title, ENT_QUOTES, 'UTF-8'); ?>" 
                              decoding="async" fetchpriority="high">
                     </figure>
@@ -98,7 +98,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                     <div class="entry-author" href="" aria-label="Author profile">
                         <a class="entry-author" href="#" aria-label="Author profile">
                             <img decoding="async" loading="lazy" 
-                                 src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="<?php echo htmlspecialchars($author_avatar, ENT_QUOTES, "UTF-8'); ? loading="lazy">" 
+                                 src="<?php echo htmlspecialchars($author_avatar, ENT_QUOTES, " UTF-8'); ?>" 
                                  alt="Author avatar" width="36" height="36" class="avatar circle loaded">
                             <div class="font-size__small">
                                 <span>Written by</span>
@@ -162,7 +162,7 @@ get_template('_metas/meta_single', ['locale' => $locale]);
                                                         }
                                                         ?>
                                                         <img width="540" height="360" 
-                                                             src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="<?php echo htmlspecialchars($related_image, ENT_QUOTES, "UTF-8'); ? loading="lazy">" 
+                                                             src="<?php echo htmlspecialchars($related_image, ENT_QUOTES, " UTF-8'); ?>" 
                                                              alt="<?php echo htmlspecialchars($related_post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>" 
                                                              decoding="async" loading="lazy" class="loaded">
                                                         <div class="card-body">
