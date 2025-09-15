@@ -39,7 +39,7 @@ $games_data = get_posts([
     'sort' => $sort_array,           // Sắp xếp theo tham số từ URL
     'paged' => S_GET('page', 1),     // Trang hiện tại từ URL
     'active' => true,                // Chỉ lấy bài active
-    'totalpage' => true,             // Lấy thông tin phân trang
+
     'cat' => 111,                    // Filter theo rel_id = 111 (games category)
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
