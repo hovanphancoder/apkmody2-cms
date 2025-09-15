@@ -3212,3 +3212,50 @@ button {
     height: 100%;
     border-radius: 10px;
 }
+
+/* Lazy Loading Styles */
+img[data-src] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+img.lazy-loading {
+    opacity: 0.5;
+    filter: blur(2px);
+}
+
+img.lazy-loaded {
+    opacity: 1;
+    filter: none;
+}
+
+img.lazy-error {
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+/* Performance optimizations */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce paint operations */
+.app-card,
+.game-card,
+.category-card {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

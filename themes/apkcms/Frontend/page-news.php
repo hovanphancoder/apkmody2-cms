@@ -94,7 +94,7 @@ get_template('_metas/meta_page', $meta_data);
                                             }
                                             ?>
                                             <img width="360" height="180" 
-                                                 src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, 'UTF-8'); ?>" 
+                                                 src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="<?php echo htmlspecialchars($featured_image, ENT_QUOTES, "UTF-8'); ? loading="lazy">" 
                                                  alt="<?php echo htmlspecialchars($post['title'] ?? 'Untitled', ENT_QUOTES, 'UTF-8'); ?>" 
                                                  decoding="async" 
                                                  loading="<?php echo $index < 3 ? 'eager' : 'lazy'; ?>" 

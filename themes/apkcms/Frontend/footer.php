@@ -46,7 +46,7 @@ $footer_links = [
                 <div class="sidenav-item"><a href="/login" class="sidenav-login clickable">
                         <span class="svg-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 -960 960 960">
                                 <path d="M509.61-140q-12.76 0-21.38-8.62-8.61-8.61-8.61-21.38t8.61-21.38q8.62-8.62 21.38-8.62h238.08q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46v-535.38q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H509.61q-12.76 0-21.38-8.62-8.61-8.61-8.61-21.38t8.61-21.38q8.62-8.62 21.38-8.62h238.08Q778-820 799-799q21 21 21 51.31v535.38Q820-182 799-161q-21 21-51.31 21H509.61Zm-28.38-310H170.39q-12.77 0-21.39-8.62-8.61-8.61-8.61-21.38t8.61-21.38q8.62-8.62 21.39-8.62h310.84l-76.85-76.92q-8.29-8.31-8.49-20.27-.19-11.96 8.49-21.27 8.67-9.31 21.03-9.62 12.36-.3 21.67 9l123.77 123.77q10.84 10.85 10.84 25.31 0 14.46-10.84 25.31L447.08-330.92q-8.92 8.92-21.19 8.8-12.27-.11-21.58-9.42-8.69-9.31-8.38-21.38.3-12.08 9-20.77l76.3-76.31Z"></path>
-                            </svg></span> Login <img src="" alt="login icon" width="28" height="28" class="sidenav-login-icon circle loaded" loading="lazy" decoding="async">
+                            </svg></span> Login <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="" alt="login icon" width="28" height="28" class="sidenav-login-icon circle loaded" loading="lazy" decoding="async" loading="lazy">
                     </a></div>
                 <div class="sidenav-item">
                     <div class="divider"></div>
@@ -181,16 +181,33 @@ $footer_links = [
     </footer>
     <!-- Optimized JS loading -->
     <script>
-        // Preload critical JS
-        const script = document.createElement('script');
-        script.src = '/themes/apkcms/Frontend/Assets/js/script.min.js';
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
+        // Load optimized scripts
+        function loadScript(src, defer = true) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.defer = defer;
+            script.async = !defer;
+            document.head.appendChild(script);
+        }
 
-        // Add loading indicator
+        // Load core functionality immediately
+        loadScript('/themes/apkcms/Frontend/Assets/js/script-optimized.min.js', true);
+        
+        // Load lazy loading for images
+        loadScript('/themes/apkcms/Frontend/Assets/js/lazy-load.min.js', true);
+
+        // Load page-specific scripts
         document.addEventListener('DOMContentLoaded', function() {
-            // Remove any loading indicators if needed
+            // Load single page scripts if needed
+            if (document.querySelector('#unfold-table, #toc-trigger')) {
+                loadScript('/themes/apkcms/Frontend/Assets/js/single.min.js', false);
+            }
+            
+            if (document.querySelector('#title-post') && !document.querySelector('#unfold-table')) {
+                loadScript('/themes/apkcms/Frontend/Assets/js/single-news.min.js', false);
+            }
+            
+            // Remove loading indicators
             const loadingElements = document.querySelectorAll('.loading');
             loadingElements.forEach(el => el.classList.remove('loading'));
         });

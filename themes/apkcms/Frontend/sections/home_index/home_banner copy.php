@@ -12,21 +12,21 @@
                             <a href="#" aria-label="apkmody 2025">
 
 
-                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2025" src="/themes/apkcms/Frontend/images/hero-banner.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%">
+                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2025" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/hero-banner.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%" loading="lazy">
                             </a>
                         </div>
                         <div class="hero-slide">
                             <a href="#" aria-label="apkmody 2024">
 
 
-                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="/themes/apkcms/Frontend/images/hero-banner-2.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%">
+                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/hero-banner-2.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%" loading="lazy">
                             </a>
                         </div>
                         <div class="hero-slide">
                             <a href="#" aria-label="apkmody 2024">
 
 
-                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="/themes/apkcms/Frontend/images/hero-banner-3.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%">
+                                <img decoding="async" fetchpriority="high" width="1440" height="810" class="cover-background loaded" alt="apkmody 2024" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/hero-banner-3.webp" style="object-position:50% 0%; width: 100%; height: 400px; object-fit: cover;" data-object-fit="cover" data-object-position="50% 0%" loading="lazy">
                             </a>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             <div class="card-image">
                                 <a href="single-app.html" aria-label="TikTok MOD APK cover">
 
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/apps/tiktok.jpg" alt="TikTok MOD APK cover" decoding="async" fetchpriority="high" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <img width="360" height="180" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/apps/tiktok.jpg" alt="TikTok MOD APK cover" decoding="async" fetchpriority="high" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" loading="lazy">
                                     <div class="app-placeholder" style="display: none; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: bold;">
                                         TikTok
                                     </div>
@@ -67,7 +67,7 @@
                             <div class="card-image">
                                 <a href="single-app.html" aria-label="Spotify Premium MOD APK">
 
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/apps/spotify.jpg" alt="Spotify Premium MOD APK" decoding="async" loading="lazy" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <img width="360" height="180" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/apps/spotify.jpg" alt="Spotify Premium MOD APK" decoding="async" loading="lazy" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" loading="lazy">
                                     <div class="app-placeholder" style="display: none; width: 100%; height: 100%; background: #1DB954; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: bold;">
                                         Spotify
                                     </div>
@@ -90,7 +90,7 @@
                             <div class="card-image">
                                 <a href="single-app.html" aria-label="Netflix Premium MOD APK cover">
 
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/apps/netflix.jpg" alt="Netflix Premium MOD APK cover" decoding="async" loading="lazy" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <img width="360" height="180" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/apps/netflix.jpg" alt="Netflix Premium MOD APK cover" decoding="async" loading="lazy" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" loading="lazy">
                                     <div class="app-placeholder" style="display: none; width: 100%; height: 100%; background: #E50914; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: bold;">
                                         Netflix
                                     </div>
@@ -113,7 +113,7 @@
                             <div class="card-image">
                                 <a href="single-app.html" aria-label="Canva MOD APK cover">
 
-                                    <img width="360" height="180" src="/themes/apkcms/Frontend/images/apps/canva.jpg" alt="Canva MOD APK cover" decoding="async" loading="lazy" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <img width="360" height="180" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="/themes/apkcms/Frontend/images/apps/canva.jpg" alt="Canva MOD APK cover" decoding="async" loading="lazy" class="loaded" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" loading="lazy">
                                     <div class="app-placeholder" style="display: none; width: 100%; height: 100%; background: #00C4CC; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; font-weight: bold;">
                                         Canva
                                     </div>

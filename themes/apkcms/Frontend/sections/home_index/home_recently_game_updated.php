@@ -86,7 +86,7 @@ $categories = (new FastModel('fast_terms'))
                             <article class="flex-item">
                                 <a href="<?php echo htmlspecialchars($game_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($game_slug, ENT_QUOTES, 'UTF-8'); ?> game">
                                     <div class="app-icon">
-                                        <img fetchpriority="high" src="<?php echo htmlspecialchars($game_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($game_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
+                                        <img fetchpriority="high" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PC9zdmc+" data-src="<?php echo htmlspecialchars($game_image, ENT_QUOTES, "UTF-8'); ? loading="lazy">" alt="<?php echo htmlspecialchars($game_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
                                     </div>
                                     <div class="app-name truncate">
                                         <h3 class="font-size__normal no-margin no-padding truncate"><?php echo htmlspecialchars($game_title, ENT_QUOTES, 'UTF-8'); ?></h3>
