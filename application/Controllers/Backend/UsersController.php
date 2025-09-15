@@ -441,6 +441,7 @@ class UsersController extends BackendController {
                 // Check for duplicate username or email
                 if(!empty($input['password'])){
                     $input['password'] = Security::hashPassword($input['password']);
+                    unset($input['password_repeat']);
                 } 
                 
                 if (isset($input['username'])) {
