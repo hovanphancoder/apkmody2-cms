@@ -26,7 +26,24 @@ $pagination = $posts_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_page', ['locale' => $locale]);
+
+// Tạo mảng dữ liệu để truyền vào template
+$meta_data = [
+    'locale' => $locale,
+    'page_title' => 'News - ' . option('site_title', APP_LANG),
+    'page_description' => 'Latest news and updates - ' . option('site_description', APP_LANG),
+    'page_type' => 'news',
+    'posts_count' => count($posts),
+    'current_lang' => APP_LANG,
+    'site_name' => option('site_title', APP_LANG),
+    'custom_data' => [
+        'total_posts' => $posts_data['pagination']['total'] ?? 0,
+        'current_page' => $posts_data['pagination']['current_page'] ?? 1,
+        'total_pages' => $posts_data['pagination']['total_pages'] ?? 1
+    ]
+];
+
+get_template('_metas/meta_page', $meta_data);
 
 ?>
         <!-- breadcrumb -->

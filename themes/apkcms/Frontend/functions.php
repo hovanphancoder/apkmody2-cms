@@ -554,4 +554,149 @@ if (!function_exists('get_user_avatar')) {
     }
 }
 
+if (!function_exists('get_term_by_slug')) {
+    /**
+     * Lấy 1 term theo slug từ bảng fast_terms
+     * 
+     * @param string $slug Slug của term
+     * @param string $posttype Loại posttype
+     * @param string $type Loại term (categories, tags, etc.)
+     * @param string $lang Mã ngôn ngữ
+     * @param bool $active Chỉ lấy term active
+     * @return array|null Term data hoặc null
+     */
+    function get_term_by_slug($slug, $posttype = '', $type = 'categories', $lang = APP_LANG, $active = true)
+    {
+        if (empty($slug)) {
+            return null;
+        }
+        
+        try {
+            $qb = (new \App\Models\FastModel('fast_terms'))
+                ->newQuery()
+                ->where('slug', '=', $slug);
+                
+            if ($active) {
+                $qb->where('status', '=', 'active');
+            }
+            
+            if ($lang) {
+                $qb->where('lang', '=', $lang);
+            }
+            
+            if ($posttype) {
+                $qb->where('posttype', '=', $posttype);
+            }
+            
+            if ($type) {
+                $qb->where('type', '=', $type);
+            }
+            
+            return $qb->first();
+            
+        } catch (Exception $e) {
+            error_log('Error in get_term_by_slug: ' . $e->getMessage());
+            return null;
+        }
+    }
+}
+
+if (!function_exists('get_term_by_id')) {
+    /**
+     * Lấy 1 term theo ID từ bảng fast_terms
+     * 
+     * @param int $id ID của term
+     * @param string $posttype Loại posttype
+     * @param string $type Loại term (categories, tags, etc.)
+     * @param string $lang Mã ngôn ngữ
+     * @param bool $active Chỉ lấy term active
+     * @return array|null Term data hoặc null
+     */
+    function get_term_by_id($id, $posttype = '', $type = 'categories', $lang = APP_LANG, $active = true)
+    {
+        if (empty($id) || $id <= 0) {
+            return null;
+        }
+        
+        try {
+            $qb = (new \App\Models\FastModel('fast_terms'))
+                ->newQuery()
+                ->where('id', '=', $id);
+                
+            if ($active) {
+                $qb->where('status', '=', 'active');
+            }
+            
+            if ($lang) {
+                $qb->where('lang', '=', $lang);
+            }
+            
+            if ($posttype) {
+                $qb->where('posttype', '=', $posttype);
+            }
+            
+            if ($type) {
+                $qb->where('type', '=', $type);
+            }
+            
+            return $qb->first();
+            
+        } catch (Exception $e) {
+            error_log('Error in get_term_by_id: ' . $e->getMessage());
+            return null;
+        }
+    }
+}
+
+if (!function_exists('get_terms_by_parent')) {
+    /**
+     * Lấy danh sách terms theo parent ID
+     * 
+     * @param int $parent_id ID của parent term
+     * @param string $posttype Loại posttype
+     * @param string $type Loại term (categories, tags, etc.)
+     * @param string $lang Mã ngôn ngữ
+     * @return array Danh sách terms
+     */
+    function get_terms_by_parent($parent_id, $posttype = '', $type = 'categories', $lang = APP_LANG)
+    {
+        try {
+            $qb = (new \App\Models\FastModel('fast_terms'))
+                ->newQuery()
+                ->where('parent', '=', $parent_id)
+                ->where('lang', '=', $lang);
+                
+            if ($posttype) {
+                $qb->where('posttype', '=', $posttype);
+            }
+            
+            if ($type) {
+                $qb->where('type', '=', $type);
+            }
+            
+            return $qb->get();
+            
+        } catch (Exception $e) {
+            error_log('Error in get_terms_by_parent: ' . $e->getMessage());
+            return [];
+        }
+    }
+}
+
+if (!function_exists('get_term_children')) {
+    /**
+     * Lấy danh sách term con của 1 term
+     * 
+     * @param int $term_id ID của term cha
+     * @param string $posttype Loại posttype
+     * @param string $type Loại term
+     * @param string $lang Mã ngôn ngữ
+     * @return array Danh sách term con
+     */
+    function get_term_children($term_id, $posttype = '', $type = 'categories', $lang = APP_LANG)
+    {
+        return get_terms_by_parent($term_id, $posttype, $type, $lang);
+    }
+}
+
 

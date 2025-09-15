@@ -15,14 +15,10 @@ $meta = new MetaBlock();
 $slug = get_current_slug();
 
 
-
 // Lấy thông tin term từ slug
-// $term = get_term([
-//     'slug' => $slug,
-//     'active' => true,
-//     'lang' => APP_LANG
-// ]);
+$term = get_term_by_slug($slug, '', 'category', APP_LANG, true);
 
+var_dump($term);
 
 // Check if page exists, if not use default values
 if (!$term) {

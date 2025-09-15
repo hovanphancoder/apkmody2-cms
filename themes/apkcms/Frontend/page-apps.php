@@ -30,7 +30,25 @@ $pagination = $apps_data['pagination'] ?? [];
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_page', ['locale' => $locale]);
+
+// Tạo mảng dữ liệu để truyền vào template
+$meta_data = [
+    'locale' => $locale,
+    'page_title' => 'Apps - ' . option('site_title', APP_LANG),
+    'page_description' => 'Download the latest apps and mods - ' . option('site_description', APP_LANG),
+    'page_type' => 'apps',
+    'posts_count' => count($apps),
+    'current_lang' => APP_LANG,
+    'site_name' => option('site_title', APP_LANG),
+    'custom_data' => [
+        'total_apps' => $apps_data['pagination']['total'] ?? 0,
+        'current_page' => $apps_data['pagination']['current_page'] ?? 1,
+        'total_pages' => $apps_data['pagination']['total_pages'] ?? 1,
+        'categories_count' => count($apps_categories ?? [])
+    ]
+];
+
+get_template('_metas/meta_page', $meta_data);
 
 ?>
 

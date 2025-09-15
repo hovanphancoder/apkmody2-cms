@@ -10,6 +10,10 @@ use App\Blocks\Schema\Templates\FAQPage;
 use App\Blocks\Meta\MetaBlock;
 // Create meta tags for homepage directly from MetaBlock
 $meta = new MetaBlock();
+
+// Các biến từ mảng đã truyền vào có thể sử dụng:
+// $locale, $page_title, $page_description, $page_type, $posts_count, $current_lang, $site_name, $custom_data
+
 // $current_page = get_current_page();
 // $posttype = $current_page['page_slug'];
 $slug = get_current_slug();
@@ -24,16 +28,20 @@ $page = get_post([
 
 
 
+// Sử dụng dữ liệu từ mảng đã truyền vào
+$final_title = $page_title ?? option('site_title', APP_LANG);
+$final_description = $page_description ?? option('site_description', APP_LANG);
+
 // Check if page exists, if not use default values
 if (!$page) {
     $page = [
-        'seo_title' => option('site_title', APP_LANG),
-        'seo_desc' => option('site_description', APP_LANG),
-        'description' => option('site_description', APP_LANG)
+        'seo_title' => $final_title,
+        'seo_desc' => $final_description,
+        'description' => $final_description
     ];
 } else {
-    $page['seo_title'] = $page['seo_title'] ?? $page['title'] ?? option('site_title', APP_LANG);
-    $page['seo_desc'] = $page['seo_desc'] ?? $page['description'] ?? option('site_description', APP_LANG);
+    $page['seo_title'] = $page['seo_title'] ?? $page['title'] ?? $final_title;
+    $page['seo_desc'] = $page['seo_desc'] ?? $page['description'] ?? $final_description;
 }
 
 $meta

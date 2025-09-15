@@ -12,8 +12,24 @@ App\Libraries\Fastlang::load('Homepage');
 
 //Get Object Data for this Pages
 $locale = APP_LANG.'_'.strtoupper(lang_country(APP_LANG));
-get_template('_metas/meta_page', ['locale' => $locale]);
 $searchQuery = $_GET['s'];
+
+// Tạo mảng dữ liệu để truyền vào template
+$meta_data = [
+    'locale' => $locale,
+    'page_title' => 'Search Results' . ($searchQuery ? ' for "' . htmlspecialchars($searchQuery, ENT_QUOTES, 'UTF-8') . '"' : '') . ' - ' . option('site_title', APP_LANG),
+    'page_description' => 'Search results' . ($searchQuery ? ' for "' . htmlspecialchars($searchQuery, ENT_QUOTES, 'UTF-8') . '"' : '') . ' - ' . option('site_description', APP_LANG),
+    'page_type' => 'search',
+    'search_query' => $searchQuery,
+    'current_lang' => APP_LANG,
+    'site_name' => option('site_title', APP_LANG),
+    'custom_data' => [
+        'has_search_query' => !empty($searchQuery),
+        'search_encoded' => urlencode($searchQuery ?? '')
+    ]
+];
+
+get_template('_metas/meta_page', $meta_data);
 
 
 
