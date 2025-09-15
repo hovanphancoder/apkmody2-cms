@@ -63,7 +63,7 @@ $apps = isset($apps_data['data']) ? $apps_data['data'] : $apps_data;
                             <article class="flex-item">
                                 <a href="<?php echo htmlspecialchars($game_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($game_title, ENT_QUOTES, 'UTF-8'); ?> icon">
                                     <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($game_image, ENT_QUOTES, " UTF-8'); ?>" alt="<?php echo htmlspecialchars($game_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
+                                        <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($game_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($game_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
                                     </div>
                                     <div class="app-name truncate">
                                         <h3 class="font-size__small no-margin no-padding truncate"><?php echo htmlspecialchars($game_title, ENT_QUOTES, 'UTF-8'); ?></h3>
@@ -104,7 +104,7 @@ $apps = isset($apps_data['data']) ? $apps_data['data'] : $apps_data;
                             <article class="flex-item">
                                 <a href="<?php echo htmlspecialchars($app_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?> icon">
                                     <div class="app-icon">
-                                        <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($app_image, ENT_QUOTES, " UTF-8'); ?>" alt="<?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
+                                        <img decoding="async" loading="lazy" src="<?php echo htmlspecialchars($app_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90" class="loaded">
                                     </div>
                                     <div class="app-name truncate">
                                         <h3 class="font-size__small no-margin no-padding truncate"><?php echo htmlspecialchars($app_title, ENT_QUOTES, 'UTF-8'); ?></h3>

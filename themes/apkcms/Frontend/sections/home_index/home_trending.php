@@ -57,7 +57,6 @@
                             
                             // Tạo URL
                                 $post_url = (APP_LANG === APP_LANG_DF) ? '/post/' . $post_slug : page_url($post_slug, 'posts');
-                            
                             // Tạo rating stars
                             $stars = '';
                             $rating_int = (int)$post_rating;
@@ -70,7 +69,7 @@
                                 <a href="<?php echo htmlspecialchars($post_url, ENT_QUOTES, 'UTF-8'); ?>" class="app clickable" aria-label="<?php echo htmlspecialchars($post_title, ENT_QUOTES, 'UTF-8'); ?> icon">
                                     <div class="app-icon">
                                         <?php if (!empty($post_image)): ?>
-                                            <img fetchpriority="high" src="<?php echo htmlspecialchars($post_image, ENT_QUOTES, " UTF-8'); ?>" alt="<?php echo htmlspecialchars($post_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
+                                            <img fetchpriority="high" src="<?php echo htmlspecialchars($post_image, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($post_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
                                         <?php else: ?>
                                             <img fetchpriority="high" src="/themes/apkcms/Frontend/images/editors/unnamed.webp"  alt="<?php echo htmlspecialchars($post_title, ENT_QUOTES, 'UTF-8'); ?> icon" width="90" height="90">
                                         <?php endif; ?>
