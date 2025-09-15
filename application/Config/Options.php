@@ -111,4 +111,7 @@ return array (
   'themes_appsid' => array (
     'value' => '112',
   ),
+  'site_phone' => array (
+    'value' => '+84 345 567 900',
+  ),
 );

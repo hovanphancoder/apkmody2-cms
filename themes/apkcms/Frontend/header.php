@@ -17,21 +17,21 @@ use App\Models\FastModel;
 $current_page = get_current_page();
 $page_class = 'page-' . $current_page['page_type'];
 
-// Lấy categories games từ database - Global variables
-$GLOBALS['games_categories'] = (new FastModel('fast_terms'))
+// Lấy tất cả categories từ database
+$all_categories = (new FastModel('fast_terms'))
     ->where('posttype', 'posts')
     ->where('type', 'category')
-    ->where('parent', option('themes_gamesid'))
     ->where('lang', APP_LANG)
     ->get();
 
-// Lấy categories apps từ database - Global variables
-$GLOBALS['apps_categories'] = (new FastModel('fast_terms'))
-    ->where('posttype', 'posts')
-    ->where('type', 'category')
-    ->where('parent', option('themes_appsid'))
-    ->where('lang', APP_LANG)
-    ->get();
+// Filter categories theo parent ID từ options
+$GLOBALS['games_categories'] = array_filter($all_categories, function($category) {
+    return $category['parent'] == option('themes_gamesid');
+});
+
+$GLOBALS['apps_categories'] = array_filter($all_categories, function($category) {
+    return $category['parent'] == option('themes_appsid');
+});
 ?>
 
 <body class="<?= $page_class ?>">
