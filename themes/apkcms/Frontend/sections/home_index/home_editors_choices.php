@@ -7,7 +7,7 @@ $games_data = get_posts([
     ],
     'sort' => ['rating_total', 'DESC'],
     'perPage' => 10,
-    'withCategories' => true,
+    // 'withCategories' => true,
     'cat' => 111, // Filter theo rel_id = 111 (games category)
     'lang' => APP_LANG // Thêm check ngôn ngữ
 ]);

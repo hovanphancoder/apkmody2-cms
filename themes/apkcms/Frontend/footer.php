@@ -1,22 +1,12 @@
 <?php
 use App\Models\FastModel;
 
-// Lấy categories games từ database (parent = 111)
-$games_categories = (new FastModel('fast_terms'))
-    ->where('posttype', 'posts')
-    ->where('type', 'category')
-    ->where('parent', 111)
-    ->where('lang', APP_LANG)
-    ->get();
+// Sử dụng biến global từ header.php
+$games_categories = $GLOBALS['games_categories'] ?? [];
+$apps_categories = $GLOBALS['apps_categories'] ?? [];
 
-// Lấy categories apps từ database (parent = 112)
-$apps_categories = (new FastModel('fast_terms'))
-    ->where('posttype', 'posts')
-    ->where('type', 'category')
-    ->where('parent', 112)
-    ->where('lang', APP_LANG)
-    ->get();
-
+var_dump($games_categories);
+var_dump($apps_categories);
 // Footer links - có thể chỉnh sửa sau
 $footer_links = [
     'information' => [

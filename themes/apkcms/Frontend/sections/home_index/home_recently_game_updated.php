@@ -10,7 +10,7 @@ $recent_games_data = get_posts([
     'sort' => ['updated_at', 'DESC'],
     'perPage' => 8,
     'cat' => 111,         
-    'withCategories' => true,
+    // 'withCategories' => true,
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 

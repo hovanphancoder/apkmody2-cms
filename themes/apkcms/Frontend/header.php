@@ -1,3 +1,6 @@
+<?php
+use App\Models\FastModel;
+?>
 <!DOCTYPE html>
 <html lang="<?= lang_code() ?>">
 <head>
@@ -13,6 +16,22 @@
 <?php
 $current_page = get_current_page();
 $page_class = 'page-' . $current_page['page_type'];
+
+// Lấy categories games từ database (parent = 111) - Global variables
+$GLOBALS['games_categories'] = (new FastModel('fast_terms'))
+    ->where('posttype', 'posts')
+    ->where('type', 'category')
+    ->where('parent', 111)
+    ->where('lang', APP_LANG)
+    ->get();
+
+// Lấy categories apps từ database (parent = 112) - Global variables
+$GLOBALS['apps_categories'] = (new FastModel('fast_terms'))
+    ->where('posttype', 'posts')
+    ->where('type', 'category')
+    ->where('parent', 112)
+    ->where('lang', APP_LANG)
+    ->get();
 ?>
 
 <body class="<?= $page_class ?>">

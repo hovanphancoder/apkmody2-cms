@@ -13,7 +13,7 @@
                     ],
                     'sort' => ['views', 'DESC'],
                     'perPage' => 8,
-                    'withCategories' => true,
+                    // 'withCategories' => true,
                     'lang' => APP_LANG // Thêm check ngôn ngữ
                 ]);
                 

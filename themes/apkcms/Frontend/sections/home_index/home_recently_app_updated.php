@@ -11,7 +11,7 @@ $recent_apps_data = get_posts([
     'sort' => ['updated_at', 'DESC'],
     'perPage' => 8,
     'cat' => 112,         
-    'withCategories' => true,
+    // 'withCategories' => true,
     'lang' => APP_LANG               // Thêm check ngôn ngữ
 ]);
 
