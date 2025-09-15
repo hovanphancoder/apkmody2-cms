@@ -14,20 +14,6 @@ if (!defined('PATH_ROOT')) {
 function xss_clean($data) {
     return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
 }
-/**
- * Function to check and clean input data
- * 
- * @param mixed $data Data to check
- * @return mixed Cleaned data
- */
-if (!function_exists('_e')) {
-    function _e($text){
-        echo htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-    }
-    // function __($text){
-    //     return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-    // }
-}
 
 /**
  * clean_input function

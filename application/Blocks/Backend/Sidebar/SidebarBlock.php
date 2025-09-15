@@ -25,6 +25,9 @@ class SidebarBlock extends BaseBlock
         Flang::load('general', APP_LANG);
         $UtilsModel = new UtilsModel();
         $postTypes = $UtilsModel->getAllPostTypes();
+        
+        // Xác định posttype hiện tại từ URL parameters
+        $currentPostType = $this->getCurrentPostType();
 
         // Overview Group
         $overviewGroup = [
@@ -71,8 +74,8 @@ class SidebarBlock extends BaseBlock
         ];
 
         // Thêm Post Types vào Posts Management
-        // dd(PATH_ROOT . '/themes/'.APP_THEME_NAME.'/Backend/posttype_react.php');
-        if (file_exists(PATH_ROOT . '/themes/'.APP_THEME_NAME.'/Backend/posttype_react.php')) {
+        // dd(PATH_ROOT . '/themes/cmsfullform/Backend/posttype_index.php');
+        if (file_exists(PATH_ROOT . '/themes/cmsfullform/Backend/posttype_index.php')) {
             $postsGroup["items"][] = [
                 "id" => "posttypes",
                 "label" => Flang::_e("post types"),
@@ -81,13 +84,13 @@ class SidebarBlock extends BaseBlock
                 "children" => [
                     [
                         "id" => "list-posttypes",
-                        "label" => Flang::_e("list post types"),
+                        "label" => Flang::_e("list") . " " . Flang::_e("post types"),
                         "href" => admin_url('posttype/index'),
                         "icon" => 'list'
                     ],
                     [
                         "id" => "add-posttype",
-                        "label" => Flang::_e("add post type"),
+                        "label" => Flang::_e("add") . " " . Flang::_e("post type"),
                         "href" => admin_url('posttype/add'),
                         "icon" => 'plus'
                     ]
@@ -108,13 +111,13 @@ class SidebarBlock extends BaseBlock
                 $children = [
                     [
                         "id" => "list-$postTypeSlug",
-                        "label" => Flang::_e("menu.list_$postTypeSlug"),
+                        "label" => Flang::_e("list") . " " . Flang::_e($postTypeName),
                         "href" => admin_url("posts/index") . '?type=' . $postTypeSlug,
                         "icon" => 'list'
                     ],
                     [
                         "id" => "add-$postTypeSlug",
-                        "label" => Flang::_e("menu.add_$postTypeSlug"),
+                        "label" => Flang::_e("add") . " " . Flang::_e($postTypeName),
                         "href" => admin_url("posts/add") . '?type=' . $postTypeSlug,
                         "icon" => 'plus'
                     ]
@@ -128,7 +131,7 @@ class SidebarBlock extends BaseBlock
                     if ($subtype['menu'] == $postType['slug']) {
                         $children[] = [
                             "id" => "list-{$subtype['slug']}",
-                            "label" => Flang::_e("menu.list_{$subtype['slug']}"),
+                            "label" => Flang::_e("list") . " " . Flang::_e($subtype['name']),
                             "href" => admin_url("posts/index") . '?type=' . $subtype['slug'],
                             "icon" => 'database'
                         ];
@@ -145,19 +148,22 @@ class SidebarBlock extends BaseBlock
                         $termType = htmlspecialchars($term['type']);
                         $children[] = [
                             "id" => "list-{$postTypeSlug}-{$termType}",
-                            "label" => Flang::_e("menu.list_" . "$termType" . "_$postTypeSlug"),
+                            "label" => Flang::_e("list") . " " . Flang::_e($termType) . " " . Flang::_e($postTypeName),
                             "href" => admin_url("terms/index") . '?posttype=' . $postTypeSlug . '&type=' . $termType,
                             "icon" => 'grid'
                         ];
                     }
                 }
 
+                $isExpanded = ($currentPostType && trim($currentPostType) === trim($postTypeSlug));
+                
                 $postsGroup["items"][] = [
                     "id" => $postTypeSlug,
                     "label" => Flang::_e("$postTypeSlug"),
                     "href" => "#",
                     "icon" => 'edit',
-                    "children" => $children
+                    "children" => $children,
+                    "expanded" => $isExpanded // Tự động mở rộng nếu là posttype hiện tại
                 ];
             }
         }
@@ -244,7 +250,7 @@ class SidebarBlock extends BaseBlock
                         [
                             "id" => "add-setting",
                             "label" => Flang::_e("add language"),
-                            "href" => admin_url('languages/add'),
+                            "href" => admin_url('languages/?showform=true'),
                             "icon" => 'plus'
                         ]
                     ]
@@ -372,5 +378,32 @@ class SidebarBlock extends BaseBlock
             return '/' . $segments[0];
         }
         return '';
+    }
+
+    /**
+     * Xác định posttype hiện tại từ URL parameters
+     */
+    private function getCurrentPostType()
+    {
+        // Kiểm tra URL path để xác định context
+        $currentUrl = $_SERVER['REQUEST_URI'] ?? '';
+        $parsedUrl = parse_url($currentUrl);
+        $path = $parsedUrl['path'] ?? '';
+        
+        // Nếu đang ở trang posts, check $_GET['type']
+        if (preg_match('/\/admin\/posts\//', $path)) {
+            if (isset($_GET['type']) && !empty($_GET['type'])) {
+                return $_GET['type'];
+            }
+        }
+        
+        // Nếu đang ở trang terms, check $_GET['posttype'] (KHÔNG check $_GET['type'])
+        if (preg_match('/\/admin\/terms\//', $path)) {
+            if (isset($_GET['posttype']) && !empty($_GET['posttype'])) {
+                return $_GET['posttype'];
+            }
+        }
+        
+        return null;
     }
 }

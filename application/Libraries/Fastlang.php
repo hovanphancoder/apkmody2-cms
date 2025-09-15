@@ -18,7 +18,7 @@ class Fastlang
 
         // Check if language file has already been loaded
         if (!isset(self::$load_list[$file_key])) {
-            $file_lang = PATH_APP . "Languages/{$lang}/" . ucfirst($file) . ".php";
+            $file_lang = PATH_ROOT . "/languages/{$lang}/" . ucfirst($file) . ".php";
             
             // If file exists, load into $translations
             if (file_exists($file_lang)) {

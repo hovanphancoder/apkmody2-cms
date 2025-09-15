@@ -44,6 +44,14 @@ class PostsModel extends BaseModel
         return $this->row($this->table, $where, $params);
     }
 
+    public function countPosts($where = '', $params = [])
+    {
+        if (empty($this->table)) {
+            return 0;
+        }
+        return $this->count($this->table, $where, $params);
+    }
+
     public function getById($id, $fields = "*")
     {
         $sql = "SELECT $fields FROM {$this->table} WHERE id = ?";

@@ -136,7 +136,7 @@ class OptionsModel extends BaseModel {
 
     public function setValueByName($data) {
         if (empty($data) || !is_array($data)) {
-            return true; // Return false if no data
+            return false; // Return false if no data
         }
     
         // Start SQL statement
@@ -161,7 +161,7 @@ class OptionsModel extends BaseModel {
     } 
     public function setValuelangByName($data) {
         if (empty($data) || !is_array($data)) {
-            return true; // Return false if no data
+            return false; // Return false if no data
         }
     
         // Start SQL statement

@@ -146,7 +146,7 @@ return [
                     'countries' => ['CN','HK','TW','MO'],
                 ],
             ],
-            'shipping' => [
+            'shippping' => [
                 [
                     'name' => 'Standard Shipping',
                     'rate' => 5,

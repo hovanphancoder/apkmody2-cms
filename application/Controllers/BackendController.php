@@ -19,7 +19,7 @@ class BackendController extends BaseController
     /**
      * Constructor
      * - Load helpers
-     * - Initialize Assets with default CSS/JS
+     * - Initialize assets with default CSS/JS
      * - Pre-render layout parts (header, footer, sidebar)
      */
     public function __construct()
@@ -38,7 +38,8 @@ class BackendController extends BaseController
         }
         // Load 'backend' helper
         load_helpers(['backend', 'database', 'languges']);
-        Flang::load('general', APP_LANG);
+        Flang::load('Backend/Global');
+        //Flang::load('general', APP_LANG);
         $this->post_lang = S_GET('post_lang') ?? APP_LANG;
         
     }

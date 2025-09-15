@@ -250,7 +250,7 @@ class Render {
      * Add asset file (css or js) with options.
      *
      * @param string $assetType 'css' or 'js'
-     * @param string $file      File name (relative path from Assets folder in view)
+     * @param string $file      File name (relative path from assets folder in view)
      * @param array  $options   Options array including:
      *                          - 'area': (default 'frontend')
      *                          - 'location': (default 'head' or 'footer')
@@ -326,11 +326,11 @@ class Render {
         // ---------- helper build URL ----------
         $buildUrl = function (string $file) use ($area) {
             // Absolute URL or data URI → return as is
-            if (preg_match('#^(https?:)?//|^data:#i', $file)) {
+            if (preg_match('#^(https?:)?//|^/|^data:#i', $file)) {
                 return $file;
             }
             // Relative path → combine with theme directory
-            return public_url('themes/'.self::$themeName.'/'. ucfirst($area) . '/' .  'Assets/'.ltrim($file, '/') );
+            return public_url('themes/'.self::$themeName.'/'. ucfirst($area) . '/' .  'assets/'.ltrim($file, '/') );
         };
         // ---------- CSS ----------
         if (!empty(self::$assets[$area]['css'][$location])) {

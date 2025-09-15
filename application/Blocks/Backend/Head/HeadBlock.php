@@ -27,7 +27,7 @@ class HeadBlock extends BaseBlock
         // $jsInline = <<<'JSINLINE'
         // setTimeout(() => {
         //   const l = document.createElement("link");l.rel = "stylesheet";
-        //   l.href = "/themes/default/Backend/Assets/css/new_style.css";document.head.appendChild(l);
+        //   l.href = "/themes/cmsfullform/Backend/assets/css/new_style.css";document.head.appendChild(l);
         // }, 5);
         // JSINLINE;
         // Render::inline('js', $jsInline, ['area' => 'backend', 'location' => 'header']);

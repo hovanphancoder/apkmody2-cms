@@ -19,9 +19,9 @@
     <!-- select switch language -->
     <form method="get" onchange="if(this.language.value) window.location.href=this.language.value;" style="margin-right: 8px;">
       <select name="language" class="px-2 py-1 rounded border border-input bg-background text-sm focus:ring-ring focus:ring-1 focus:outline-none">
-        <?php foreach (APP_LANGUAGES as $lang => $langData): ?>
-          <option value="<?= lang_url($lang) ?>" <?= $lang === APP_LANG ? 'selected' : '' ?>>
-            <?= lang_name($lang) ?>
+        <?php foreach ($listLangs as $lang): ?>
+          <option value="<?= lang_url($lang['code']) ?>" <?= $lang['code'] === APP_LANG ? 'selected' : '' ?>>
+            <?= $lang['name'] ?>
           </option>
         <?php endforeach; ?>
       </select>

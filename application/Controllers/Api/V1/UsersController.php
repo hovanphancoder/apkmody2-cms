@@ -70,9 +70,6 @@ class UsersController extends ApiController {
             
             
             if (!empty($_FILES['galleries'])) { 
-                echo 'có file';
-                print_r($_FILES['galleries']); 
-                die; 
                 foreach ($_FILES['galleries']['tmp_name'] as $key => $tmpName) {
                     if ($_FILES['galleries']['error'][$key] === UPLOAD_ERR_OK) {
                         $fileName = $_FILES['galleries']['name'][$key];

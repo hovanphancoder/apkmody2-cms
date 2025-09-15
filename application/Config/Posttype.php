@@ -25,16 +25,9 @@ return array (
       5 => 'zh',
     ),
   ),
-  'comment' => array (
-    'id' => 3,
-    'slug' => 'comment',
-    'languages' => array (
-      0 => 'all',
-    ),
-  ),
-  'news' => array (
-    'id' => 13,
-    'slug' => 'news',
+  'blogs' => array (
+    'id' => 4,
+    'slug' => 'blogs',
     'languages' => array (
       0 => 'en',
       1 => 'id',
@@ -42,6 +35,49 @@ return array (
       3 => 'th',
       4 => 'vi',
       5 => 'zh',
+    ),
+  ),
+  'themes' => array (
+    'id' => 5,
+    'slug' => 'themes',
+    'languages' => array (
+      0 => 'en',
+      1 => 'id',
+      2 => 'ko',
+      3 => 'th',
+      4 => 'vi',
+      5 => 'zh',
+    ),
+  ),
+  'plugins' => array (
+    'id' => 6,
+    'slug' => 'plugins',
+    'languages' => array (
+      0 => 'en',
+      1 => 'id',
+      2 => 'ko',
+      3 => 'th',
+      4 => 'vi',
+      5 => 'zh',
+    ),
+  ),
+  'project' => array (
+    'id' => 7,
+    'slug' => 'project',
+    'languages' => array (
+      0 => 'en',
+      1 => 'id',
+      2 => 'ko',
+      3 => 'th',
+      4 => 'vi',
+      5 => 'zh',
+    ),
+  ),
+  'comment' => array (
+    'id' => 12,
+    'slug' => 'comment',
+    'languages' => array (
+      0 => 'all',
     ),
   ),
 );

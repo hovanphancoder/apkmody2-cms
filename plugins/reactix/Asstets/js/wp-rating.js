@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <span class="relative flex shrink-0 overflow-hidden rounded-full h-8 w-8 mr-3">
                                             <img class="aspect-square h-full w-full"
                                                 alt="${reply.user?.fullname || 'Anonymous User'}"
-                                                src="${reply.user?.avatar || '/themes/cmsfullform/Frontend/Assets/images/anonymous_60x60.png'}" />
+                                                src="${reply.user?.avatar || '/themes/cmsfullform/Frontend/assets/images/anonymous_60x60.png'}" />
                                         </span>
                                         <div class="flex-grow">
                                             <div class="flex items-center gap-2 mb-1">
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get user information from localStorage, if not available use default information
         let user = {
             fullname: 'Anonymous User',
-            avatar: '/themes/cmsfullform/Frontend/Assets/images/anonymous_60x60.png'
+            avatar: '/themes/cmsfullform/Frontend/assets/images/anonymous_60x60.png'
         };
 
         try {
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Lấy thông tin user từ localStorage, nếu không có thì dùng thông tin mặc định
                 let user = {
                     fullname: 'Anonymous User',
-                    avatar: '/themes/cmsfullform/Frontend/Assets/images/anonymous_60x60.png'
+                    avatar: '/themes/cmsfullform/Frontend/assets/images/anonymous_60x60.png'
                 };
 
                 try {
@@ -529,7 +529,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (index < rating) {
                 star.src = star.dataset.srcStart;
             } else {
-                star.src = '/themes/cmsfullform/Frontend/Assets/images/star-empty.svg';
+                star.src = '/themes/cmsfullform/Frontend/assets/images/star-empty.svg';
             }
         });
     }

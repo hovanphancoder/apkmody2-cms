@@ -96,7 +96,7 @@ if(!function_exists('theme_url')) {
  */
 if(!function_exists('theme_assets')) {
     function theme_assets($path = '', $area = 'Frontend') {
-        return public_url('themes/'.APP_THEME_NAME.'/'.ucfirst($area).'/Assets/'.trim($path, '/'));
+        return public_url('themes/'.APP_THEME_NAME.'/'.ucfirst($area).'/assets/'.trim($path, '/'));
     }
 }
 

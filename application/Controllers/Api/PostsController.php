@@ -197,7 +197,7 @@ class PostsController extends ApiController
             if(!empty($type)) {
                 $terms = $terms->where('type', $type);
             }
-            $terms = $terms->where('lang', APP_LANG);
+            $terms = $terms->whereIn('lang', [APP_LANG, 'all']);
             $terms = $terms->get();
             $terms = $this->_formatTerms($terms);
             $this->success($terms, 'Terms');
@@ -211,10 +211,15 @@ class PostsController extends ApiController
     // format terms 
     private function _formatTerms($terms) {
         // phân cấp cha con dựa vào parent = id term cha
+        // check xem id cha có tồn tại ko đã
         if(!empty($terms)) {
             foreach($terms as $key => $term) {
                 if($term['parent'] > 0) {
-                    $terms[$term['parent']]['children'][] = $term;
+                    foreach($terms as $term2) {
+                        if($term2['id'] == $term['parent']) {
+                            $terms[$key]['children'][] = $term2;
+                        }
+                    }
                 }
             }
         }

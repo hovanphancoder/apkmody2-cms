@@ -7,13 +7,46 @@ if (!function_exists('__')) {
         return Fastlang::_e($key, ...$args);
     }
 }
-
 if (!function_exists('__e')) {
     function __e($key, ...$args) {
-        echo Fastlang::_e($key, ...$args);
+        echo __($key, ...$args);
+    }
+}
+if (!function_exists('_e')) {
+    function _e($key, ...$args) {
+        echo __($key, ...$args);
     }
 }
 
+if (!function_exists('getLanguageToCountryMapping')) {
+    function getLanguageToCountryMapping()
+    {
+        return [
+            'en' => 'us',    // English -> United States
+            'vi' => 'vn',    // Vietnamese -> Vietnam
+            'zh' => 'cn',    // Chinese -> China
+            'th' => 'th',    // Thai -> Thailand
+            'kr' => 'kr',    // Korean -> South Korea
+            'id' => 'id',    // Indonesian -> Indonesia
+            'ja' => 'jp',    // Japanese -> Japan
+            'fr' => 'fr',    // French -> France
+            'de' => 'de',    // German -> Germany
+            'es' => 'es',    // Spanish -> Spain
+            'it' => 'it',    // Italian -> Italy
+            'pt' => 'pt',    // Portuguese -> Portugal
+            'ru' => 'ru',    // Russian -> Russia
+            'ar' => 'sa',    // Arabic -> Saudi Arabia
+            'hi' => 'in',    // Hindi -> India
+            'bn' => 'bd',    // Bengali -> Bangladesh
+            'he' => 'il',    // Hebrew -> Israel
+            'nl' => 'nl',    // Dutch -> Netherlands
+            'pl' => 'pl',    // Polish -> Poland
+            'ro' => 'ro',    // Romanian -> Romania
+            'sv' => 'se',    // Swedish -> Sweden
+            'uk' => 'ua',    // Ukrainian -> Ukraine
+        ];
+    }
+}
 if (!function_exists('lang_name')) {
     function lang_name($currentLang = APP_LANG)
     {

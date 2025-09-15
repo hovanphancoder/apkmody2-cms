@@ -5,6 +5,10 @@ return array (
     'value' => 'en_US',
     'valuelang' => array (
       'vi' => 'vi_VN',
+      'zh' => 'zh_CN',
+      'th' => 'th_TH',
+      'ko' => 'ko_KR',
+      'id' => 'id_ID',
     ),
   ),
   'rewrite_uri_lang' => array (
@@ -23,24 +27,40 @@ return array (
     'value' => 'CMS Full Form - Fast & Easy Vibe Code with AI',
     'valuelang' => array (
       'vi' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
+      'zh' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
+      'th' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
+      'ko' => 'CMS Full Form - Fast & Easy Vibe Code with AI',
+      'id' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
     ),
   ),
   'site_title' => array (
     'value' => 'CMS Full Form - Fast & Easy Vibe Code with AI',
     'valuelang' => array (
       'vi' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
+      'zh' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
+      'th' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
+      'ko' => 'CMS Full Form - Fast & Easy Vibe Code with AI',
+      'id' => 'CMS Full Form - Nhanh & Dễ Code bằng AI Framework',
     ),
   ),
   'site_brand' => array (
     'value' => 'Cms Full Form',
     'valuelang' => array (
       'vi' => 'Cms Full Form',
+      'zh' => 'Cms Full Form',
+      'th' => 'Cms Full Form',
+      'ko' => 'Cms Full Form',
+      'id' => 'Cms Full Form',
     ),
   ),
   'seo_config' => array (
     'value' => '[{"function":"Frontend\\\\HomeController::index","seo_index":true,"follow":true,"seo_title":"Trang chủ - %site_title%","seo_desc":"%site_desc%"},{"function":"Frontend\\\\SearchController::index","seo_index":true,"follow":true,"seo_title":"Tìm kiếm - %site_title%","seo_desc":"%seo_desc%"}]',
     'valuelang' => array (
       'vi' => '[{"function":"Frontend\\\\HomeController::index","seo_index":true,"follow":true,"seo_title":"Trang chủ - %site_title%","seo_desc":"%site_desc%"},{"function":"Frontend\\\\SearchController::index","seo_index":true,"follow":true,"seo_title":"Tìm kiếm - %site_title%","seo_desc":"%seo_desc%"}]',
+      'zh' => '[{"function":"Frontend\\\\HomeController::index","seo_index":true,"follow":true,"seo_title":"Trang chủ - %site_title%","seo_desc":"%site_desc%"},{"function":"Frontend\\\\SearchController::index","seo_index":true,"follow":true,"seo_title":"Tìm kiếm - %site_title%","seo_desc":"%seo_desc%"}]',
+      'th' => '[{"function":"Frontend\\\\HomeController::index","seo_index":true,"follow":true,"seo_title":"Trang chủ - %site_title%","seo_desc":"%site_desc%"},{"function":"Frontend\\\\SearchController::index","seo_index":true,"follow":true,"seo_title":"Tìm kiếm - %site_title%","seo_desc":"%seo_desc%"}]',
+      'ko' => '[{"function":"Frontend\\\\HomeController::index","seo_index":true,"follow":true,"seo_title":"Trang chủ - %site_title%","seo_desc":"%site_desc%"},{"function":"Frontend\\\\SearchController::index","seo_index":true,"follow":true,"seo_title":"Tìm kiếm - %site_title%","seo_desc":"%seo_desc%"}]',
+      'id' => '[{"function":"Frontend\\\\HomeController::index","seo_index":true,"follow":true,"seo_title":"Trang chủ - %site_title%","seo_desc":"%site_desc%"},{"function":"Frontend\\\\SearchController::index","seo_index":true,"follow":true,"seo_title":"Tìm kiếm - %site_title%","seo_desc":"%seo_desc%"}]',
     ),
   ),
   'url_rewrite' => array (
