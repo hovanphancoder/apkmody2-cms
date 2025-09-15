@@ -190,6 +190,9 @@ $footer_links = [
             document.head.appendChild(script);
         }
 
+        // Load error handler first
+        loadScript('/themes/apkcms/Frontend/Assets/js/error-handler.min.js', false);
+        
         // Load core functionality immediately
         loadScript('/themes/apkcms/Frontend/Assets/js/script-optimized.min.js', true);
         

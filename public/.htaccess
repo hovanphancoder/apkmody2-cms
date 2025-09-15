@@ -41,6 +41,12 @@ RewriteEngine On
     ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 
+# Serve robots.txt directly
+RewriteRule ^robots\.txt$ robots.txt [L]
+
+# Serve sitemap.xml directly
+RewriteRule ^sitemap\.xml$ sitemap.xml [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]

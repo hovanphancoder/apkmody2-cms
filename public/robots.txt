@@ -1,0 +1,42 @@
+# Robots.txt for APKMODY2.com
+# Generated: 2025-09-15
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /writeable/
+Disallow: /system/
+Disallow: /application/
+Disallow: /themes/
+Disallow: /public/pam/
+Disallow: /cache/
+Disallow: /temp/
+
+# Allow important pages
+Allow: /posts/
+Allow: /apps/
+Allow: /games/
+Allow: /news/
+Allow: /search/
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://apkmody2.com/sitemap.xml
+
+# Additional directives for better SEO
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
