@@ -1,6 +1,5 @@
 
 <?php
-use App\Models\FastModel;
 
 // Lấy dữ liệu Recently Updated Apps từ database
 $recent_apps_data = get_posts([
@@ -18,13 +17,8 @@ $recent_apps_data = get_posts([
 // Xử lý cấu trúc dữ liệu
 $recent_apps = isset($recent_apps_data['data']) ? $recent_apps_data['data'] : $recent_apps_data;
 
-// Lấy categories để hiển thị filter (parent = 111)
-$categories = (new FastModel('fast_terms'))
-    ->where('posttype', 'posts')
-    ->where('type', 'category')
-    ->where('parent', 112)
-    ->where('lang', APP_LANG)
-    ->get();
+// Sử dụng biến global từ header.php
+$categories = $GLOBALS['apps_categories'] ?? [];
 ?>
 
 <!-- Recently updated apps Section -->

@@ -5,8 +5,8 @@ use App\Models\FastModel;
 $games_categories = $GLOBALS['games_categories'] ?? [];
 $apps_categories = $GLOBALS['apps_categories'] ?? [];
 
-var_dump($games_categories);
-var_dump($apps_categories);
+// var_dump($games_categories);
+// var_dump($apps_categories);
 // Footer links - có thể chỉnh sửa sau
 $footer_links = [
     'information' => [

@@ -1,5 +1,4 @@
 <?php
-use App\Models\FastModel;
 
 // Lấy dữ liệu Recently Updated Games từ database
 $recent_games_data = get_posts([
@@ -17,13 +16,8 @@ $recent_games_data = get_posts([
 // Xử lý cấu trúc dữ liệu
 $recent_games = isset($recent_games_data['data']) ? $recent_games_data['data'] : $recent_games_data;
 
-// Lấy categories để hiển thị filter (parent = 111)
-$categories = (new FastModel('fast_terms'))
-    ->where('posttype', 'posts')
-    ->where('type', 'category')
-    ->where('parent', 111)
-    ->where('lang', APP_LANG)
-    ->get();
+// Sử dụng biến global từ header.php
+$categories = $GLOBALS['games_categories'] ?? [];
 ?>
 
 <!-- Recently updated games Section -->
