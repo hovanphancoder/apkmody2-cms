@@ -1,4 +1,4 @@
-roẻ // Optimized script for better performance
+// Optimized script for better performance
     (function() {
         'use strict';
 
@@ -173,7 +173,7 @@ roẻ // Optimized script for better performance
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
                         const card = btn.closest('.app-card, .game-card');
-                        const name = card ? .querySelector('.app-name, .game-name') ? .textContent;
+                        const name = card?.querySelector('.app-name, .game-name')?.textContent;
                         if (name) this.showDownloadModal(name);
                     });
                 });
@@ -291,10 +291,59 @@ roẻ // Optimized script for better performance
             document.addEventListener('DOMContentLoaded', () => {
                 Core.init();
                 LazyFeatures.init();
+                initSearch();
             });
         } else {
             Core.init();
             LazyFeatures.init();
+            initSearch();
         }
 
     })();
+
+// Search functionality
+function initSearch() {
+    const searchOpen = document.getElementById('search-open');
+    const searchForm = document.getElementById('search-form');
+    const searchClose = document.getElementById('search-close');
+
+    if (searchOpen && searchForm) {
+        searchOpen.addEventListener('click', () => {
+            showSearchForm();
+        });
+    }
+
+    if (searchClose && searchForm) {
+        searchClose.addEventListener('click', (e) => {
+            hideSearchForm();
+        });
+    }
+
+    // Close search form when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (searchForm && searchForm.classList.contains('active')) {
+                hideSearchForm();
+            }
+        }
+    });
+}
+
+function showSearchForm() {
+    const searchForm = document.getElementById('search-form');
+    if (searchForm) {
+        searchForm.classList.add('active');
+        // Focus on search input if it exists
+        const searchInput = searchForm.querySelector('input[type="search"]');
+        if (searchInput) {
+            searchInput.focus();
+        }
+    }
+}
+
+function hideSearchForm() {
+    const searchForm = document.getElementById('search-form');
+    if (searchForm) {
+        searchForm.classList.remove('active');
+    }
+}
