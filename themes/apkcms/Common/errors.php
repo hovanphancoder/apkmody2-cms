@@ -143,7 +143,7 @@ pre::-webkit-scrollbar-thumb:hover {
                                 <path d="M12 9v4"></path>
                                 <path d="M12 17h.01"></path>
                             </svg>
-                            <?php echo __('error.error_details', 'Error Details'); ?>
+                            <?php echo __('Error Details', 'Error Details'); ?>
                             <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 ml-auto"><?php echo $statusCode; ?></div>
                         </h3>
                     </div>
@@ -260,7 +260,7 @@ pre::-webkit-scrollbar-thumb:hover {
                 <!-- Quick Actions -->
                 <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
                     <div class="flex flex-col space-y-1.5 p-6">
-                        <h3 class="text-2xl font-semibold leading-none tracking-tight"><?php echo __('error.quick_actions', 'Quick Actions'); ?></h3>
+                        <h3 class="text-2xl font-semibold leading-none tracking-tight"><?php echo __('Quick Actions', 'Quick Actions'); ?></h3>
                     </div>
                     <div class="p-6 pt-0 space-y-3">
                         <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full flex items-center justify-center gap-2" href="<?php echo base_url('dashboard'); ?>">
@@ -268,14 +268,14 @@ pre::-webkit-scrollbar-thumb:hover {
                                 <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                                 <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                             </svg>
-                            <?php echo __('error.go_to_dashboard', 'Go to Dashboard'); ?>
+                            <?php echo __('Go to Dashboard', 'Go to Dashboard'); ?>
                         </a>
                         <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full bg-transparent flex items-center justify-center gap-2" href="<?php echo base_url(); ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4">
                                 <path d="m12 19-7-7 7-7"></path>
                                 <path d="M19 12H5"></path>
                             </svg>
-                            <?php echo __('error.back_to_homepage', 'Back to Homepage'); ?>
+                            <?php echo __('Back to Homepage', 'Back to Homepage'); ?>
                         </a>
                         <button type="button" class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full flex items-center justify-center gap-2" onclick="location.reload()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw w-4 h-4">
@@ -284,7 +284,7 @@ pre::-webkit-scrollbar-thumb:hover {
                                 <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
                                 <path d="M8 16H3v5"></path>
                             </svg>
-                            <?php echo __('error.refresh_page', 'Refresh Page'); ?>
+                            <?php echo __('Refresh Page', 'Refresh Page'); ?>
                         </button>
                     </div>
                 </div>
@@ -292,26 +292,26 @@ pre::-webkit-scrollbar-thumb:hover {
                 <!-- About This Error -->
                 <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
                     <div class="flex flex-col space-y-1.5 p-6">
-                        <h3 class="text-2xl font-semibold leading-none tracking-tight"><?php echo __('error.about_this_error', 'About This Error'); ?></h3>
+                        <h3 class="text-2xl font-semibold leading-none tracking-tight"><?php echo __('About This Error', 'About This Error'); ?></h3>
                     </div>
                     <div class="p-6 pt-0 space-y-4">
                         <div class="space-y-2">
-                            <h4 class="font-medium text-foreground"><?php echo __('error.internal_server_error_500', 'Internal Server Error (500)'); ?></h4>
+                            <h4 class="font-medium text-foreground"><?php echo __('Internal Server Error (500)', 'Internal Server Error (500)'); ?></h4>
                             <ul class="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                                <li><?php echo __('error.error_detail_1', 'Something went wrong on the server'); ?></li>
-                                <li><?php echo __('error.error_detail_2', 'This is usually a temporary issue'); ?></li>
-                                <li><?php echo __('error.error_detail_3', 'Try refreshing the page'); ?></li>
-                                <li><?php echo __('error.error_detail_4', 'Contact support if the problem persists'); ?></li>
+                                <li><?php echo __('Something went wrong on the server', 'Something went wrong on the server'); ?></li>
+                                <li><?php echo __('This is usually a temporary issue', 'This is usually a temporary issue'); ?></li>
+                                <li><?php echo __('Try refreshing the page', 'Try refreshing the page'); ?></li>
+                                <li><?php echo __('Contact support if the problem persists', 'Contact support if the problem persists'); ?></li>
                             </ul>
                         </div>
                         <div data-orientation="horizontal" role="none" class="shrink-0 bg-border h-[1px] w-full"></div>
                         <div class="space-y-2">
-                            <h4 class="font-medium text-foreground"><?php echo __('error.what_you_can_do', 'What you can do:'); ?></h4>
+                            <h4 class="font-medium text-foreground"><?php echo __('What you can do:', 'What you can do:'); ?></h4>
                             <ul class="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                                <li><?php echo __('error.action_1', 'Try refreshing the page'); ?></li>
-                                <li><?php echo __('error.action_2', 'Go back to the previous page'); ?></li>
-                                <li><?php echo __('error.action_3', 'Check your permissions'); ?></li>
-                                <li><?php echo __('error.action_4', 'Contact support with the error details'); ?></li>
+                                <li><?php echo __('Try refreshing the page', 'Try refreshing the page'); ?></li>
+                                <li><?php echo __('Go back to the previous page', 'Go back to the previous page'); ?></li>
+                                <li><?php echo __('Check your permissions', 'Check your permissions'); ?></li>
+                                <li><?php echo __('Contact support with the error details', 'Contact support with the error details'); ?></li>
                             </ul>
                         </div>
                     </div>

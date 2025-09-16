@@ -80,4 +80,16 @@ return array (
       0 => 'all',
     ),
   ),
+  'review' => array (
+    'id' => 13,
+    'slug' => 'review',
+    'languages' => array (
+      0 => 'en',
+      1 => 'vi',
+      2 => 'zh',
+      3 => 'th',
+      4 => 'ko',
+      5 => 'id',
+    ),
+  ),
 );

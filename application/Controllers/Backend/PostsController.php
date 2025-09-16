@@ -10,7 +10,6 @@ use App\Models\UsersModel;
 use System\Libraries\Render;
 use System\Libraries\Validate;
 use App\Libraries\Fastlang as Flang;
-use DateTime;
 
 class PostsController extends BackendController {
    protected $posttypeModel;
@@ -23,8 +22,8 @@ class PostsController extends BackendController {
    public function __construct()
    {
         parent::__construct();
-        
         load_helpers(['backend', 'string']);
+        Flang::load('Backend/Posts');
 
         $posttypeSlug = S_GET('type') ?? 'post';
         $postLang = S_GET('post_lang') ?? 'all';
@@ -35,7 +34,7 @@ class PostsController extends BackendController {
         $this->termsModel = new TermsModel();
         $this->usersModel = new UsersModel();
         $this->post_lang = S_GET('post_lang') ?? null;
-        Flang::load('Posts', APP_LANG);
+        
    }
 
     public function index() {
@@ -60,19 +59,15 @@ class PostsController extends BackendController {
 
         $postType = $this->posttypeModel->getPostTypeBySlug($postTypeSlug);
         if(empty($postType)) {
-            if(APP_DEBUGBAR) {
-                echo "postType not found";
-                die;
-            }
             redirect(admin_url('/'));
         }
         $allPostType = $this->posttypeModel->getAllPostTypes();
        
 
-        $languages = json_decode($postType['languages'], true);
-        if(empty($this->post_lang)) $currentLang = $languages[0];
-        if(!in_array($currentLang, $languages)) {
-            redirect(admin_url('posts').'?type='.$postTypeSlug.'&post_lang='.$languages[0]);
+        $posttypeLanguages = json_decode($postType['languages'], true);
+        if(empty($this->post_lang)) $currentLang = $posttypeLanguages[0];
+        if(!in_array($currentLang, $posttypeLanguages)) {
+            redirect(admin_url('posts').'?type='.$postTypeSlug.'&post_lang='.$posttypeLanguages[0]);
         }
         if(!empty($search)) {
             $where = "title LIKE ? ";
@@ -88,47 +83,50 @@ class PostsController extends BackendController {
         }
 
         $postModel = new PostsModel($postTypeSlug, $currentLang);
-            
-        $posts = $postModel->getPostsFieldsPagination('id, title, status, created_at', $where, $params, $orderBy, $paged, $limit);
+        $postsOfCurrentLang = $postModel->getPostsFieldsPagination('*', $where, $params, $orderBy, $paged, $limit);
+        $idsOfCurrentLang = [];
+        $postsLists = $postsOfCurrentLang;
+        $postsLists['data'] = [];
         // get id in post['data][$item][id]
-        $ids = [];
-        foreach ($posts['data'] as $item) {
-            $ids[] = $item['id'];
+        
+        foreach ($postsOfCurrentLang['data'] as $item) {
+            $idsOfCurrentLang[] = $item['id'];
             // $posts['data'][$item] to array key  $posts['data']['id']
-            $item['langList'][] = $currentLang;
-            $postsKey['data'][$item['id']] = $item;
+            $item['languages'] = array($currentLang);
+            $postsLists['data'][$item['id']] = $item;
         }
 
-        if(!empty($ids) && !empty($languages)) {
-            foreach ($languages as $lang) {
+        if(!empty($idsOfCurrentLang) && !empty($posttypeLanguages)) {
+            foreach ($posttypeLanguages as $lang) {
                 if($lang == $currentLang) continue;
-                $postModel = new PostsModel($postTypeSlug, $lang);  
+                $postLangModel = new PostsModel($postTypeSlug, $lang);  
                 // get by list id
-                $where = "id IN (" . implode(',', $ids) . ")";
-                $postsLang = $postModel->getPostsFieldsPagination('id, title, status, created_at', $where, [], $orderBy);
+                $where = "id IN (" . implode(',', $idsOfCurrentLang) . ")";
+                $postsLang = $postLangModel->getPostsFieldsPagination('id, title, status, created_at', $where, []);
                 // foreach post add ID main posts
-                foreach ($postsLang['data'] as $item) {
-                    // add to langList lang code 
-                    $postsKey['data'][$item['id']]['langList'][] = $lang;
+                if (!empty($postsLang['data'])) {
+                    foreach ($postsLang['data'] as $item) {
+                        // add to languages lang code 
+                        $postsLists['data'][$item['id']]['languages'][] = $lang;
+                    }
                 }
-    
             }
-            $posts['data'] = $postsKey['data'];
         }
+        unset($postsOfCurrentLang);
        
 
         
-        $this->data('postType', $postType);
+        $this->data('posttype', $postType);
         $this->data('allPostType', $allPostType);
         $this->data('limit', $limit);
         $this->data('sort', $sort);
         $this->data('order', $order);
         $this->data('page', $paged);
         $this->data('search', $search);
-        $this->data('posts', $posts);
+        $this->data('posts', $postsLists);
         $this->data('currentLang', $currentLang);
-        $this->data('languages', $languages);
-        $this->data('title', Flang::_e('List ') . $postType['name'] . ' ' .  $this->post_lang);
+        $this->data('languages', $posttypeLanguages);
+        $this->data('title', __('List ') . $postType['name'] . ' ' .  $this->post_lang);
         echo Render::html('Backend/posts_index', $this->data);
 
     }
@@ -141,10 +139,6 @@ class PostsController extends BackendController {
         $postTypeSlug = S_POST('type') ?? (S_GET('type') ?? '' );
         $postType = $this->posttypeModel->getPostTypeBySlug($postTypeSlug);
         if(empty($postType)) {
-            if(APP_DEBUGBAR) {
-                echo "postType not found";
-                
-            }
            redirect(admin_url());
         }
         
@@ -169,8 +163,6 @@ class PostsController extends BackendController {
         // handle submit form 
         if(S_POST('type')) {
             $langadd = S_POST('lang') ?? $this->post_lang;
-            $postTypeSlug = S_POST('type');
-            $postType = $this->posttypeModel->getPostTypeBySlug($postTypeSlug);
             $curent_id = $postType['current_id'] ?? 0;
             $postDataFields = $_POST;
             if(is_string($postDataFields['terms'])) {
@@ -178,17 +170,26 @@ class PostsController extends BackendController {
             } 
 
             $terms_list = $postDataFields['terms'];
-            
+
+            // check created_at
+            if(!empty($postDataFields['created_at'])) {
+                if(is_numeric($postDataFields['created_at'])) {
+                    $postDataFields['created_at'] = date('Y-m-d H:i:s', $postDataFields['created_at']);
+                } else {
+                    $postDataFields['created_at'] = date('Y-m-d H:i:s', strtotime($postDataFields['created_at']));
+                }
+            } else {
+                $postDataFields['created_at'] = date('Y-m-d H:i:s');
+            }
             $data = [
                 'id' => ($curent_id + 1),
                 'title' => $postDataFields['title'],
                 'slug' => $postDataFields['slug'],
                 'status' => $postDataFields['status'],
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => $postDataFields['created_at'],
+                'updated_at' => $postDataFields['created_at'],
             ];
             $data['slug'] = $this->checkPostSlug($data['slug'], $postType['slug'], $langadd);
-            $postType['fields'] = json_decode($postType['fields'], true); 
             // validate data form
             $rules = $this->convert_rules($postType['fields']);
             $validator = new Validate();
@@ -255,12 +256,12 @@ class PostsController extends BackendController {
         }
 
         // update fields for FE format
-        $postType['fields'] = $this->addFieldPostType($postType['fields']);
-        $postType = $this->_fieldTerms($postType, $postType['terms']);
+        $postType['fields'] = $this->_loadDefaultInputs($postType['fields']);
+        $postType = $this->_loadTermInputs($postType, $postType['terms']);
 
         // data for view add post 
         $this->data('posttype', $postType);
-        $this->data('title', Flang::_e('add_new'));
+        $this->data('title', __('add_new'));
         echo Render::html('Backend/posts_add', $this->data);
     }
 
@@ -268,7 +269,7 @@ class PostsController extends BackendController {
         $tableRelation = table_posttype_relationship($postType['slug']);
         if(in_array(APP_LANG_DF, $languages)) {
             
-            $terms = json_decode($postType['terms'], true);
+            $terms = is_string($postType['terms']) ? json_decode($postType['terms'], true) : $postType['terms'];
 
             foreach ($terms_list as $termItem) {
 
@@ -390,7 +391,7 @@ class PostsController extends BackendController {
         $this->data('languages', $languages);
         $this->data('currentLang', $currentLang);
         $this->data('availableFields', $availableFields);
-        $this->data('title', Flang::_e('Import') . ' ' . $postType['name']);
+        $this->data('title', __('Import') . ' ' . $postType['name']);
         
         echo Render::html('Backend/post_import', $this->data);
     }
@@ -710,12 +711,29 @@ class PostsController extends BackendController {
                 if(is_string($newtermActiveIds)) {
                     $newtermActiveIds = json_decode($newtermActiveIds, true);
                 }
+                // kiểm tra xem người dùng có gửi lên ngày tạo không, nếu có thì người dùng gửi 1 vài kiểu dữ liệu time thì cũng format về time chuẩn
+                $updated_at = date('Y-m-d H:i:s');
+                if(isset($postDataFields['created_at'])) {
+                    if(is_numeric($postDataFields['created_at'])) {
+                        $created_at = date('Y-m-d H:i:s', $postDataFields['created_at']);
+                    } else {
+                        $created_at = date('Y-m-d H:i:s', strtotime($postDataFields['created_at']));
+                    }
+
+                    // check nếu ngày tạo > hiện tại thì sửa update sang hiện tại luôn
+                    if($created_at > date('Y-m-d H:i:s')) {
+                        $updated_at = $postDataFields['created_at'];
+                    }
+                }
                 $data = [
                     'title' => S_POST('title'),
                     'slug' => S_POST('slug'),
                     'status' => S_POST('status'),
-                    'updated_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => $updated_at,
                 ];
+                if(isset($created_at)) {
+                    $data['created_at'] = $created_at;
+                }
                 
                 $data['slug'] = $this->checkPostSlug($data['slug'], $postType['slug'], $this->post_lang, $id );
                 $postType['fields'] = is_string($postType['fields']) ? json_decode($postType['fields'], true) : $postType['fields'];
@@ -804,8 +822,8 @@ class PostsController extends BackendController {
                     redirect(admin_url('posts').'?type='.$postTypeSlug);
                 };           
             }      
-            $postType['fields'] = $this->addFieldPostType($postType['fields']);
-            $postType = $this->_fieldTerms($postType, $postType['terms']);
+            $postType['fields'] = $this->_loadDefaultInputs($postType['fields']);
+            $postType = $this->_loadTermInputs($postType, $postType['terms']);
             $fields = $this->layoutField($postType['fields']);
             $this->data('currentLang', $this->post_lang);
             $this->data('languages', $languagesPosttype);
@@ -815,7 +833,7 @@ class PostsController extends BackendController {
             $this->data('fields', $fields);
             //Render::asset('css', 'css/forms.css', ['area' => 'backend', 'location' => 'footer']);
             // Render::asset('js', 'js/forms.js', ['area' => 'backend', 'location' => 'footer']);
-            $this->data('title', Flang::_e('edit'). ' ' . $postType['name']);
+            $this->data('title', __('Edit'). ' ' . $postType['name']);
             echo Render::html('Backend/posts_add', $this->data);
         }
 
@@ -1154,7 +1172,7 @@ class PostsController extends BackendController {
                 // If required => add notEmpty rule
                 if ($isRequired) {
                     $rules[$fieldName]['rules'][]    = Validate::notEmpty();
-                    $rules[$fieldName]['messages'][] = Flang::_e('not_empty');
+                    $rules[$fieldName]['messages'][] = __('not_empty');
                 }
 
                 // Check minimum and maximum length
@@ -1169,7 +1187,7 @@ class PostsController extends BackendController {
                     }
 
                     $rules[$fieldName]['rules'][]    = $lengthRule;
-                    $rules[$fieldName]['messages'][] = Flang::_e('not_min_max');
+                    $rules[$fieldName]['messages'][] = __('not_min_max');
                 }
 
                 // Check Number type
@@ -1191,7 +1209,7 @@ class PostsController extends BackendController {
                     }
 
                     $rules[$fieldName]['rules'][]    = $slugRule;
-                    $rules[$fieldName]['messages'][] = Flang::_e('lowercase');
+                    $rules[$fieldName]['messages'][] = __('lowercase');
                 }
 
                 // Check if it's email
@@ -1202,7 +1220,7 @@ class PostsController extends BackendController {
                     }
 
                     $rules[$fieldName]['rules'][]    = $emailRule;
-                    $rules[$fieldName]['messages'][] = Flang::_e('email_valid');
+                    $rules[$fieldName]['messages'][] = __('email_valid');
                 }
 
                 // Check if it's URL
@@ -1213,7 +1231,7 @@ class PostsController extends BackendController {
                     }
 
                     $rules[$fieldName]['rules'][]    = $urlRule;
-                    $rules[$fieldName]['messages'][] = Flang::_e('url_valid');
+                    $rules[$fieldName]['messages'][] = __('url_valid');
                 }
 
                 // Check if it's date
@@ -1224,7 +1242,7 @@ class PostsController extends BackendController {
                     }
 
                     $rules[$fieldName]['rules'][]    = $dateRule;
-                    $rules[$fieldName]['messages'][] = Flang::_e('date_valid');
+                    $rules[$fieldName]['messages'][] = __('date_valid');
                 }
             }
         }
@@ -1375,13 +1393,13 @@ class PostsController extends BackendController {
     }
 
     // add slug and title in field posttype
-    private function addFieldPostType($fields) {
+    private function _loadDefaultInputs($fields) {
         $title = [
             "id" => 0,
             "type" => "Text",
             "label" => "Title",
             "field_name" => "title",
-            "description" => "This field appears at the top",
+            "description" => "",
             "required" => true,
             "order" => 1,
             "min" => 10,
@@ -1396,7 +1414,7 @@ class PostsController extends BackendController {
             "type" => "Text",
             "label" => "Slug",
             "field_name" => "slug",
-            "description" => "This field appears at the top",
+            "description" => "",
             "required" => true,
             "autofill" => "title",
             "autofill_type" => "slug",
@@ -1411,8 +1429,7 @@ class PostsController extends BackendController {
         return $fields;
     }
 
-    private function _fieldTerms($posttype, $terms) {
-        if(!empty($terms) && is_array($terms)) {
+    private function _loadTermInputs($posttype, $terms) {
         foreach($terms as $term) {
            $field = [
                 "id" => 26,
@@ -1427,11 +1444,10 @@ class PostsController extends BackendController {
                 "field_type" => "checkbox",
                 "add_term" => true,
                 "position" => "right"
-              ];
-              array_unshift($posttype['fields'], $field);
+            ];
+            array_unshift($posttype['fields'], $field);
 
         }
-    }
         return $posttype;
     }
     

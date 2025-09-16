@@ -44,7 +44,17 @@
         this.$nextTick(() => lucide.createIcons());
       },
       initActiveStates() {
-        // Auto-expand parent menus if they have active children
+        // Ưu tiên backend data hoàn toàn
+        if (window.expandedMenus && window.expandedMenus.length > 0) {
+          // Clear existing expanded items first
+          this.expandedItems.clear();
+          window.expandedMenus.forEach(itemId => {
+            this.expandedItems.add(itemId);
+          });
+          return;
+        }
+        
+        // Chỉ dùng isParentActive khi không có backend data
         if (this.menuData && this.menuData.length > 0) {
           this.menuData.forEach(section => {
             if (section.items) {

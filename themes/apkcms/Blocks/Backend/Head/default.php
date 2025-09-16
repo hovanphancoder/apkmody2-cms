@@ -288,7 +288,7 @@
                         </div>
                         <hr class="border-border" />
                         <div class="space-y-3">
-                            <label class="text-sm font-medium">Card</label>
+                            <label class="text-sm font-medium">Border & Padding</label>
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
                                     <label class="text-xs text-muted-foreground">Border Radius</label>
@@ -316,7 +316,7 @@
                             </div>
                         </div>
                         <hr class="border-border" />
-                        <div class="space-y-3"><label class="text-sm font-medium">Button</label>
+                        <div class="space-y-3"><label class="text-sm font-medium">Forms Button</label>
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between"><label class="text-xs text-muted-foreground">Border Radius</label><span class="text-xs" x-text="`${config.button.borderRadius}px`"></span></div><input type="range" x-model.number="config.button.borderRadius" min="0" max="32" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
                             </div>

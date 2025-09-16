@@ -20,8 +20,8 @@ class OptionsController extends BackendController
         parent::__construct();
         $this->optionsModel = new OptionsModel();
 
-        Flang::load('general', APP_LANG);
-        Flang::load('options', APP_LANG);
+        Flang::load('Backend/Global', APP_LANG);
+        Flang::load('Backend/Options', APP_LANG);
         $config_files = config('files');
         $this->allowed_types = $config_files['allowed_types'] ?? [];
     }
@@ -47,7 +47,7 @@ class OptionsController extends BackendController
         $this->data('options', $options);
         $this->data('errors', []);
         $this->data('post_lang', $this->post_lang);
-        $this->data('title', Flang::_e('Website Settings'));
+        $this->data('title', __('Website Settings'));
         $this->data('csrf_token', Session::csrf_token(600));
         // Render::asset('css', 'css/forms.css', ['area' => 'backend', 'location' => 'footer']);
         // Render::asset('js', 'js/forms.js', ['area' => 'backend', 'location' => 'footer']);
@@ -121,7 +121,7 @@ class OptionsController extends BackendController
                                 $option_valuelang[$lang] = $value;
                             }
                         }
-                        if ($option_valuelang[$this->post_lang] != $value) {
+                        if (isset($option_valuelang[$this->post_lang]) && $option_valuelang[$this->post_lang] != $value) {
                             $option_valuelang[$this->post_lang] = $value;
                         }
                     }
@@ -146,16 +146,28 @@ class OptionsController extends BackendController
         }
 
         if (!empty($sql_value)) {
-            if (!$this->optionsModel->setValuebyName($sql_value)) {
-                $errors[] = Flang::_e('update_option_error');
+            try{
+                $this->optionsModel->setValuebyName($sql_value);
+            } catch (\PDOException $e) {
+                $errors[] = __('Update option error. No have change value sql.') . $e->getMessage();
             }
         }
         if (!empty($sql_valuelang)) {
-            if (!$this->optionsModel->setValuelangByName($sql_valuelang)) {
-                $errors[] = Flang::_e('update_option_error');
+            try{
+                $this->optionsModel->setValuelangByName($sql_valuelang);
+            } catch (\PDOException $e) {
+                $errors[] = __('Update option error. No have change value translate sql.') . $e->getMessage();
             }
         }
-        //redirect(admin_url('options/index/') . '?post_lang=' . $this->post_lang);
+        
+        // Set flash messages
+        if (!empty($errors)) {
+            Session::flash('error', implode(', ', $errors));
+        } else {
+            Session::flash('success', __('Options updated successfully'));
+        }
+        
+        redirect(admin_url('options/index/') . '?post_lang=' . $this->post_lang);
     }
     private function _rules_validate($optional)
     {
@@ -171,7 +183,7 @@ class OptionsController extends BackendController
         // Check required field
         if (!empty($optional['required'])) {
             $rules['rules'][] = Validate::notEmpty();
-            $rules['messages'][] = Flang::_e('not_empty');
+            $rules['messages'][] = __('not_empty');
         }
 
         // Check minimum and maximum length
@@ -179,7 +191,7 @@ class OptionsController extends BackendController
             $min = !empty($optional['min']) ? $optional['min'] : 1;
             $max = !empty($optional['max']) ? $optional['max'] : 255;
             $rules['rules'][] = Validate::length($min, $max);
-            $rules['messages'][] = Flang::_e('not_min_max');
+            $rules['messages'][] = __('not_min_max');
         }
 
         // Check data type if it's 'Number'
@@ -191,31 +203,31 @@ class OptionsController extends BackendController
         // Check if it's 'slug'
         if (!empty($optional['field_name']) && $optional['field_name'] == 'slug') {
             $rules['rules'][] = Validate::lowercase();
-            $rules['messages'][] = Flang::_e('lowercase');
+            $rules['messages'][] = __('lowercase_error');
         }
 
         // Check if it's email
         if (!empty($optional['type']) && $optional['type'] == 'Email') {
             $rules['rules'][] = Validate::email();
-            $rules['messages'][] = Flang::_e('email_valid');
+            $rules['messages'][] = __('email_valid');
         }
 
         // Check if it's URL
         if (!empty($optional['type']) && $optional['type'] == 'URL') {
             $rules['rules'][] = Validate::url();
-            $rules['messages'][] = Flang::_e('url_valid');
+            $rules['messages'][] = __('url_valid');
         }
 
         // Check if it's date field
         if (!empty($optional['type']) && $optional['type'] == 'Date') {
             $rules['rules'][] = Validate::date();
-            $rules['messages'][] = Flang::_e('date_valid');
+            $rules['messages'][] = __('date_valid');
         }
 
         return $rules;
     }
 
-    private function _validate($data)
+    private function _validate($data = [], $isField = false)
     {
         //Start Validation
         $errors = [];
@@ -223,116 +235,116 @@ class OptionsController extends BackendController
         if (!empty($data['allow_types'])) {
             $filesDiff = array_diff($data['allow_types'], $this->allowed_types);
             if (!empty($filesDiff)) {
-                $errors[] =  Flang::_e('posttype_allow_types_required', implode(',', $filesDiff));
+                $errors[] =  sprintf(__('posttype_allow_types_required'), implode(',', $filesDiff));
             }
         }
-        $name = $data['name'] ?? '';
-        //echo $name;return;
         $validator = new Validate();
         $rules = [
             'type' => [
                 'rules' => [Validate::in(['Text', 'Email', 'Number', 'Password',  'Date', 'DateTime', 'ColorPicker',  'URL', 'OEmbed', 'Textarea', 'Boolean', 'Checkbox', 'Radio', 'Select', 'File', 'Image', 'WYSIWYG', 'Reference', 'Repeater', 'User'])],
-                'messages' => [Flang::_e('field_type_invalid')]
+                'messages' => [__('field_type_invalid')]
             ],
             'label' => [
                 'rules' => [Validate::length(3, 100)],
-                'messages' => [Flang::_e('field_label_length')]
-            ],
-            'name' => [
-                'rules' => [Validate::length(3, 100), Validate::regex('/^[a-z0-9_-]+$/')],
-                'messages' => [
-                    Flang::_e('field_name_length'),
-                    Flang::_e('field_name_invalid', 'a-z0-9-_')
-                ]
+                'messages' => [__('field_label_length')]
             ],
             'description' => [
                 'rules' => [Validate::length(0, 250)],
                 'messages' => [
-                    Flang::_e('field_description_length')
+                    __('field_description_length')
                 ]
             ],
             'status' => [
                 'rules' => [Validate::in([true, false])],
                 'messages' => [
-                    Flang::_e('field_status_invalid')
+                    __('field_status_invalid')
                 ]
             ],
             'visibility' => [
                 'rules' => [Validate::in([true, false])],
                 'messages' => [
-                    Flang::_e('field_visibility_invalid')
+                    __('field_visibility_invalid')
                 ]
             ],
             'collapsed' => [
                 'rules' => [Validate::in([true, false])],
-                'messages' => [Flang::_e('field_collapsed_invalid')]
+                'messages' => [__('field_collapsed_invalid')]
             ],
             'css_class' => [
                 'rules' => [Validate::lowercase()],
-                'messages' => [Flang::_e('field_css_class_lowercase')]
+                'messages' => [__('field_css_class_lowercase')]
             ],
             'placeholder' => [
                 'rules' => [Validate::length(0, 250)],
                 'messages' => [
-                    Flang::_e('field_placeholder_length')
+                    __('field_placeholder_length')
                 ]
             ],
             'default_value' => [
                 'rules' => [Validate::length(0, 9999)],
                 'messages' => [
-                    Flang::_e('field_default_value_length')
+                    __('field_default_value_length')
                 ]
             ],
             'order' => [
                 'rules' => [Validate::notEmpty(), Validate::NumericVal()],
                 'messages' => [
-                    Flang::_e('field_order_required'),
-                    Flang::_e('field_order_numeric')
+                    __('field_order_required'),
+                    __('field_order_numeric')
                 ]
             ],
             'min' => [
                 'rules' => [Validate::optional(Validate::NumericVal())],
-                'messages' => [Flang::_e('field_min_invalid')]
+                'messages' => [__('field_min_invalid')]
             ],
             'max' => [
                 'rules' => [Validate::optional(Validate::NumericVal())],
-                'messages' => [Flang::_e('field_max_invalid')]
+                'messages' => [__('field_max_invalid')]
             ],
             'rows' => [
                 'rules' => [Validate::optional(Validate::NumericVal())],
-                'messages' => [Flang::_e('field_rows_invalid')]
+                'messages' => [__('field_rows_invalid')]
             ],
 
             'multiple' => [
                 'rules' => [Validate::in([null, true, false])],
-                'messages' => [Flang::_e('field_multiple_invalid')]
+                'messages' => [__('field_multiple_invalid')]
             ],
             'position' => [
                 'rules' => [Validate::in(['left', 'top', 'right', 'bottom'])],
                 'messages' => [
-                    Flang::_e('field_position_invalid')
+                    __('field_position_invalid')
                 ]
             ],
             'width_unit' => [
                 'rules' => [Validate::in(['px', '%', 'em', 'rem', 'vw', 'vh'])],
                 'messages' => [
-                    Flang::_e('field_width_unit_invalid')
+                    __('field_width_unit_invalid')
                 ]
             ],
             'width_value' => [
                 'rules' => [Validate::NumericVal()],
                 'messages' => [
-                    Flang::_e('field_width_value_invalid')
+                    __('field_width_value_invalid')
                 ]
             ],
         ];
+        if (!$isField && !empty($data['name'])){
+            $rules['name'] = [
+                'rules' => [Validate::length(3, 100), Validate::regex('/^[a-z0-9_]+$/')],
+                'messages' => [
+                    __('field_name_length'),
+                    sprintf(__('field_name_invalid'), 'a-z0-9_')
+                ]
+            ];
+        }
 
         if (!$validator->check($data, $rules)) {
             $errors = $validator->getErrors();
         }
         if (!empty($data['fields']) && is_array($data['fields'])) {
             foreach ($data['fields'] as $item) {
-                $itemErrors = $this->_validate($item);
+                $itemErrors = $this->_validate($item, true);
                 if (is_array($itemErrors) && !empty($itemErrors)) {
                     $errors = array_merge($errors, $itemErrors);
                 }
@@ -346,21 +358,22 @@ class OptionsController extends BackendController
     {
         if (HAS_POST('list_options') && HAS_POST('csrf_token')) {
             if (!Session::csrf_verify(S_POST('csrf_token'))) {
-                $this->data('errors', ["csrf_token" => Flang::_e('csrf_failed')]);
+                $this->data('errors', ["csrf_token" => __('csrf_failed')]);
+                Session::flash('error', __('Invalid security token'));
             } else {
                 $errors = array();
                 $options_json = $_POST['list_options'] ?? '';
                 $options = json_decode($options_json, true);
                 $addItems = [];
                 foreach ($options as $key => $option) {
-                    $errors[$key] = $this->_validate($option);
+                    $errors[$key] = $this->_validate($option, false);
                     if (is_array($errors[$key]) && !empty($errors[$key])) {
                         continue;
                     } else {
                         $errors[$key] = [];
                         if ($this->optionsModel->getByName($option['name'])) {
                             //Data Option is valid but Option exist in Database.
-                            $errors[$key]['duplicates'] = [Flang::_e('database_exist') . ' - ' . $option['name']];
+                            $errors[$key]['duplicates'] = [__('database_exist') . ' - ' . $option['name']];
                         } else {
                             if (empty($option['option_group'])) {
                                 $option['option_group'] = 'general';
@@ -381,17 +394,19 @@ class OptionsController extends BackendController
                                 $addItems[] = $addItem;
                                 unset($options[$key]);
                             } else {
-                                $errors[$key]['database'] = [Flang::_e('database_add_fail') . ' - ' . $option['name']];
+                                $errors[$key]['database'] = [__('database_add_fail') . ' - ' . $option['name']];
                             }
                         }
                     }
                 }
                 \System\Libraries\Events::run('Backend\\OptionAddEvent', $addItems);
                 if (count($options) <= 0) {
+                    Session::flash('success', __('Options added successfully'));
                     redirect(admin_url('options/index'));
                 }
                 $_POST['list_options'] = json_encode($options);
                 $this->data('errors', $errors);
+                Session::flash('error', __('Please fix the errors below'));
             }
         }
 
@@ -403,7 +418,8 @@ class OptionsController extends BackendController
         }
         $this->data('allowed_types', $this->allowed_types);
         $this->data('option_groups', $option_groups);
-        $this->data('title', Flang::_e('options_add_welcome'));
+        $this->data('isEditing', false);
+        $this->data('title', __('options_add_welcome'));
         $this->data('csrf_token', Session::csrf_token(600));
         // Render::asset('css', 'css/forms.css', ['area' => 'backend', 'location' => 'footer']);
         // Render::asset('js', 'js/forms.js', ['area' => 'backend', 'location' => 'footer']);
@@ -433,11 +449,11 @@ class OptionsController extends BackendController
                 $options = is_string($options) ? json_decode($options, true) : $options;
                 if (!empty($options)) $option = $options[0];
                 if (!empty($option)) {
-                    $errors = $this->_validate($option);
+                    $errors = $this->_validate($option, false);
                     $checkExit = $this->optionsModel->getByName($option['name']);
                     if ($checkExit && $checkExit['id'] != $id) {
                         //Data Option is valid but Option exist in Database.
-                        $errors['duplicates'] = [Flang::_e('database_exist') . ' - ' . $option['name']];
+                        $errors['duplicates'] = [__('database_exist') . ' - ' . $option['name']];
                     }
                     if (empty($errors)) {
                         $optionalData = $option;
@@ -456,12 +472,18 @@ class OptionsController extends BackendController
                         );
                         if ($this->optionsModel->setOptions($id, $newdata)) {
                             \System\Libraries\Events::run('Backend\\OptionEditEvent', $newdata);
+                            Session::flash('success', __('Option updated successfully'));
                             redirect(admin_url('options/edit/' . $id));
+                        } else {
+                            Session::flash('error', __('Failed to update option'));
                         }
+                    } else {
+                        Session::flash('error', __('Please fix the errors below'));
                     }
                 }
             } else {
-                $this->data('errors', ["csrf_token" => Flang::_e('csrf_failed')]);
+                $this->data('errors', ["csrf_token" => __('csrf_failed')]);
+                Session::flash('error', __('Invalid security token'));
             }
         }
         $option_group = $this->optionsModel->getbyname('option_groups');
@@ -472,7 +494,8 @@ class OptionsController extends BackendController
         $this->data('option_groups', $option_groups);
         $this->data('allowed_types', $this->allowed_types);
         $this->data('options', [$editOption]);
-        $this->data('title', Flang::_e('option_edit_title') . ' ' . $editOption['name']);
+        $this->data('isEditing', true);
+        $this->data('title', __('option_edit_title') . ' ' . $editOption['name']);
         $this->data('csrf_token', Session::csrf_token(600)); // Create new token for first load
         echo Render::html('Backend/options_add', $this->data);
     }
@@ -485,8 +508,15 @@ class OptionsController extends BackendController
         if ($option && $option['name'] != 'option_group') {
             if ($this->optionsModel->delOptions($id)) {
                 \System\Libraries\Events::run('Backend\\OptionDeleteEvent', $option);
+                Session::flash('success', __('Option deleted successfully'));
+                redirect(admin_url('options'));
+            } else {
+                Session::flash('error', __('Failed to delete option'));
                 redirect(admin_url('options'));
             }
+        } else {
+            Session::flash('error', __('Option not found or cannot be deleted'));
+            redirect(admin_url('options'));
         }
     }
 }

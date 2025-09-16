@@ -4,31 +4,29 @@ use System\Libraries\Render;
 use System\Libraries\Session;
 use App\Libraries\Fastlang as Flang;
 
+// Load language files
+Flang::load('Files', APP_LANG);
+
 $breadcrumbs = array(
   [
-      'name' => 'Dashboard',
+      'name' => __('Dashboard'),
       'url' => admin_url('home')
   ],
   [
-      'name' => 'Files',
-      'url' => admin_url('files/index'),
-      'active' => true
-  ],
-  [
-      'name' => 'Timeline',
+      'name' => __('Files'),
       'url' => admin_url('files/index'),
       'active' => true
   ]
 );
-Render::block('Backend\\Header', ['layout' => 'default', 'title' => Flang::_e('files timeline'), 'breadcrumb' => $breadcrumbs ]);
+Render::block('Backend\\Header', ['layout' => 'default', 'title' => __('Files Timeline'), 'breadcrumb' => $breadcrumbs ]);
 ?>
 <div class="" x-data="{ showAdd: false }">
 
   <!-- Header & Filter -->
   <div class="flex flex-col gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-foreground">Files Timeline</h1>
-      <p class="text-muted-foreground">Manage system files timeline</p>
+      <h1 class="text-2xl font-bold text-foreground"><?= __('Files Timeline') ?></h1>
+      <p class="text-muted-foreground"><?= __('Manage system files timeline') ?></p>
     </div>
 
     <!-- Thông báo -->
@@ -39,9 +37,10 @@ Render::block('Backend\\Header', ['layout' => 'default', 'title' => Flang::_e('f
       <?php Render::block('Backend\\Notification', ['layout' => 'default', 'type' => 'error', 'message' => Session::flash('error')]) ?>
     <?php endif; ?>
 
-    <iframe src="<?= admin_url('files/timeline') ?>" class="w-full h-[calc(100vh-170px)]"></iframe>
-    
-    
+    <!-- Files Timeline iframe -->
+    <div class="bg-card rounded-xl border overflow-hidden">
+      <iframe src="<?= admin_url('files/timeline') ?>" class="w-full h-[calc(100vh-200px)] border-0"></iframe>
+    </div>
   </div>
   
 </div>

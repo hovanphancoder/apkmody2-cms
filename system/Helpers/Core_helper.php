@@ -28,7 +28,7 @@ function load_helpers(array $helpers = []) {
                 $fast_helpers[] = $helper;
                 require_once $helperPath;
             } else {
-                $helperPath = PATH_APP . 'Helpers/' . ucfirst($helper) . '_helper.php';
+                $helperPath = PATH_ROOT . '/helpers/' . ucfirst($helper) . '_helper.php';
                 if (file_exists($helperPath)) {
                     $fast_helpers[] = $helper;
                     require_once $helperPath;
@@ -126,31 +126,56 @@ if(!function_exists('posttype_add')) {
 }
 
 // trans table name posttype $tableName = 'fast_posts_'.$data['slug'].'_'.$lang;
-if(!function_exists('posttype_exists')) {
-    function posttype_exists($slug, $lang = '') {
+if(!function_exists('posttype_name')) {
+    /**
+     * Get table name for posttype based on slug and language
+     * 
+     * @param string $slug Posttype slug
+     * @param string $lang Language code
+     * @return string|null Table name or null if posttype doesn't exist
+     */
+    function posttype_name($slug, $lang = APP_LANG) {
+        // Sanitize slug
         $slug = _sqlname($slug);
-        $posttypeItem = posttype($slug);
-        if (empty($posttypeItem)) {
+        // Get posttype configuration using posttype() function
+        $posttype = posttype($slug);
+        if (empty($posttype)) {
             return null;
         }
-        if (empty($lang) || $lang === 'all' || !defined('APP_LANGUAGES') || !isset(APP_LANGUAGES[$lang])) {
-            $lang = '';
+        // If first language is 'all' - table name is just slug
+        if (empty($posttype['languages']) || $posttype['languages'][0] === 'all') {
+            return 'fast_posts_' . $slug;
         }
-        if (empty($posttypeItem['languages'])) {
-            $tableName = 'fast_posts_' . $slug;
-        } else {
-            if (!empty($lang) && in_array($lang, $posttypeItem['languages'])) {
-                $tableName = 'fast_posts_' . $slug . '_' . $lang;
-            } else {
-                if ($posttypeItem['languages'][0] == 'all') {
-                    $tableName = 'fast_posts_' . $slug;
-                }else{
-                    return null;
-                    //$tableName = 'fast_posts_' . $slug . '_' . $posttypeItem['languages'][0];
-                }
-            }
+        // If not 'all', table name includes language suffix
+        return 'fast_posts_' . $slug . '_' . $lang;
+    }
+}
+
+if(!function_exists('posttype_exists')) {
+    /**
+     * Check if posttype exists and language is supported
+     * 
+     * @param string $slug Posttype slug
+     * @param string $lang Language code (optional)
+     * @return bool True if posttype exists and language is supported, false otherwise
+     */
+    function posttype_exists($slug, $lang = APP_LANG) {
+        // Sanitize slug
+        $slug = _sqlname($slug);
+        // Get posttype configuration using posttype() function
+        $posttype = posttype($slug);
+        if (empty($posttype)) {
+            return false;
         }
-        return $tableName;
+        // Check if first language is 'all' - means supports all languages
+        if (empty($posttype['languages']) || $posttype['languages'][0] === 'all') {
+            return true;
+        }
+        // Check if the specified language is in the supported languages array
+        if (in_array($lang, $posttype['languages'])) {
+            return true;
+        }
+        return false;
     }
 }
 

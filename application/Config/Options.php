@@ -8,7 +8,7 @@ return array (
       'zh' => 'zh_CN',
       'th' => 'th_TH',
       'ko' => 'ko_KR',
-      'id' => 'id_ID',
+      'id' => 'vi_VN',
     ),
   ),
   'rewrite_uri_lang' => array (
@@ -113,5 +113,8 @@ return array (
   ),
   'site_phone' => array (
     'value' => '+84 345 567 900',
+  ),
+  'default_posttype' => array (
+    'value' => 'posts',
   ),
 );

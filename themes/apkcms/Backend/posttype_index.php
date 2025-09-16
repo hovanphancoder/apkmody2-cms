@@ -2,20 +2,19 @@
 
 use System\Libraries\Render;
 use System\Libraries\Session;
-use App\Libraries\Fastlang as Flang;
 
 $breadcrumbs = array(
   [
-      'name' => 'Dashboard',
+      'name' => __('Dashboard'),
       'url' => admin_url('home')
   ],
   [
-      'name' => 'Post Types',
+      'name' => __('Post Types'),
       'url' => admin_url('posttype'),
       'active' => true
   ]
 );
-Render::block('Backend\\Header', ['layout' => 'default', 'title' => Flang::_e('posttype_list') ?? 'Post Types', 'breadcrumb' => $breadcrumbs ]);
+Render::block('Backend\\Header', ['layout' => 'default', 'title' => __('Post Types Management'), 'breadcrumb' => $breadcrumbs ]);
 
 $data    = $postTypes['data']   ?? $postTypes;
 $is_next = $postTypes['is_next'] ?? 0;
@@ -61,11 +60,11 @@ $order       = $_GET['order']    ?? 'desc';
   
   async deleteSelected() {
     if (this.selectedItems.length === 0) {
-      alert('Please select items to delete');
+      alert('<?= __('Please select items to delete') ?>');
       return;
     }
     
-    if (!confirm('Are you sure you want to delete selected items?')) {
+    if (!confirm('<?= __('Are you sure you want to delete selected items?') ?>')) {
       return;
     }
     
@@ -93,11 +92,11 @@ $order       = $_GET['order']    ?? 'desc';
       if (data.status === 'success') {
         window.location.reload();
       } else {
-        alert(data.message || 'Error deleting items');
+        alert(data.message || '<?= __('Error deleting items') ?>');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Network error occurred');
+      alert('<?= __('Network error occurred') ?>');
     } finally {
       this.isDeleting = false;
     }
@@ -107,8 +106,8 @@ $order       = $_GET['order']    ?? 'desc';
   <!-- Header & Filter -->
   <div class="flex flex-col gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-foreground">Post Types Management</h1>
-      <p class="text-muted-foreground">Manage system post types and their configurations</p>
+      <h1 class="text-2xl font-bold text-foreground"><?= __('Post Types Management') ?></h1>
+      <p class="text-muted-foreground"><?= __('Manage system post types and their configurations') ?></p>
     </div>
 
     <!-- Thông báo -->
@@ -128,7 +127,7 @@ $order       = $_GET['order']    ?? 'desc';
             <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4"></i>
             <input 
               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10" 
-              placeholder="<?= Flang::_e('search_posttype') ?? 'Search post types...' ?>" 
+              placeholder="<?= __('Search post types...') ?>" 
               name="q" 
               value="<?= htmlspecialchars($search) ?>"
               @keydown.enter="$event.target.closest('form').submit()"
@@ -157,13 +156,13 @@ $order       = $_GET['order']    ?? 'desc';
           >
             <i x-show="!isDeleting" data-lucide="trash2" class="h-4 w-4 mr-2"></i>
             <i x-show="isDeleting" data-lucide="loader-2" class="h-4 w-4 mr-2 animate-spin"></i>
-            <span x-text="isDeleting ? 'Deleting...' : 'Delete Selected'"></span>
+            <span x-text="isDeleting ? '<?= __('Deleting...') ?>' : '<?= __('Delete Selected') ?>'"></span>
           </button>
           
           <!-- Add New Button -->
           <a href="<?= admin_url('posttype/add/') ?>" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 whitespace-nowrap w-full lg:w-auto">
             <i data-lucide="plus" class="h-4 w-4 mr-2"></i>
-            <?= Flang::_e('add_new_posttype') ?? 'Add Post Type' ?>
+            <?= __('Add Post Type') ?>
           </a>
         </div>
             </form>
@@ -174,7 +173,7 @@ $order       = $_GET['order']    ?? 'desc';
   <div class="bg-card card-content !p-0 border overflow-hidden">
     <div class="overflow-x-auto">
       <div class="relative w-full overflow-auto">
-        <table class="w-full caption-bottom text-sm ">
+        <table class="w-full caption-bottom text-sm table-fixed">
                       <thead class="[&_tr]:border-b">
               <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                 <!-- Checkbox Select All -->
@@ -194,13 +193,13 @@ $order       = $_GET['order']    ?? 'desc';
                   return '<a href="?' . http_build_query($params) . '" class="hover:text-primary">' . $label . $arrow . '</a>';
                 }
                 ?>
-                <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('ID', 'id', $sort, $order); ?></th>
-                <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Name', 'name', $sort, $order); ?></th>
-                <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Slug', 'slug', $sort, $order); ?></th>
-                <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium">Languages</th>
-                <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium">Terms</th>
-                <th class="px-4 py-3 text-center align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Status', 'status', $sort, $order); ?></th>
-                <th class="px-4 py-3 text-center align-middle bg-menu-background-hover text-menu-text-hover font-medium">Actions</th>
+                <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap w-16"><?php echo sort_link(__('ID'), 'id', $sort, $order); ?></th>
+                <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap w-32"><?php echo sort_link(__('Name'), 'name', $sort, $order); ?></th>
+                <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap w-24"><?php echo sort_link(__('Slug'), 'slug', $sort, $order); ?></th>
+                <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium whitespace-nowrap w-80"><?= __('Languages') ?></th>
+                <th class="px-4 py-3 text-left align-middle bg-menu-background-hover text-menu-text-hover font-medium whitespace-nowrap w-40"><?= __('Terms') ?></th>
+                <th class="px-4 py-3 text-center align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap w-24"><?php echo sort_link(__('Status'), 'status', $sort, $order); ?></th>
+                <th class="px-4 py-3 text-center align-middle bg-menu-background-hover text-menu-text-hover font-medium whitespace-nowrap w-24"><?= __('Actions') ?></th>
                   </tr>
                 </thead>
                       <tbody class="[&_tr:last-child]:border-0">
@@ -212,46 +211,46 @@ $order       = $_GET['order']    ?? 'desc';
                       <input type="checkbox" class="row-checkbox h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" 
                              value="<?= $postType['id'] ?>" @change="updateSelectedItems()">
                     </td>
-                    <td class="px-4 py-1 align-middle font-medium text-foreground"><?= htmlspecialchars($postType['id'] ?? '') ?></td>
-                    <td class="px-4 py-1 align-middle text-foreground">
+                    <td class="px-4 py-1 align-middle font-medium text-foreground whitespace-nowrap w-16"><?= htmlspecialchars($postType['id'] ?? '') ?></td>
+                    <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate w-32" title="<?= htmlspecialchars($postType['name'] ?? '') ?>">
                       <a href="<?= admin_url('posttype/edit/' . $postType['id']); ?>" class="text-primary hover:underline hover:text-primary/80 transition-colors">
                         <?= htmlspecialchars($postType['name'] ?? '') ?>
                       </a>
                     </td>
-                  <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($postType['slug'] ?? '') ?></td>
-                  <td class="px-4 py-1 align-middle">
+                  <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate w-24" title="<?= htmlspecialchars($postType['slug'] ?? '') ?>"><?= htmlspecialchars($postType['slug'] ?? '') ?></td>
+                  <td class="px-4 py-1 align-middle w-80">
                       <?php 
                       if (!empty($postType['languages'])){
                         $postType['languages'] = json_decode($postType['languages'], true) ?? $postType['languages']; 
                         if (!empty($postType['languages'])){
                       ?>
-                        <div class="flex flex-wrap gap-1">
+                        <div class="flex flex-wrap gap-1 max-w-full">
                           <?php
                           
                           foreach ($postType['languages'] as $lang):
                           ?>
-                          <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-transparent bg-primary/10 text-primary">
+                          <span class="inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-semibold border-transparent bg-primary/10 text-primary whitespace-nowrap min-w-0">
                               <?= htmlspecialchars($lang); ?>
                             </span>
                           <?php endforeach; ?>
                         </div>
-                        <?php }else{
-                          echo '<span class="text-muted-foreground text-xs">'.Flang::_e('no_languages').'</span>';
+                        <?php                         }else{
+                          echo '<span class="text-muted-foreground text-xs">'.__('No languages').'</span>';
                         } ?>
                       <?php }else{
-                        echo '<span class="text-muted-foreground text-xs">'.Flang::_e('no_languages').'</span>';
+                        echo '<span class="text-muted-foreground text-xs">'.__('No languages').'</span>';
                       } ?>
                       
                     </td>
-                  <td class="px-4 py-1 align-middle">
+                  <td class="px-4 py-1 align-middle w-40">
                       <?php if (!empty($postType['terms'])): ?>
-                        <div class="flex flex-wrap gap-1">
+                        <div class="flex flex-wrap gap-1 max-w-full">
                           <?php
                           is_string($postType['terms']) ? $postType['terms'] = json_decode($postType['terms'], true) : $postType['terms'];
                           if (!empty($postType['terms'])):
                             foreach ($postType['terms'] as $term):
                           ?>
-                            <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-transparent bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                            <span class="inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-semibold border-transparent bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 whitespace-nowrap min-w-0">
                                 <?= htmlspecialchars($term['name']); ?>
                               </span>
                           <?php
@@ -260,28 +259,25 @@ $order       = $_GET['order']    ?? 'desc';
                           ?>
                         </div>
                       <?php else: ?>
-                      <span class="text-muted-foreground text-xs"><?= Flang::_e('no_terms') ?></span>
+                      <span class="text-muted-foreground text-xs"><?= __('No terms') ?></span>
                       <?php endif; ?>
                     </td>
-                  <td class="px-4 py-1 align-middle text-center">
+                  <td class="px-4 py-1 align-middle text-center w-24">
                     <div class="flex items-center gap-2 justify-center">
                       <button type="button" onclick="changeStatusPostType(<?= $postType['id']; ?>, event);" class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=checked]:bg-primary data-[state=unchecked]:bg-input <?= $postType['status']==='active'?'bg-primary':'bg-input' ?>">
                         <span class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform <?= $postType['status']==='active'?'translate-x-5':'translate-x-0' ?>"></span>
                       </button>
-                      <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-transparent <?= $postType['status']==='active'?'bg-primary text-primary-foreground':'bg-secondary text-secondary-foreground' ?>">
-                        <?= $postType['status']==='active'?'active':'inactive' ?>
-                      </div>
                     </div>
                     </td>
                   <td class="px-4 py-1 align-middle text-center">
                     <div class="flex items-center gap-1 justify-center">
-                      <a href="<?= admin_url('posttype/edit/' . $postType['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0" title="Edit Post Type">
+                      <a href="<?= admin_url('posttype/edit/' . $postType['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0 flex-shrink-0" title="<?= __('Edit Post Type') ?>">
                         <i data-lucide="square-pen" class="h-4 w-4"></i>
                       </a>
-                      <a href="<?= admin_url('posttype/copy/' . $postType['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0" title="Copy Post Type">
+                      <a href="<?= admin_url('posttype/copy/' . $postType['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0 flex-shrink-0" title="<?= __('Copy Post Type') ?>">
                         <i data-lucide="copy" class="h-4 w-4"></i>
                       </a>
-                      <a href="<?= admin_url('posttype/delete/' . $postType['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0" onclick="return confirm('<?= Flang::_('confirm_delete') ?>');" title="Delete Post Type">
+                      <a href="<?= admin_url('posttype/delete/' . $postType['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0 flex-shrink-0" onclick="return confirm('<?= __('Are you sure you want to delete this item?') ?>');" title="<?= __('Delete Post Type') ?>">
                         <i data-lucide="trash2" class="h-4 w-4"></i>
                         </a>
                       </div>
@@ -289,7 +285,7 @@ $order       = $_GET['order']    ?? 'desc';
                   </tr>
                 <?php endforeach; ?>
                           <?php else: ?>
-                <tr><td colspan="8" class="text-center py-4 text-muted-foreground">No post types found.</td></tr>
+                <tr><td colspan="8" class="text-center py-4 text-muted-foreground"><?= __('No post types found.') ?></td></tr>
               <?php endif; ?>
               </tbody>
             </table>
@@ -304,9 +300,9 @@ $order       = $_GET['order']    ?? 'desc';
         $from = ($page - 1) * $limit + 1;
         $to = $from + count($data) - 1;
         if ($total > 0) {
-          echo "Showing $from to $to of $total results";
+          _e('Showing %1% to %2% of %3% results', $from, $to, $total);
         } else {
-          echo "No results";
+          _e('No results');
         }
         ?>
       </div>
@@ -328,7 +324,7 @@ $order       = $_GET['order']    ?? 'desc';
   <script>
 function changeStatusPostType(id, event) {
   event.preventDefault();
-  if(confirm('<?= Flang::_('confirm_status') ?>')) {
+  if(confirm('<?= __('Are you sure you want to change the status?') ?>')) {
     window.location.href = '<?= admin_url('posttype/changestatus/') ?>' + id + '/';
   }
 }

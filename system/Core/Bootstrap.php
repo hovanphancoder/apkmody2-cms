@@ -91,7 +91,7 @@ class Bootstrap {
         /* -----------------------------------------------------------------
         * 6) Build segments array + strip language prefix if needed
         * -----------------------------------------------------------------*/
-        $segments = $path === '' ? [] : explode('/', $path);
+        $segments = ($path === '' || $path === '/') ? [] : explode('/', $path);
         if ($segments && defined('APP_LANGUAGES') && isset(APP_LANGUAGES[$segments[0]])) {
             array_shift($segments);                 // remove language code
             $path = implode('/', $segments);

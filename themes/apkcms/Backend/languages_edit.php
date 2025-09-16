@@ -5,7 +5,6 @@ namespace System\Libraries;
 Render::block('Backend\Header', ['layout' => 'default', 'title' => $title ?? 'Languages']);
 
 use System\Libraries\Session;
-use App\Libraries\Fastlang as Flang;
 ?>
 <div class="pc-container">
   <div class="pc-content">
@@ -15,10 +14,10 @@ use App\Libraries\Fastlang as Flang;
         <div class="page-block">
           <?php Render::block('Backend\PageTitle', [
             'layout'     => 'default',
-            'title'      => Flang::_e('edit_language') ?? 'Edit Language',
+            'title'      => __('Edit Language'),
             'breadcrumb' => [
               ['title' => 'Home', 'url' => admin_url('home')],
-              ['title' => Flang::_e('languages'), 'url' => admin_url('languages')],
+              ['title' => __('Languages'), 'url' => admin_url('languages')],
               // Bạn có thể thêm các breadcrumb khác nếu cần
             ],
           ]); ?>
@@ -45,7 +44,7 @@ use App\Libraries\Fastlang as Flang;
           <!-- Language Name -->
           <div>
             <label for="name" class="block text-sm font-medium ">
-              <?= Flang::_e('language_name') ?? 'Language Name:' ?>
+              <?= __('Language Name') ?>:
             </label>
             <input type="text" name="name" id="name" value="<?= htmlspecialchars($language['name']); ?>" required
               class="form-control mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -54,7 +53,7 @@ use App\Libraries\Fastlang as Flang;
           <!-- Language Code -->
           <div>
             <label for="code" class="block text-sm font-medium ">
-              <?= Flang::_e('language_code') ?? 'Language Code:' ?>
+              <?= __('Language Code') ?>:
             </label>
             <input type="text" name="code" id="code" value="<?= htmlspecialchars($language['code']); ?>" required
               class="form-control mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -63,7 +62,7 @@ use App\Libraries\Fastlang as Flang;
           <!-- Country Flag -->
           <div>
             <label for="flag" class="block text-sm font-medium ">
-              <?= Flang::_e('country_flag') ?? 'Country Flag:' ?>
+              <?= __('Country Flag') ?>:
             </label>
             <input type="text" name="flag" id="flag" value="<?= htmlspecialchars($language['flag'] ?? ''); ?>" 
               class="form-control mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="e.g., us, vn, uk">
@@ -73,15 +72,15 @@ use App\Libraries\Fastlang as Flang;
           <!-- Status -->
           <div>
             <label for="status" class="block text-sm font-medium ">
-              <?= Flang::_e('status') ?? 'Status:' ?>
+              <?= __('Status') ?>:
             </label>
             <select name="status" id="status"
               class="form-control mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
               <option value="active" <?= $language['status'] == 'active' ? 'selected' : ''; ?>>
-                <?= Flang::_e('active') ?? 'Active'; ?>
+                <?= __('Active'); ?>
               </option>
               <option value="inactive" <?= $language['status'] == 'inactive' ? 'selected' : ''; ?>>
-                <?= Flang::_e('inactive') ?? 'Inactive'; ?>
+                <?= __('Inactive'); ?>
               </option>
             </select>
           </div>
@@ -89,16 +88,16 @@ use App\Libraries\Fastlang as Flang;
           <!-- Default -->
           <div>
             <label for="is_default" class="block text-sm font-medium ">
-              <?= Flang::_e('default') ?? 'Default' ?>
+              <?= __('Default') ?>
             </label>
             <select name="is_default" id="is_default"
               class="form-control mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
               <?php if ($language['is_default'] == 1): ?>
-                <option value="1" selected><?= Flang::_e('yes') ?? 'Yes'; ?></option>
-                <option value="0"><?= Flang::_e('no') ?? 'No'; ?></option>
+                <option value="1" selected><?= __('Yes'); ?></option>
+                <option value="0"><?= __('No'); ?></option>
               <?php else: ?>
-                <option value="0" selected><?= Flang::_e('no') ?? 'No'; ?></option>
-                <option value="1"><?= Flang::_e('yes') ?? 'Yes'; ?></option>
+                <option value="0" selected><?= __('No'); ?></option>
+                <option value="1"><?= __('Yes'); ?></option>
               <?php endif; ?>
             </select>
           </div>
@@ -106,12 +105,12 @@ use App\Libraries\Fastlang as Flang;
           <!-- Submit & Delete -->
           <div class="flex flex-wrap items-center justify-between gap-2">
             <button type="submit" class="btn btn-primary w-full md:w-fit">
-              <?= Flang::_e('update') ?? 'Update'; ?>
+              <?= __('Update'); ?>
             </button>
             <a href="<?= admin_url('languages/delete/' . $language['id']); ?>"
               class="btn btn-danger w-full md:w-fit"
-              onclick="return confirm('<?= Flang::_('confirm_delete') ?? 'Are you sure you want to delete?'; ?>');">
-              <?= Flang::_e('delete') ?? 'Delete'; ?>
+              onclick="return confirm('<?= __('confirm_delete'); ?>');">
+              <?= __('Delete'); ?>
             </a>
           </div>
         </form>

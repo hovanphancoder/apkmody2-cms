@@ -2,12 +2,41 @@
 namespace System\Libraries;
 
 use System\Libraries\Render;    
+use App\Libraries\Fastlang as Flang;
 
-Render::block('Backend\Header', ['layout'=>'default', 'title' => 'Options']);
+$breadcrumbs = array(
+  [
+      'name' => __('Dashboard'),
+      'url' => admin_url('home')
+  ],
+  [
+      'name' => __('Options'),
+      'url' => admin_url('options'),
+      'active' => true
+  ]
+);
+
+Render::block('Backend\Header', ['layout'=>'default', 'title' => __('Website Settings'), 'breadcrumb' => $breadcrumbs]);
 ?>
 
 <div class="pc-container">
     <div class="pc-content">
+    
+    <!-- Header & Description -->
+    <div class="flex flex-col gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-foreground"><?= __('Website Settings') ?></h1>
+        <p class="text-muted-foreground"><?= __('Manage website configuration and settings') ?></p>
+      </div>
+
+      <!-- Thông báo -->
+      <?php if (Session::has_flash('success')): ?>
+        <?php Render::block('Backend\\Notification', ['layout' => 'default', 'type' => 'success', 'message' => Session::flash('success')]) ?>
+      <?php endif; ?>
+      <?php if (Session::has_flash('error')): ?>
+        <?php Render::block('Backend\\Notification', ['layout' => 'default', 'type' => 'error', 'message' => Session::flash('error')]) ?>
+      <?php endif; ?>
+    </div>
 
     <style>
         /* Custom styles for better spacing */
@@ -111,8 +140,8 @@ Render::block('Backend\Header', ['layout'=>'default', 'title' => 'Options']);
     <!-- React app container - Chỉ render fields -->
     <div id="initial-loading" style="display: flex; justify-content: center; align-items: center; height: 200px; flex-direction: column;">
         <div class="loading-spinner"></div>
-        <p style="margin-top: 10px; color: #666;">Loading ACF Form Builder...</p>
-        <p style="margin-top: 5px; color: #999; font-size: 12px;" id="initial-loading-content">Initializing drag & drop components...</p>
+        <p style="margin-top: 10px; color: #666;"><?= __('Loading ACF Form Builder...') ?></p>
+        <p style="margin-top: 5px; color: #999; font-size: 12px;" id="initial-loading-content"><?= __('Initializing drag & drop components...') ?></p>
     </div>
     <div id="root">
         <!-- Initial loading state -->

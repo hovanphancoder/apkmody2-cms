@@ -2,27 +2,96 @@
 namespace System\Libraries;
 
 use System\Libraries\Render;
-$current_user = 1;
-$posttype = json_encode($posttype, JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR);
+use System\Libraries\Session;
+
+global $me_info;
+
+$current_user = $me_info['id'];
+$languages = isset($posttype['languages']) && is_string($posttype['languages']) ? json_decode($posttype['languages'], true) : [];
+$posttype_encode = json_encode($posttype, JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR);
 if(!empty($post)) {
     $post_encode = json_encode($post, JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR);
 } else {
-  $post_encode = '[]';
+    $post_encode = '[]';
 }
-$currentLang = S_GET('post_lang') ?? APP_LANG_DF;
-
 // Lấy danh sách ngôn ngữ từ config
-$languages = ['vi', 'en']; // Có thể lấy từ config thực tế
 $type = S_GET('type') ?? '';
 $isEdit = !empty($post);
 $langHasPost = []; // Có thể lấy từ database nếu cần
+$currentLang = S_GET('post_lang') ?? APP_LANG_DF;
+if($isEdit) {
+  $created_at = $post['created_at'];
+} else {
+  $created_at = '';
+}
+// Breadcrumbs
+$breadcrumbs = array(
+  [
+      'name' => __('Dashboard'),
+      'url' => admin_url('home')
+  ],
+  [
+      'name' => __('Posts'),
+      'url' => admin_url('posts')
+  ],
+  [
+      'name' => $isEdit ? __('Edit') : __('Add').' '. $posttype['name'],
+      'url' => admin_url('posts/add'),
+      'active' => true
+  ]
+);
 
 // [1] LẤY CÁC THÔNG TIN CHUNG
-Render::block('Backend\Header', ['layout'=>'default', 'title' => 'Add Posts']);
+Render::block('Backend\Header', ['layout'=>'default', 'title' => $isEdit ? __('Edit') : __('Add'), 'breadcrumb' => $breadcrumbs]);
 ?>
 
 <div class="pc-container">
     <div class="pc-content relative">
+
+    <!-- Header & Description -->
+    <div class="flex flex-col gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-foreground"><?= $isEdit ? __('Edit') : __('Add').' '. $posttype['name'] ?></h1>
+        <p class="text-muted-foreground"><?= $isEdit ? __('Edit') : __('Add').' '. $posttype['name'] ?></p>
+      </div>
+
+      <!-- Thông báo -->
+      <?php if (Session::has_flash('success')): ?>
+        <?php Render::block('Backend\\Notification', ['layout' => 'default', 'type' => 'success', 'message' => Session::flash('success')]) ?>
+      <?php endif; ?>
+      <?php if (Session::has_flash('error')): ?>
+        <?php Render::block('Backend\\Notification', ['layout' => 'default', 'type' => 'error', 'message' => Session::flash('error')]) ?>
+      <?php endif; ?>
+      
+      <!-- Validation Errors -->
+      <?php if (isset($errors) && !empty($errors)): ?>
+        <div class="bg-destructive/10 border border-destructive/20 rounded-lg p-4 mb-4">
+          <div class="flex items-start gap-3">
+            <i data-lucide="alert-circle" class="h-5 w-5 text-destructive flex-shrink-0 mt-0.5"></i>
+            <div class="flex-1">
+              <h3 class="text-sm font-semibold text-destructive mb-2"><?= __('Please fix the following errors') ?>:</h3>
+              <ul class="space-y-1">
+                <?php foreach ($errors as $field => $fieldErrors): ?>
+                  <?php if (is_array($fieldErrors)): ?>
+                    <?php foreach ($fieldErrors as $error): ?>
+                      <li class="text-sm text-destructive/80 flex items-start gap-2">
+                        <span class="text-destructive">•</span>
+                        <span><strong><?= ucfirst(str_replace('_', ' ', $field)) ?>:</strong> <?= __($error) ?></span>
+                      </li>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <li class="text-sm text-destructive/80 flex items-start gap-2">
+                      <span class="text-destructive">•</span>
+                      <span><?= __($fieldErrors) ?></span>
+                    </li>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
+    </div>
 
     <!-- PHP sẽ tạo form wrapper này -->
     <form id="acf-form" method="post" action="" enctype="multipart/form-data">
@@ -31,76 +100,80 @@ Render::block('Backend\Header', ['layout'=>'default', 'title' => 'Add Posts']);
         <input type="hidden" name="type" value="<?= S_GET('type') ?? '' ?>" />
         <!-- <input type="hidden" name="lang" value="<?= $currentLang ?>" /> -->
 
-        <!-- TOP ACTION BAR - NGÔN NGỮ & PUBLISH -->
+        <!-- POST CONTROLS BAR -->
         <div class="bg-card rounded-xl mb-4 border">
-            <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between p-4">
+            <!-- LANGUAGE SWITCHER -->
+            <div class="flex items-center gap-2 m-4">
+                <!-- Ngôn ngữ hiện tại -->
+                <div class="inline-flex items-center px-3 py-2 rounded-md bg-primary text-primary-foreground shadow-sm">
+                    <span class="text-sm font-medium uppercase"><?= $currentLang ?></span>
+                    <span class="ml-2">
+                        <?php if($isEdit) { ?>
+                        <i data-lucide="check-circle" class="h-4 w-4"></i>
+                        <?php } else { ?>
+                        <i data-lucide="plus" class="h-4 w-4"></i>
+                        <?php } ?>
+                    </span>
+                </div>
+
+                <!-- Các ngôn ngữ khác -->
+                <?php foreach($languages as $lang): 
+                    if($lang !== $currentLang):
+                        if($isEdit) {
+                            $langUrlAction = admin_url('posts/clone/' . $post['id']) 
+                                            . '?type=' . $type
+                                            . '&post_lang=' . $lang
+                                            . '&oldpost_lang=' . $currentLang;
+                        } else {
+                            $langUrlAction = admin_url('posts/add', '/'.APP_LANG)
+                                            . '?type=' . $type
+                                            . '&post_lang=' . $lang;
+                        }
+                    ?>
+                <a href="<?= $langUrlAction; ?>" 
+                    class="inline-flex items-center px-3 py-2 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+                    <span class="text-sm font-medium uppercase"><?= $lang ?></span>
+                    <span class="ml-2">
+                        <?php if( $isEdit && in_array($lang, $langHasPost)) { ?>
+                        <i data-lucide="edit" class="h-4 w-4"></i>
+                        <?php } else { ?>
+                        <i data-lucide="plus" class="h-4 w-4"></i>
+                        <?php }?>
+                    </span>
+                </a>
+                <?php 
+                    endif;
+                    endforeach; ?>
+            </div> 
+
+            <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between p-4 pt-0">
                 <!-- STATUS & TIME SECTION -->
                 <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center flex-1 w-full lg:w-auto">
-                    <div class="flex items-center gap-2">
-                        <label for="last-updated-input" class="text-sm font-medium text-muted-foreground whitespace-nowrap">Thời gian cập nhật:</label>
-                        <input id="last-updated-input" name="last_updated" type="datetime-local" 
-                               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-w-[180px]" />
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
+                        <label for="last-updated-input" class="text-sm font-medium text-muted-foreground whitespace-nowrap"><?= __('Created at') ?>:</label>
+                        <input id="last-updated-input" name="created_at" type="datetime-local" 
+                               step="1"
+                               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-w-[180px]" 
+                               value="<?= $created_at ?? '' ?>"
+                               />
+                        <!-- lần cuối cập nhật text note nhỏ-->
+                        <p class="text-sm text-muted-foreground whitespace-nowrap"><?= __('Last updated') ?>: <?= $created_at ?? '' ?></p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <label for="post-status" class="text-sm font-medium text-muted-foreground whitespace-nowrap">Trạng thái bài:</label>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
+                        <label for="post-status" class="text-sm font-medium text-muted-foreground whitespace-nowrap"><?= __('Post status') ?>:</label>
                         <select id="post-status" name="status" 
                                 class="flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 min-w-[120px]">
-                            <option value="active" <?= isset($post['status']) && $post['status'] == 'active' ? 'selected' : '' ?>>Đã xuất bản</option>
-                            <option value="inactive" <?= isset($post['status']) && $post['status'] == 'inactive' ? 'selected' : '' ?>>Nháp</option>
+                            <option value="active" <?= isset($post['status']) && $post['status'] == 'active' ? 'selected' : '' ?>><?= __('Published') ?></option>
+                            <option value="inactive" <?= isset($post['status']) && $post['status'] == 'inactive' ? 'selected' : '' ?>><?= __('Draft') ?></option>
                         </select>
                     </div>
                 </div>
-
-                <!-- APP_LANGUAGE SWITCHER -->
-                <div class="flex items-center gap-2">
-                    <!-- Ngôn ngữ hiện tại -->
-                    <div class="inline-flex items-center px-3 py-2 rounded-md bg-primary text-primary-foreground shadow-sm">
-                        <span class="text-sm font-medium uppercase"><?= $currentLang ?></span>
-                        <span class="ml-2">
-                            <?php if($isEdit) { ?>
-                            <i data-lucide="check-circle" class="h-4 w-4"></i>
-                            <?php } else { ?>
-                            <i data-lucide="plus" class="h-4 w-4"></i>
-                            <?php } ?>
-                        </span>
-                    </div>
-
-                    <!-- Các ngôn ngữ khác -->
-                    <?php foreach($languages as $language): 
-                        if($language !== $currentLang):
-                            if($isEdit) {
-                              $langUrlAction = admin_url('posts/clone/' . $post['id']) 
-                                                . '?type=' . $type
-                                                . '&post_lang=' . $language
-                                                . '&oldpost_lang=' . $currentLang;
-                            } else {
-                              $langUrlAction = admin_url('posts/add', '/'.APP_LANG)
-                                                . '?type=' . $type
-                                                . '&post_lang=' . $language;
-                            }
-                      ?>
-                    <a href="<?= $langUrlAction; ?>" 
-                       class="inline-flex items-center px-3 py-2 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
-                        <span class="text-sm font-medium uppercase"><?= $language ?></span>
-                        <span class="ml-2">
-                            <?php if( $isEdit && in_array($language, $langHasPost)) { ?>
-                            <i data-lucide="edit" class="h-4 w-4"></i>
-                            <?php } else { ?>
-                            <i data-lucide="plus" class="h-4 w-4"></i>
-                            <?php }?>
-                        </span>
-                    </a>
-                    <?php 
-                        endif;
-                      endforeach; ?>
-                </div>
-
                 <!-- PUBLISH BUTTON -->
                 <div class="flex items-center">
                     <button type="submit" id="publish-btn" 
                             class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
                         <i data-lucide="send" class="h-4 w-4 mr-2"></i>
-                        Publish
+                        <?= __('Publish') ?>
                     </button>
                 </div>
             </div>
@@ -205,29 +278,20 @@ Render::block('Backend\Header', ['layout'=>'default', 'title' => 'Add Posts']);
        .ce-block__content {
         max-width: inherit;
        }
-      .fixed-form-actions { transition: box-shadow 0.2s; }
-      @media (max-width: 600px) {
-        .fixed-form-actions { padding: 1rem 2vw 1rem 2vw; }
-        .fixed-form-actions > div { flex-direction: column; align-items: stretch !important; gap: 0.5rem !important; }
-      }
+      /* Form actions đã được chuyển lên POST CONTROLS BAR */
     </style>
         <!-- React app container - Chỉ render fields -->
         <div id="initial-loading" style="display: flex; justify-content: center; align-items: center; height: 200px; flex-direction: column;">
             <div class="loading-spinner"></div>
-            <p style="margin-top: 10px; color: #666;">Loading ACF Form Builder...</p>
-            <p style="margin-top: 5px; color: #999; font-size: 12px;" id="initial-loading-content">Initializing drag & drop components...</p>
+            <p style="margin-top: 10px; color: #666;"><?= __('Loading ACF Form Builder...') ?></p>
+            <p style="margin-top: 5px; color: #999; font-size: 12px;" id="initial-loading-content"><?= __('Initializing drag & drop components...') ?></p>
         </div>
         <div id="root">
             <!-- Initial loading state -->
             
         </div>
         
-        <!-- PHP sẽ tạo submit buttons -->
-        <div class="form-actions fixed-form-actions">
-            <div style="display: flex; justify-content: center; align-items: center; max-width:1440px;margin:auto;">
-                <!-- Status và time đã được chuyển lên top action bar -->
-            </div>
-        </div>
+        <!-- Form actions đã được chuyển lên POST CONTROLS BAR -->
     </form>
     <!-- PHP sẽ inject data vào đây -->
     <script>
@@ -298,7 +362,7 @@ Render::block('Backend\Header', ['layout'=>'default', 'title' => 'Add Posts']);
             "shadow": true
           }
         },
-        "postType": <?= $posttype; ?>,
+        "postType": <?= $posttype_encode; ?>,
         "postEdit": <?= $post_encode; ?>
       };
 

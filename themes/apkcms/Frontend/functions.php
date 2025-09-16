@@ -1,16 +1,116 @@
 <?php
-/**
- * Theme Functions
- * 
- * This file is automatically loaded by FrontendController
- * Similar to WordPress functions.php
- * 
- * Add your custom functions here without modifying core files
- */
+use System\Core\AppException;
 
 // Prevent direct access
 if (!defined('APP_THEME_PATH')) {
     exit('Direct access not allowed');
+}
+
+/**
+ * Get categories with static cache
+ * Lấy danh sách categories với cache tĩnh để tránh query SQL nhiều lần
+ * 
+ * @param string $posttype Loại posttype (posts, news, etc.)
+ * @param string $type Loại term (category, tag, etc.)
+ * @param string $lang Mã ngôn ngữ
+ * @param int $parent_id ID của parent category (0 = root categories)
+ * @param bool $active Chỉ lấy categories active
+ * @return array Danh sách categories
+ */
+if (!function_exists('get_categories')) {
+    function get_categories($posttype = 'posts', $type = 'category', $lang = APP_LANG, $active = true)
+    {
+        static $get_categories;
+        if (!empty($get_categories)) {
+            return $get_categories;
+        }
+        try {
+            $qb = (new \App\Models\FastModel('fast_terms'))
+                ->newQuery()
+                ->where('posttype', '=', $posttype)
+                ->where('type', '=', $type)
+                ->where('lang', '=', $lang)
+            ;
+            if ($active) {
+                //$qb->where('active', '=', 1);
+            }
+            
+            $get_categories = $qb->orderBy('name', 'ASC')->get();
+            return $get_categories;
+        } catch (Exception $e) {
+            throw new AppException('Error in get_categories: ' . $e->getMessage());
+            return [];
+        }
+    }
+}
+
+/**
+ * Get all categories (games + apps) with static cache
+ * Lấy tất cả categories với cache tĩnh
+ * 
+ * @param string $lang Mã ngôn ngữ
+ * @return array Array chứa games_categories và apps_categories
+ */
+if (!function_exists('get_all_categories')) {
+    function get_all_categories($lang = APP_LANG)
+    {
+        static $all_categories_cache = null;
+        
+        if ($all_categories_cache !== null) {
+            return $all_categories_cache;
+        }
+        
+        try {
+            // Lấy tất cả categories một lần
+            $all_categories = (new \App\Models\FastModel('fast_terms'))
+                ->where('posttype', 'posts')
+                ->where('type', 'category')
+                ->where('lang', $lang)
+                ->where('active', 1)
+                ->orderBy('name', 'ASC')
+                ->get();
+            
+            // Filter theo parent ID từ options
+            $games_categories = array_filter($all_categories, function($category) {
+                return $category['parent'] == option('themes_gamesid', 111);
+            });
+            
+            $apps_categories = array_filter($all_categories, function($category) {
+                return $category['parent'] == option('themes_appsid', 112);
+            });
+            
+            $all_categories_cache = [
+                'games_categories' => array_values($games_categories),
+                'apps_categories' => array_values($apps_categories),
+                'all_categories' => $all_categories
+            ];
+            
+            return $all_categories_cache;
+            
+        } catch (Exception $e) {
+            error_log('Error in get_all_categories: ' . $e->getMessage());
+            $all_categories_cache = [
+                'games_categories' => [],
+                'apps_categories' => [],
+                'all_categories' => []
+            ];
+            return $all_categories_cache;
+        }
+    }
+}
+
+/**
+ * Clear categories cache
+ * Xóa cache categories (hữu ích khi có thay đổi dữ liệu)
+ */
+if (!function_exists('clear_categories_cache')) {
+    function clear_categories_cache()
+    {
+        // Reset static cache bằng cách gọi lại function với tham số khác
+        // Hoặc có thể implement cách khác tùy theo nhu cầu
+        static $categories_cache = [];
+        $categories_cache = [];
+    }
 }
 
 /**

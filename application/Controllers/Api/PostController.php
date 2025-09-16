@@ -21,7 +21,7 @@ class PostController extends ApiController
     // update views
     public function update_view($posttype = '', $id = '') {
         try {
-            $table = posttype_exists($posttype);
+            $table = posttype_name($posttype);
             $postModel = new FastModel($table);
             $post = $postModel->where('id', $id)->first();
             if (!$post) {

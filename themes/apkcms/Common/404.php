@@ -104,14 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             <path d="M12 9v4"></path>
                             <path d="M12 17h.01"></path>
                         </svg>
-                        <?php echo __('errors.404.oops_message'); ?>
+                        <?php echo __('Oops! Something went wrong'); ?>
                     </h3>
                 </div>
                 <div class="p-6 pt-0 space-y-6">
                     <div class="text-center">
                         <div class="text-8xl font-bold text-primary/20 select-none mb-4">404</div>
-                        <h2 class="text-2xl font-semibold text-foreground mb-2"><?php echo __('errors.404.heading'); ?></h2>
-                        <p class="text-muted-foreground"><?php echo __('errors.404.message'); ?></p>
+                        <h2 class="text-2xl font-semibold text-foreground mb-2"><?php echo __('Page Not Found'); ?></h2>
+                        <p class="text-muted-foreground"><?php echo __('Oops! The page you\'re looking for seems to have wandered off into the digital void. Don\'t worry, even the best explorers sometimes take a wrong turn.'); ?></p>
                     </div>
                     <div class="flex flex-col gap-3">
                         <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black text-white text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full flex items-center justify-center gap-2" href="<?php echo base_url(); ?>">
@@ -119,14 +119,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                                 <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                             </svg>
-                            <?php echo __('errors.404.back_home'); ?>
+                            <?php echo __('Back to Home'); ?>
                         </a>
                         <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full bg-transparent flex items-center justify-center gap-2" href="javascript:history.back()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4">
                                 <path d="m12 19-7-7 7-7"></path>
                                 <path d="M19 12H5"></path>
                             </svg>
-                            <?php echo __('errors.404.go_back'); ?>
+                            <?php echo __('Go Back'); ?>
                         </a>
                         <button class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full flex items-center justify-center gap-2" onclick="location.reload()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw w-4 h-4">
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
                                 <path d="M8 16H3v5"></path>
                             </svg>
-                            <?php echo __('errors.404.refresh_page', 'Refresh Page'); ?>
+                            <?php echo __('Refresh Page', 'Refresh Page'); ?>
                         </button>
                     </div>
                 </div>
@@ -250,30 +250,30 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <path d="m21 21-4.3-4.3"></path>
                             </svg>
-                            <?php echo __('errors.404.quick_links', 'Quick Links'); ?>
+                            <?php echo __('Quick Links', 'Quick Links'); ?>
                         </h3>
                     </div>
                     <div class="p-6 pt-0">
                         <div class="space-y-3">
                             <a class="block p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors" href="<?php echo base_url('features'); ?>">
-                                <div class="font-medium text-foreground"><?php echo __('nav.features'); ?></div>
-                                <div class="text-sm text-muted-foreground"><?php echo __('errors.404.features_desc', 'Main features overview'); ?></div>
+                                <div class="font-medium text-foreground"><?php echo __('Features'); ?></div>
+                                <div class="text-sm text-muted-foreground"><?php echo __('Main features overview', 'Main features overview'); ?></div>
                             </a>
                             <a class="block p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors" href="<?php echo base_url('library'); ?>">
-                                <div class="font-medium text-foreground"><?php echo __('nav.library'); ?></div>
-                                <div class="text-sm text-muted-foreground"><?php echo __('errors.404.library_desc', 'Resource library'); ?></div>
+                                <div class="font-medium text-foreground"><?php echo __('Library'); ?></div>
+                                <div class="text-sm text-muted-foreground"><?php echo __('Resource library', 'Resource library'); ?></div>
                             </a>
                             <a class="block p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors" href="<?php echo base_url('blog'); ?>">
                                 <div class="font-medium text-foreground"><?php echo __('nav.blog'); ?></div>
-                                <div class="text-sm text-muted-foreground"><?php echo __('errors.404.blog_desc', 'Latest articles and news'); ?></div>
+                                <div class="text-sm text-muted-foreground"><?php echo __('Latest articles and news', 'Latest articles and news'); ?></div>
                             </a>
                             <a class="block p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors" href="<?php echo base_url('community'); ?>">
-                                <div class="font-medium text-foreground"><?php echo __('nav.community'); ?></div>
-                                <div class="text-sm text-muted-foreground"><?php echo __('errors.404.community_desc', 'Community and support'); ?></div>
+                                <div class="font-medium text-foreground"><?php echo __('Community'); ?></div>
+                                <div class="text-sm text-muted-foreground"><?php echo __('Community and support', 'Community and support'); ?></div>
                             </a>
                             <a class="block p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors" href="<?php echo base_url('development'); ?>">
                                 <div class="font-medium text-foreground"><?php echo __('nav.development'); ?></div>
-                                <div class="text-sm text-muted-foreground"><?php echo __('errors.404.development'); ?></div>
+                                <div class="text-sm text-muted-foreground"><?php echo __('Development'); ?></div>
                             </a>
                         </div>
                     </div>
@@ -283,25 +283,25 @@ document.addEventListener('DOMContentLoaded', function() {
         
         <div class="mt-6 rounded-lg border bg-card text-card-foreground shadow-sm">
             <div class="flex flex-col space-y-1.5 p-6">
-                <h3 class="text-2xl font-semibold leading-none tracking-tight"><?php echo __('errors.404.need_help'); ?></h3>
+                <h3 class="text-2xl font-semibold leading-none tracking-tight"><?php echo __('Need Help?'); ?></h3>
             </div>
             <div class="grid gap-6 md:grid-cols-2 p-6 pt-0 space-y-4">
                 <div class="space-y-2">
-                    <h4 class="font-medium text-foreground"><?php echo __('errors.404.common_causes', 'Common Causes:'); ?></h4>
+                    <h4 class="font-medium text-foreground"><?php echo __('Common Causes:', 'Common Causes:'); ?></h4>
                     <ul class="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                        <li><?php echo __('errors.404.cause_typo', 'The URL was typed incorrectly'); ?></li>
-                        <li><?php echo __('errors.404.cause_moved', 'The page has been moved or deleted'); ?></li>
-                        <li><?php echo __('errors.404.cause_permission', 'You don\'t have permission to access this page'); ?></li>
-                        <li><?php echo __('errors.404.cause_outdated', 'The link you followed is outdated'); ?></li>
+                        <li><?php echo __('The URL was typed incorrectly', 'The URL was typed incorrectly'); ?></li>
+                        <li><?php echo __('The page has been moved or deleted', 'The page has been moved or deleted'); ?></li>
+                        <li><?php echo __('You don\'t have permission to access this page', 'You don\'t have permission to access this page'); ?></li>
+                        <li><?php echo __('The link you followed is outdated', 'The link you followed is outdated'); ?></li>
                     </ul>
                 </div>
                 <div class="space-y-2">
-                    <h4 class="font-medium text-foreground"><?php echo __('errors.404.what_you_can_do', 'What you can do:'); ?></h4>
+                    <h4 class="font-medium text-foreground"><?php echo __('What you can do:', 'What you can do:'); ?></h4>
                     <ul class="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                        <li><?php echo __('errors.404.action_check_url', 'Check the URL for typos'); ?></li>
-                        <li><?php echo __('errors.404.action_use_nav', 'Use the navigation menu'); ?></li>
-                        <li><?php echo __('errors.404.action_go_back', 'Go back to the previous page'); ?></li>
-                        <li><?php echo __('errors.404.action_contact', 'Contact support if the problem persists'); ?></li>
+                        <li><?php echo __('Check the URL for typos', 'Check the URL for typos'); ?></li>
+                        <li><?php echo __('Use the navigation menu', 'Use the navigation menu'); ?></li>
+                        <li><?php echo __('Go back to the previous page', 'Go back to the previous page'); ?></li>
+                        <li><?php echo __('Contact support if the problem persists', 'Contact support if the problem persists'); ?></li>
                     </ul>
                 </div>
             </div>
@@ -310,13 +310,13 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="rounded-lg border bg-card text-card-foreground shadow-sm mt-8">
             <div class="p-6">
                 <div class="text-center space-y-2">
-                    <p class="text-sm text-muted-foreground"><?php echo __('errors.404.still_cant_find', 'Still can\'t find what you\'re looking for?'); ?></p>
+                    <p class="text-sm text-muted-foreground"><?php echo __('Still can\'t find what you\'re looking for?', 'Still can\'t find what you\'re looking for?'); ?></p>
                     <div class="flex flex-col sm:flex-row gap-2 justify-center">
                         <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" href="mailto:<?= option('site_email') ?>">
-                            <?php echo __('errors.404.contact_support', 'Contact Support'); ?>
+                            <?php echo __('Contact Support', 'Contact Support'); ?>
                         </a>
                         <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" href="<?php echo base_url('help'); ?>">
-                            <?php echo __('errors.404.view_docs', 'View Documentation'); ?>
+                            <?php echo __('View Documentation', 'View Documentation'); ?>
                         </a>
                     </div>
                 </div>

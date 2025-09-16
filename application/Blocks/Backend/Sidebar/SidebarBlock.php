@@ -74,7 +74,7 @@ class SidebarBlock extends BaseBlock
         ];
 
         // Thêm Post Types vào Posts Management
-        // dd(PATH_ROOT . '/themes/cmsfullform/Backend/posttype_index.php');
+        // THEME_NAME/Backend/posttype_index.php
         if (file_exists(APP_THEME_PATH . '/Backend/posttype_index.php')) {
             $postsGroup["items"][] = [
                 "id" => "posttypes",

@@ -172,7 +172,7 @@ $langDataJson = json_encode($langData);
                             class="justify-center whitespace-nowrap rounded-sm px-2.5 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm flex items-center gap-2"
                             tabindex="-1" data-orientation="horizontal" data-radix-collection-item="">
                             <i data-lucide="plus" class="h-4 w-4"></i>
-                            <?= Fastlang::_e('add_themes') ?>
+                            <?= Fastlang::_e('Add Theme') ?>
                         </button>
                     </div>
 

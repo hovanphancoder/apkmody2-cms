@@ -1,6 +1,20 @@
 <script>
     window.menuData = <?= json_encode($menuData ?? []) ?>;
     window.currentUrl = '<?= $_SERVER['REQUEST_URI'] ?>';
+    
+    // Xác định menu items cần mở rộng từ backend
+    window.expandedMenus = [];
+    <?php if (isset($menuData)): ?>
+        <?php foreach ($menuData as $section): ?>
+            <?php if (isset($section['items'])): ?>
+                <?php foreach ($section['items'] as $item): ?>
+                    <?php if (isset($item['expanded']) && $item['expanded']): ?>
+                        window.expandedMenus.push('<?= $section['id'] ?>-<?= $item['id'] ?>');
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </script>
 
 <div class="min-h-screen w-full">

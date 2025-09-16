@@ -20,10 +20,10 @@ class UsersController extends BackendController {
     public function __construct()
     {
         parent::__construct();
-        load_helpers(['backend']);
+        Flang::load('Backend/Users');
         $this->usersModel = new UsersModel();
-        Flang::load('general', APP_LANG);
-        Flang::load('users', APP_LANG);
+        //Flang::load('general', APP_LANG);
+        //Flang::load('users', APP_LANG);
     }
 
     public function index() {
@@ -72,7 +72,7 @@ class UsersController extends BackendController {
         
         $this->data('users', $users);
         $this->data('limit', $limit);
-        $this->data('title', Flang::_e('list user'));
+        $this->data('title', __('list user'));
         $this->data('csrf_token', Session::csrf_token()); //token security
         
         echo Render::html('Backend/users_index', $this->data);
@@ -87,7 +87,7 @@ class UsersController extends BackendController {
         if (HAS_POST('username')){
             $csrf_token = S_POST('csrf_token') ?? '';
             if (!Session::csrf_verify($csrf_token)){
-                $this->data('error', Flang::_e('csrf_failed'));
+                $this->data('error', __('csrf_failed'));
             }
 
             $permissions = S_POST('permissions') ?? [];
@@ -122,8 +122,8 @@ class UsersController extends BackendController {
                         Validate::length(6, 30)
                     ],
                     'messages' => [
-                        Flang::_e('username_invalid'),
-                        Flang::_e('username_length', 6, 30)
+                        __('username_invalid'),
+                        sprintf(__('username_length'), 6, 30)
                     ]
                 ],
                 'fullname' => [
@@ -131,7 +131,7 @@ class UsersController extends BackendController {
                         Validate::length(6, 30)
                     ],
                     'messages' => [
-                        Flang::_e('fullname_length', 6, 50)
+                        sprintf(__('fullname_length'), 6, 50)
                     ]
                 ],
                 'email' => [
@@ -140,8 +140,8 @@ class UsersController extends BackendController {
                         Validate::length(6, 150)
                     ],
                     'messages' => [
-                        Flang::_e('email_invalid'),
-                        Flang::_e('email_length', 6, 150)
+                        __('email_invalid'),
+                        sprintf(__('email_length'), 6, 150)
                     ]
                 ],
                 'phone' => [
@@ -150,8 +150,8 @@ class UsersController extends BackendController {
                         Validate::optional(Validate::length(6, 30))
                     ],
                     'messages' => [
-                        Flang::_e('phone_invalid'),
-                        Flang::_e('phone_length', 6, 30)
+                        __('phone_invalid'),
+                        sprintf(__('phone_length'), 6, 30)
                     ]
                 ],
                 'password' => [
@@ -159,7 +159,7 @@ class UsersController extends BackendController {
                         Validate::optional(Validate::length(6, 60)),
                     ],
                     'messages' => [
-                        Flang::_e('password_length', 6, 60),
+                        sprintf(__('password_length'), 6, 60),
                     ]
                 ],
                 'password_repeat' => [
@@ -167,7 +167,7 @@ class UsersController extends BackendController {
                         Validate::optional(Validate::equals($input['password']))
                     ],
                     'messages' => [
-                        Flang::_e('password_repeat_invalid', $input['password_repeat'])
+                        sprintf(__('password_repeat_invalid'), $input['password_repeat'])
                     ]
                 ],
                 'role' => [
@@ -175,7 +175,7 @@ class UsersController extends BackendController {
                         Validate::notEmpty(),
                     ],
                     'messages' => [
-                        Flang::_e('role_option'),
+                        __('role_option'),
                     ]
                 ],
                 'permissions' => [
@@ -183,7 +183,7 @@ class UsersController extends BackendController {
                         Validate::notEmpty(),
                     ],
                     'messages' => [
-                        Flang::_e('permission_array_json'),
+                        __('permission_array_json'),
                     ]
                 ],
                 'status' => [
@@ -191,7 +191,7 @@ class UsersController extends BackendController {
                         Validate::notEmpty(),
                     ],
                     'messages' => [
-                        Flang::_e('status_option'),
+                        __('status_option'),
                     ]
                 ]
 
@@ -205,13 +205,13 @@ class UsersController extends BackendController {
                 $errors = [];
                 if ($this->usersModel->getUserByUsername($input['username'])) {
                     $errors['username'] = array(
-                        Flang::_e('username_double', $input['username'])
+                        sprintf(__('username_double'), $input['username'])
                     );
                     $isExists = true;
                 }
                 if ($this->usersModel->getUserByEmail($input['email'])) {
                     $errors['email'] = array(
-                        Flang::_e('email_double', $input['email'])
+                        sprintf(__('email_double'), $input['email'])
                     );
                     $isExists = true;
                 }
@@ -246,7 +246,7 @@ class UsersController extends BackendController {
         $status = ['active', 'inactive', 'banned'];
         $this->data('roles', $roles);
         $this->data('status', $status);
-        $this->data('title', Flang::_e('title_add_member'));
+        $this->data('title', __('title_add_member'));
         $this->data('csrf_token', Session::csrf_token(600)); 
         echo Render::html('Backend/users_add', $this->data);
     }
@@ -273,13 +273,13 @@ class UsersController extends BackendController {
             if ($input['status'] !== 'active') {
                 $activationLink = auth_url('activation/' . $user_id . '/' . $activationCode . '/');
                 $this->mailer = new Fastmail();
-                $this->mailer->send($input['email'], Flang::_e('active_account'), 'activation', ['username' => $input['username'], 'activation_link' => $activationLink]);
+                $this->mailer->send($input['email'], __('active_account'), 'activation', ['username' => $input['username'], 'activation_link' => $activationLink]);
             }
-            Session::flash('success', Flang::_e('create_member_success'));
+            Session::flash('success', __('User added successfully'));
             \System\Libraries\Events::run('Backend\\UsersAddEvent', $input);
             redirect(admin_url('users/index'));
         } else {
-            Session::flash('error', Flang::_e('register_error'));
+            Session::flash('error', __('Failed to add user'));
             redirect(auth_url('dashboard'));
         }
     }
@@ -295,178 +295,177 @@ class UsersController extends BackendController {
 
         if (!$user) {
             // User not found, redirect or show an error message
-            Session::flash('error', Flang::_e('user_not_found'));
+            Session::flash('error', __('User not found'));
             redirect(admin_url('users/index'));
         }
     
         if (!empty($_POST)) {
             $csrf_token = S_POST('csrf_token') ?? '';
             if (!Session::csrf_verify($csrf_token)) {
-                $this->data('error', Flang::_e('csrf_failed'));
-            }
-    
-            // Initialize an empty array for rules
-            $rules = [];
-            $input = [];
-    
-            // Check each field and add the validation rules accordingly
-            if (HAS_POST('username')) {
-                $input['username'] = S_POST('username') ?? '';
-                $rules['username'] = [
-                    'rules' => [
-                        Validate::alnum('_'),
-                        Validate::length(6, 30)
-                    ],
-                    'messages' => [
-                        Flang::_e('username_invalid'),
-                        Flang::_e('username_length', 6, 30)
-                    ]
-                ];
-            }
-            if (HAS_POST('fullname')) {
-                $input['fullname'] = S_POST('fullname') ?? '';
-                $rules['fullname'] = [
-                    'rules' => [
-                        Validate::length(6, 50)
-                    ],
-                    'messages' => [
-                        Flang::_e('fullname_length', 6, 50)
-                    ]
-                ];
-            }
-            if (HAS_POST('email')) {
-                $input['email'] = S_POST('email') ?? '';
-                $rules['email'] = [
-                    'rules' => [
-                        Validate::email(),
-                        Validate::length(6, 150)
-                    ],
-                    'messages' => [
-                        Flang::_e('email_invalid'),
-                        Flang::_e('email_length', 6, 150)
-                    ]
-                ];
-            }
-            if (HAS_POST('phone')) {
-                $input['phone'] = S_POST('phone') ?? '';
-                $rules['phone'] = [
-                    'rules' => [
-                        Validate::optional(Validate::phone()),
-                        Validate::optional(Validate::length(6, 30))
-                    ],
-                    'messages' => [
-                        Flang::_e('phone_invalid'),
-                        Flang::_e('phone_length', 6, 30)
-                    ]
-                ];
-            }
-            if (HAS_POST('role')) {
-                $input['role'] = S_POST('role') ?? '';
-                $rules['role'] = [
-                    'rules' => [
-                        Validate::notEmpty(),
-                    ],
-                    'messages' => [
-                        Flang::_e('role_option'),
-                    ]
-                ];
-            }
-            if (HAS_POST('permissions')) {
-                $permissions = S_POST('permissions') ?? [];
-                if (!is_array($permissions)) {
-                    $permissions = [];
+                $this->data('error', __('csrf_failed'));
+            }else{
+                // Initialize an empty array for rules
+                $rules = [];
+                $input = [];
+        
+                // Check each field and add the validation rules accordingly
+                if (HAS_POST('username')) {
+                    $input['username'] = S_POST('username') ?? '';
+                    $rules['username'] = [
+                        'rules' => [
+                            Validate::alnum('_'),
+                            Validate::length(6, 30)
+                        ],
+                        'messages' => [
+                            __('username_invalid'),
+                            sprintf(__('username_length'), 6, 30)
+                        ]
+                    ];
                 }
-                if (S_POST('role') == 'member'){
-                    if (!empty($permissions)){
-                        foreach ($permissions as $key => $item){
-                            //if (strpos($key, 'Backend\\') !== FALSE){
-                            //    unset($permissions[$key]);
-                            //}
+                if (HAS_POST('fullname')) {
+                    $input['fullname'] = S_POST('fullname') ?? '';
+                    $rules['fullname'] = [
+                        'rules' => [
+                            Validate::length(6, 50)
+                        ],
+                        'messages' => [
+                            sprintf(__('fullname_length'), 6, 50)
+                        ]
+                    ];
+                }
+                if (HAS_POST('email')) {
+                    $input['email'] = S_POST('email') ?? '';
+                    $rules['email'] = [
+                        'rules' => [
+                            Validate::email(),
+                            Validate::length(6, 150)
+                        ],
+                        'messages' => [
+                            __('email_invalid'),
+                            sprintf(__('email_length'), 6, 150)
+                        ]
+                    ];
+                }
+                if (HAS_POST('phone')) {
+                    $input['phone'] = S_POST('phone') ?? '';
+                    $rules['phone'] = [
+                        'rules' => [
+                            Validate::optional(Validate::phone()),
+                            Validate::optional(Validate::length(6, 30))
+                        ],
+                        'messages' => [
+                            __('phone_invalid'),
+                            sprintf(__('phone_length'), 6, 30)
+                        ]
+                    ];
+                }
+                if (HAS_POST('role')) {
+                    $input['role'] = S_POST('role') ?? '';
+                    $rules['role'] = [
+                        'rules' => [
+                            Validate::notEmpty(),
+                        ],
+                        'messages' => [
+                            __('role_option'),
+                        ]
+                    ];
+                }
+                if (HAS_POST('permissions')) {
+                    $permissions = S_POST('permissions') ?? [];
+                    if (!is_array($permissions)) {
+                        $permissions = [];
+                    }
+                    if (S_POST('role') == 'member'){
+                        if (!empty($permissions)){
+                            foreach ($permissions as $key => $item){
+                                //if (strpos($key, 'Backend\\') !== FALSE){
+                                //    unset($permissions[$key]);
+                                //}
+                            }
                         }
                     }
+                    $input['permissions'] = json_encode($permissions);
+                    $rules['permissions'] = [
+                        'rules' => [
+                            Validate::notEmpty(),
+                        ],
+                        'messages' => [
+                            __('permission_array_json'),
+                        ]
+                    ];
                 }
-                $input['permissions'] = json_encode($permissions);
-                $rules['permissions'] = [
-                    'rules' => [
-                        Validate::notEmpty(),
-                    ],
-                    'messages' => [
-                        Flang::_e('permission_array_json'),
-                    ]
-                ];
-            }
-            if (HAS_POST('status')) {
-                $input['status'] = S_POST('status') ?? '';
-                $rules['status'] = [
-                    'rules' => [
-                        Validate::notEmpty(),
-                    ],
-                    'messages' => [
-                        Flang::_e('status_option'),
-                    ]
-                ];
-            }
+                if (HAS_POST('status')) {
+                    $input['status'] = S_POST('status') ?? '';
+                    $rules['status'] = [
+                        'rules' => [
+                            Validate::notEmpty(),
+                        ],
+                        'messages' => [
+                            __('status_option'),
+                        ]
+                    ];
+                }
 
-            if(HAS_POST('password') && S_POST('password') != ''){
-                $input['password'] = S_POST('password') ?? '';
-                $rules['password'] = [
-                    'rules' => [
-                        Validate::length(6, 60),
-                    ],
-                    'messages' => [
-                        Flang::_e('password_length', 6, 60),
-                    ]
-                ];
-            }
-            if(HAS_POST('password_repeat') && S_POST('password_repeat') != ''){
-                $input['password_repeat'] = S_POST('password_repeat');
-                $rules['password_repeat'] = [
-                    'rules' => [
-                        Validate::equals($input['password'])
-                    ],
-                    'messages' => [
-                        Flang::_e('password_repeat_invalid', $input['password_repeat'])
-                    ]
-                ];
-            }
+                if(HAS_POST('password') && S_POST('password') != ''){
+                    $input['password'] = S_POST('password') ?? '';
+                    $rules['password'] = [
+                        'rules' => [
+                            Validate::length(6, 60),
+                        ],
+                        'messages' => [
+                            sprintf(__('password_length'), 6, 60),
+                        ]
+                    ];
+                }
+                if(HAS_POST('password_repeat') && S_POST('password_repeat') != ''){
+                    $input['password_repeat'] = S_POST('password_repeat');
+                    $rules['password_repeat'] = [
+                        'rules' => [
+                            Validate::equals($input['password'])
+                        ],
+                        'messages' => [
+                            sprintf(__('password_repeat_invalid'), $input['password_repeat'])
+                        ]
+                    ];
+                }
 
-            $validator = new Validate();
-            if (!$validator->check($input, $rules)) {
-                // Get errors and display
-                $errors = $validator->getErrors();
-                $this->data('errors', $errors);
-                $this->data('error', Flang::_e('validate_error'));
-            } else {
-                $errors = [];
-                // Check for duplicate username or email
-                if(!empty($input['password'])){
-                    $input['password'] = Security::hashPassword($input['password']);
-                    unset($input['password_repeat']);
-                } 
-                
-                if (isset($input['username'])) {
-                    $existingUser = $this->usersModel->getUserByUsername($input['username']);
-                    if ($existingUser && $existingUser['id'] != $user_id) {
-                        $errors['username'] = [Flang::_e('username_double', $input['username'])];
-                    }
-                }
-    
-                if (isset($input['email'])) {
-                    $existingEmailUser = $this->usersModel->getUserByEmail($input['email']);
-                    if ($existingEmailUser && $existingEmailUser['id'] != $user_id) {
-                        $errors['email'] = [Flang::_e('email_double', $input['email'])];
-                    }
-                }
-                if (empty($errors)) {
-                    // Update user data
-                    $input['updated_at'] = DateTime();
-                    $this->_edit($user_id, $input);
-    
-                    // Set success message and retrieve updated user data
-                    $this->data('success', Flang::_e('update_member_success'));
-                    $user = $this->usersModel->getUserById($user_id); // Retrieve updated user
-                } else {
+                $validator = new Validate();
+                if (!$validator->check($input, $rules)) {
+                    // Get errors and display
+                    $errors = $validator->getErrors();
                     $this->data('errors', $errors);
+                    $this->data('error', __('Please fix the validation errors'));
+                } else {
+                    $errors = [];
+                    // Check for duplicate username or email
+                    if(!empty($input['password'])){
+                        $input['password'] = Security::hashPassword($input['password']);
+                    } 
+                    
+                    if (isset($input['username'])) {
+                        $existingUser = $this->usersModel->getUserByUsername($input['username']);
+                        if ($existingUser && $existingUser['id'] != $user_id) {
+                            $errors['username'] = [sprintf(__('username_double'), $input['username'])];
+                        }
+                    }
+        
+                    if (isset($input['email'])) {
+                        $existingEmailUser = $this->usersModel->getUserByEmail($input['email']);
+                        if ($existingEmailUser && $existingEmailUser['id'] != $user_id) {
+                            $errors['email'] = [sprintf(__('email_double'), $input['email'])];
+                        }
+                    }
+                    if (empty($errors)) {
+                        // Update user data
+                        $input['updated_at'] = DateTime();
+                        $this->_edit($user_id, $input);
+        
+                        // Set success message and retrieve updated user data
+                        $this->data('success', __('User updated successfully'));
+                        $user = $this->usersModel->getUserById($user_id); // Retrieve updated user
+                    } else {
+                        $this->data('errors', $errors);
+                    }
                 }
             }
         }
@@ -484,7 +483,7 @@ class UsersController extends BackendController {
         $this->data('roles', $roles);
         $this->data('status', $status);
         $this->data('user', $user); // Pass current user data to the view
-        $this->data('title', Flang::_e('title_edit_member'));
+        $this->data('title', __('title_edit_member'));
         $this->data('csrf_token', Session::csrf_token(600));
         echo Render::html('Backend/users_add', $this->data);
     }
@@ -517,17 +516,17 @@ class UsersController extends BackendController {
             if (isset($dataToUpdate['status']) && $dataToUpdate['status'] !== 'active' && isset($dataToUpdate['email'])) {
                 $activationLink = auth_url('activation/' . $user_id . '/' . $activationCode . '/');
                 $this->mailer = new Fastmail();
-                $this->mailer->send($dataToUpdate['email'], Flang::_e('active_account'), 'activation', ['username' => $dataToUpdate['username'], 'activation_link' => $activationLink]);
+                $this->mailer->send($dataToUpdate['email'], __('active_account'), 'activation', ['username' => $dataToUpdate['username'], 'activation_link' => $activationLink]);
             }else{
                 if (isset($dataToUpdate['status']) && !isset($dataToUpdate['email']) && count($dataToUpdate) < 3){
                     echo json_encode($dataToUpdate);exit();
                 }
             }
-            Session::flash('success', Flang::_e('update_member_success'));
+            Session::flash('success', __('User updated successfully'));
             \System\Libraries\Events::run('Backend\\UsersEditEvent', $input);
             redirect(admin_url('users/index'));
         } else {
-            $this->data('error', Flang::_e('update_error'));
+            $this->data('error', __('Failed to update user'));
         }
     }
 
@@ -536,7 +535,7 @@ class UsersController extends BackendController {
         $status = S_POST('status') ?? '';
         $user = $this->usersModel->getUserById($user_id);
         if (empty($user)) {
-            return $this->error(Flang::_e('user_not_found'), [], 404);
+            return $this->error(__('User not found'), [], 404);
         }
         if ($status == 'active') {
             $this->usersModel->updateUser($user_id, ['status' => 'active']);
@@ -545,9 +544,9 @@ class UsersController extends BackendController {
         } elseif($status == 'banned') {
             $this->usersModel->updateUser($user_id, ['status' => 'banned']);
         } else {
-            return $this->error(Flang::_e('status_option'), [], 400);
+            return $this->error(__('status_option'), [], 400);
         }
-        return $this->success([], Flang::_e('update status success'), 200);
+        return $this->success([], __('User status updated successfully'), 200);
     }
 
     public function changestatus($id)
@@ -555,7 +554,7 @@ class UsersController extends BackendController {
         $user = $this->usersModel->getUserById($id);
 
         if (!$user) {
-            Session::flash('error', Flang::_e('user_not_found'));
+            Session::flash('error', __('User not found'));
             redirect(admin_url('users'));
         }
 
@@ -566,9 +565,9 @@ class UsersController extends BackendController {
         $result = $this->usersModel->updateUser($id, $data);
 
         if (!$result) {
-            Session::flash('error', Flang::_e('update_failed'));
+            Session::flash('error', __('Failed to update user status'));
         } else {
-            Session::flash('success', Flang::_e('update_success'));
+            Session::flash('success', __('User status updated successfully'));
         }
         redirect(admin_url('users'));
     }
@@ -583,9 +582,9 @@ class UsersController extends BackendController {
             foreach($ids as $id) {
                 $this->_delete($id);
             }
-            $this->success([], Flang::_e('delete_users_success'));
+            $this->success([], __('Users deleted successfully'));
         } else {
-            $this->error(Flang::_e('no_users_to_delete'));
+            $this->error(__('No users selected for deletion'));
         }
         redirect(admin_url('users/index'));
     }

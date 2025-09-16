@@ -1,6 +1,10 @@
 <?php
 
-namespace System\Libraries;
+use System\Libraries\Render;
+use App\Libraries\Fastlang as Flang;
+
+// Language files are loaded globally
+
 if(!empty($allPostTypes)) {
     foreach($allPostTypes as &$item) {
         $item = [
@@ -12,7 +16,24 @@ if(!empty($allPostTypes)) {
         ];
     }
 }
-Render::block('Backend\Header', ['layout' => 'default', 'title' => $title ?? 'CMS Full Form']);
+
+$breadcrumbs = array(
+  [
+      'name' => __('Dashboard'),
+      'url' => admin_url('home')
+  ],
+  [
+      'name' => __('Post Types'),
+      'url' => admin_url('posttype')
+  ],
+  [
+      'name' => isset($posttype['id']) && !empty($posttype['id']) ? __('Edit') : __('Add'),
+      'url' => admin_url('posttype'),
+      'active' => true
+  ]
+);
+
+Render::block('Backend\Header', ['layout' => 'default', 'title' => $title ?? 'CMS Full Form', 'breadcrumb' => $breadcrumbs]);
 
 $errors = (!empty($errors)) ? json_encode($errors) : '{}';
 $posttype['fields'] = isset($posttype['fields']) && is_string($posttype['fields']) ? json_decode($posttype['fields'], true) : $fields_available;
@@ -38,6 +59,22 @@ if(isset($posttype['id']) && !empty($posttype['id'])) {
     const csrf_token = '<?php echo $csrf_token; ?>';
     const data = <?php echo json_encode(['posttype' => $posttype, 'isEditing' => isset($posttype['id']) && !empty($posttype['id'])]); ?>;
 </script>
+
+<style type="text/css">
+@media (min-width: 640px) {
+    .sm\:p-6 {
+        padding: 1.5rem;
+    }
+}
+</style>
+
+<!-- Header & Description -->
+<div class="flex flex-col gap-4 mb-6">
+  <div>
+    <h1 class="text-2xl font-bold text-foreground"><?= isset($posttype['id']) && !empty($posttype['id']) ? __('Edit Post Type') : __('Add Post Type') ?></h1>
+    <p class="text-muted-foreground"><?= isset($posttype['id']) && !empty($posttype['id']) ? __('Edit post type configuration and field settings') : __('Create a new post type with custom fields and settings') ?></p>
+  </div>
+</div>
 
 <div class="pc-container">
 

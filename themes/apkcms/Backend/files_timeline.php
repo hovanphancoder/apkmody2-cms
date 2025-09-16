@@ -12,7 +12,7 @@ Render::block('Backend\Head', ['layout' => 'default', 'title' => $title ?? 'File
     // Định nghĩa API endpoint
     var urlfiles_tmp = '<?= config('files')['files_url'] ?? '/uploads' ?>';
     const FILES_URL = urlfiles_tmp.replace(/\/$/, '') + '/';
-    const FILES_API = "<?= base_url('vi/api/v1/files/'); ?>";
+    const FILES_API = "<?= base_url('/api/v1/files/'); ?>";
     const BASE_URL = '<?= base_url() ?>';
     
     // Debug log control

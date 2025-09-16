@@ -4,18 +4,22 @@ use System\Libraries\Render;
 use System\Libraries\Session;
 use App\Libraries\Fastlang as Flang;
 
+// Load language files
+Flang::load('Backend/Global', APP_LANG);
+Flang::load('Backend/Users', APP_LANG);
+
 $breadcrumbs = array(
   [
-      'name' => 'Dashboard',
+      'name' => __('Dashboard'),
       'url' => admin_url('home')
   ],
   [
-      'name' => 'Users',
+      'name' => __('Users'),
       'url' => admin_url('users'),
       'active' => true
   ]
 );
-Render::block('Backend\\Header', ['layout' => 'default', 'title' => Flang::_e('list user'), 'breadcrumb' => $breadcrumbs ]);
+Render::block('Backend\\Header', ['layout' => 'default', 'title' => __('list user'), 'breadcrumb' => $breadcrumbs ]);
 
 $usersData = $users['data']   ?? [];
 $page       = $users['page']   ?? 1;
@@ -59,11 +63,11 @@ $order  = $_GET['order'] ?? 'desc';
   
   async deleteSelected() {
     if (this.selectedItems.length === 0) {
-      alert('Please select items to delete');
+      alert('<?= __('Please select items to delete') ?>');
       return;
     }
     
-    if (!confirm('Are you sure you want to delete selected items?')) {
+    if (!confirm('<?= __('Are you sure you want to delete selected items?') ?>')) {
       return;
     }
     
@@ -91,11 +95,11 @@ $order  = $_GET['order'] ?? 'desc';
       if (data.status === 'success') {
         window.location.reload();
       } else {
-        alert(data.message || 'Error deleting items');
+        alert(data.message || '<?= __('Error deleting items') ?>');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Network error occurred');
+      alert('<?= __('Network error occurred') ?>');
     } finally {
       this.isDeleting = false;
     }
@@ -105,8 +109,8 @@ $order  = $_GET['order'] ?? 'desc';
   <!-- Header & Filter -->
   <div class="flex flex-col gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-foreground">Users Management</h1>
-      <p class="text-muted-foreground">Manage system users and their permissions</p>
+      <h1 class="text-2xl font-bold text-foreground"><?= __('Users Management') ?></h1>
+      <p class="text-muted-foreground"><?= __('Manage system users and their permissions') ?></p>
     </div>
 
     <!-- Thông báo -->
@@ -122,15 +126,15 @@ $order  = $_GET['order'] ?? 'desc';
         <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center flex-1 w-full lg:w-auto">
           <div class="relative flex-1 min-w-[200px] w-full sm:w-auto">
             <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4"></i>
-            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10" placeholder="<?= Flang::_e('search') ?>..." name="q" value="<?= htmlspecialchars($search) ?>" />
+            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10" placeholder="<?= __('search') ?>..." name="q" value="<?= htmlspecialchars($search) ?>" />
           </div>
           <div class="min-w-[150px] w-full sm:w-auto">
             <select name="role" class="flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" onchange="this.form.submit()">
-              <option value="">All Roles</option>
-              <option value="admin" <?= $role==='admin'?'selected':'' ?>>Admin</option>
-              <option value="moderator" <?= $role==='moderator'?'selected':'' ?>>Moderator</option>
-              <option value="author" <?= $role==='author'?'selected':'' ?>>Author</option>
-              <option value="member" <?= $role==='member'?'selected':'' ?>>Member</option>
+              <option value=""><?= __('All Roles') ?></option>
+              <option value="admin" <?= $role==='admin'?'selected':'' ?>><?= __('Admin') ?></option>
+              <option value="moderator" <?= $role==='moderator'?'selected':'' ?>><?= __('Moderator') ?></option>
+              <option value="author" <?= $role==='author'?'selected':'' ?>><?= __('Author') ?></option>
+              <option value="member" <?= $role==='member'?'selected':'' ?>><?= __('Member') ?></option>
             </select>
           </div>
           <div class="min-w-[100px] w-full sm:w-auto">
@@ -157,13 +161,13 @@ $order  = $_GET['order'] ?? 'desc';
           >
             <i x-show="!isDeleting" data-lucide="trash2" class="h-4 w-4 mr-2"></i>
             <i x-show="isDeleting" data-lucide="loader-2" class="h-4 w-4 mr-2 animate-spin"></i>
-            <span x-text="isDeleting ? 'Deleting...' : 'Delete Selected'"></span>
+            <span x-text="isDeleting ? '<?= __('Deleting...') ?>' : '<?= __('Delete Selected') ?>'"></span>
           </button>
           
           <!-- Add User Button -->
           <a href="<?= admin_url('users/add') ?>" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 whitespace-nowrap w-full lg:w-auto">
               <i data-lucide="plus" class="h-4 w-4 mr-2"></i>
-              <?= Flang::_e('Add User') ?>
+              <?= __('Add User') ?>
           </a>
         </div>
       </form>
@@ -194,14 +198,14 @@ $order  = $_GET['order'] ?? 'desc';
                 return '<a href="?' . http_build_query($params) . '" class="hover:text-primary">' . $label . $arrow . '</a>';
               }
               ?>
-              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('ID', 'id', $sort, $order); ?></th>
-              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Username', 'username', $sort, $order); ?></th>
-              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Full Name', 'fullname', $sort, $order); ?></th>
-              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Email', 'email', $sort, $order); ?></th>
-              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Phone', 'phone', $sort, $order); ?></th>
-              <th class="px-4 py-3 text-center align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Role', 'role', $sort, $order); ?></th>
-              <th class="px-4 py-3 text-center align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors"><?php echo sort_link('Status', 'status', $sort, $order); ?></th>
-              <th class="px-4 py-3 text-center align-middle bg-menu-background-hover text-menu-text-hover font-medium">Actions</th>
+              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap"><?php echo sort_link(__('ID'), 'id', $sort, $order); ?></th>
+              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap"><?php echo sort_link(__('Username'), 'username', $sort, $order); ?></th>
+              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap"><?php echo sort_link(__('Full Name'), 'fullname', $sort, $order); ?></th>
+              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap"><?php echo sort_link(__('Email'), 'email', $sort, $order); ?></th>
+              <th class="px-4 py-3 text-left align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap"><?php echo sort_link(__('Phone'), 'phone', $sort, $order); ?></th>
+              <th class="px-4 py-3 text-center align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap"><?php echo sort_link(__('Role'), 'role', $sort, $order); ?></th>
+              <th class="px-4 py-3 text-center align-middle cursor-pointer bg-menu-background-hover text-menu-text-hover font-medium hover:bg-menu-background-hover/90 transition-colors whitespace-nowrap"><?php echo sort_link(__('Status'), 'status', $sort, $order); ?></th>
+              <th class="px-4 py-3 text-center align-middle bg-menu-background-hover text-menu-text-hover font-medium whitespace-nowrap"><?= __('Actions') ?></th>
                   </tr>
                 </thead>
           <tbody class="[&_tr:last-child]:border-0">
@@ -213,11 +217,11 @@ $order  = $_GET['order'] ?? 'desc';
                     <input type="checkbox" class="row-checkbox h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" 
                            value="<?= $user['id'] ?>" @change="updateSelectedItems()">
                   </td>
-                  <td class="px-4 py-1 align-middle font-medium text-foreground"><?= htmlspecialchars($user['id'] ?? '') ?></td>
-                  <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($user['username'] ?? '') ?></td>
-                  <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($user['fullname'] ?? '') ?></td>
-                  <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($user['email'] ?? '') ?></td>
-                  <td class="px-4 py-1 align-middle text-foreground"><?= htmlspecialchars($user['phone'] ?? '') ?></td>
+                  <td class="px-4 py-1 align-middle font-medium text-foreground whitespace-nowrap"><?= htmlspecialchars($user['id'] ?? '') ?></td>
+                  <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[150px]" title="<?= htmlspecialchars($user['username'] ?? '') ?>"><?= htmlspecialchars($user['username'] ?? '') ?></td>
+                  <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[200px]" title="<?= htmlspecialchars($user['fullname'] ?? '') ?>"><?= htmlspecialchars($user['fullname'] ?? '') ?></td>
+                  <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[200px]" title="<?= htmlspecialchars($user['email'] ?? '') ?>"><?= htmlspecialchars($user['email'] ?? '') ?></td>
+                  <td class="px-4 py-1 align-middle text-foreground whitespace-nowrap truncate max-w-[120px]" title="<?= htmlspecialchars($user['phone'] ?? '') ?>"><?= htmlspecialchars($user['phone'] ?? '') ?></td>
                   <td class="px-4 py-1 align-middle text-center">
                           <?php
                     $badgeClass = 'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-transparent ';
@@ -243,17 +247,17 @@ $order  = $_GET['order'] ?? 'desc';
                       <button type="button" onclick="changeStatusUser(<?= $user['id']; ?>, event);" class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=checked]:bg-primary data-[state=unchecked]:bg-input <?= $user['status']==='active'?'bg-primary':'bg-input' ?>">
                         <span class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform <?= $user['status']==='active'?'translate-x-5':'translate-x-0' ?>"></span>
                       </button>
-                      <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-transparent <?= $user['status']==='active'?'bg-primary text-primary-foreground':'bg-secondary text-secondary-foreground' ?>">
-                        <?= $user['status']==='active'?'active':'inactive' ?>
+                      <div class="inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold border-transparent <?= $user['status']==='active'?'bg-primary text-primary-foreground':'bg-secondary text-secondary-foreground' ?>">
+                        <?= $user['status']==='active'?__('Active'):__('Inactive') ?>
                       </div>
                     </div>
                         </td>
                   <td class="px-4 py-1 align-middle text-center">
                     <div class="flex items-center gap-1 justify-center">
-                      <a href="<?= admin_url('users/edit/' . $user['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0" title="Edit User">
+                      <a href="<?= admin_url('users/edit/' . $user['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0 flex-shrink-0" title="<?= __('Edit User') ?>">
                         <i data-lucide="square-pen" class="h-4 w-4"></i>
                       </a>
-                      <a href="<?= admin_url('users/delete/' . $user['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0" onclick="return confirm('<?= Flang::_('confirm_delete') ?>');" title="Delete User">
+                      <a href="<?= admin_url('users/delete/' . $user['id']); ?>" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md h-8 w-8 p-0 flex-shrink-0" onclick="return confirm('<?= __('Are you sure you want to delete this item?') ?>');" title="<?= __('Delete User') ?>">
                         <i data-lucide="trash2" class="h-4 w-4"></i>
                             </a>
                           </div>
@@ -261,7 +265,7 @@ $order  = $_GET['order'] ?? 'desc';
                       </tr>
               <?php endforeach; ?>
             <?php else: ?>
-              <tr><td colspan="9" class="text-center py-4 text-muted-foreground">No users found.</td></tr>
+              <tr><td colspan="9" class="text-center py-4 text-muted-foreground"><?= __('No users found.') ?></td></tr>
                   <?php endif; ?>
                 </tbody>
               </table>
@@ -276,9 +280,9 @@ $order  = $_GET['order'] ?? 'desc';
         $from = ($page - 1) * $limit + 1;
         $to = $from + count($usersData) - 1;
         if ($total > 0) {
-          echo "Showing $from to $to of $total results";
+          _e('Showing %1% to %2% of %3% results', $from, $to, $total);
         } else {
-          echo "No results";
+          _e('No results');
         }
         ?>
       </div>
@@ -299,7 +303,7 @@ $order  = $_GET['order'] ?? 'desc';
     <script>
 function changeStatusUser(id, event) {
   event.preventDefault();
-  if(confirm('<?= Flang::_('confirm_status') ?>')) {
+  if(confirm('<?= __('Are you sure you want to change the status?') ?>')) {
     window.location.href = '<?= admin_url('users/changestatus/') ?>' + id + '/';
   }
 }

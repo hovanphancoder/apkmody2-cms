@@ -20,11 +20,10 @@ class LanguagesController extends BackendController {
     public function __construct()
     {
         parent::__construct();
-        load_helpers(['backend']);
+        load_helpers(['backend', 'language']);
+        Flang::load('Backend/Global');
+        Flang::load('Backend/Languages');
         $this->languagesModel = new LanguagesModel();
-        Flang::load('Languages', APP_LANG);
-        Flang::load('general', APP_LANG);
-
     }
 
     // List all languages
@@ -73,7 +72,7 @@ class LanguagesController extends BackendController {
         $languages = $this->languagesModel->getLanguagesFieldsPagination('*', $where, $params, $orderBy, $paged, $limit);
         $this->data('languages', $languages);
         $this->data('limit', $limit);
-        $this->data('title', Flang::_e('tile_languages'));
+        $this->data('title', __('tile_languages'));
         $this->data('csrf_token', Session::csrf_token()); //token security
         // languages_index
         Render::asset('js', 'js/language.js', ['area' => 'backend', 'location' => 'footer']);
@@ -93,7 +92,7 @@ class LanguagesController extends BackendController {
 
             // check CSRF token
             if (!Session::csrf_verify($csrf_token)){
-                Session::flash('error', Flang::_e('csrf_failed') );
+                Session::flash('error', __('csrf_failed') );
                 redirect(admin_url('languages'));
             }
 
@@ -108,23 +107,23 @@ class LanguagesController extends BackendController {
             $rules = [
                'name' =>  [
                     'rules' => [Validate::length(3, 80)],
-                    'messages' => [Flang::_e('length_error', 3, 80)]
+                    'messages' => [sprintf(__('length_error'), 3, 80)]
                ],
                'code' => [
                     'rules' => [Validate::alpha(), Validate::lowercase() ,Validate::length(2, 2)],
-                    'messages' => [Flang::_e('notalpha'), Flang::_e('lowercase_error'), Flang::_e('length_error', 2, 2)]
+                    'messages' => [__('notalpha'), __('lowercase_error'), sprintf(__('length_error'), 2, 2)]
                ],
                'flag' => [
                     'rules' => [Validate::alpha(), Validate::lowercase(), Validate::length(2, 2)],
-                    'messages' => [Flang::_e('notalpha'), Flang::_e('lowercase_error'), Flang::_e('length_error', 2, 2)]
+                    'messages' => [__('notalpha'), __('lowercase_error'), sprintf(__('length_error'), 2, 2)]
                ],
                 'is_default' => [
                     'rules' => [Validate::in([0, 1])],
-                    'messages' => [Flang::_e('in_error')]
+                    'messages' => [__('in_error')]
                 ],
                 'status' => [
                     'rules' => [Validate::in(['active', 'inactive'])],
-                    'messages' => [Flang::_e('in_error')]
+                    'messages' => [__('in_error')]
                 ]
             ];
             $validator = new Validate();
@@ -140,14 +139,14 @@ class LanguagesController extends BackendController {
 
             } else {
                 if ($this->languagesModel->getLanguageByCode($code)){
-                    Session::flash('error', Flang::_e('languages_exists') );
+                    Session::flash('error', __('Language code already exists') );
                 }else{
                     $result = $this->languagesModel->addLanguage($data);
 
                     if (!isset($result['success']) || !isset($result['id'])) {
-                        Session::flash('error', Flang::_e($result['message']) );
+                        Session::flash('error', __('Failed to add language') );
                     } else {
-                        Session::flash('success', Flang::_e('add_success') );
+                        Session::flash('success', __('Language added successfully') );
                         if ($default) {
                             $this->_setdefault($result['id']);
                         }
@@ -166,7 +165,7 @@ class LanguagesController extends BackendController {
         $language = $this->languagesModel->getLanguageById($id);
 
         if (!$language) {
-            Session::flash('error', Flang::_e('not_exits'));
+            Session::flash('error', __('Language not found'));
             redirect(admin_url('languages'));
         }
 
@@ -178,6 +177,12 @@ class LanguagesController extends BackendController {
             $status = S_POST('status') ?? 'inactive';
             $default = S_POST('is_default') ?? 0;
 
+            // check language code exists
+            if (!$this->languagesModel->getLanguageByCode($code, $id)){
+                Session::flash('error', __('Language code not found') );
+                redirect(admin_url('languages'));
+            }
+
             $data = [
                 'name' => $name,
                 'code' => strtolower($code),
@@ -186,38 +191,32 @@ class LanguagesController extends BackendController {
                 'is_default' => $default,
             ];
 
-            // check language code exists
-            if ($this->languagesModel->getLanguageByCode($code, $id)){
-                Session::flash('error', Flang::_e('languages_exists') );
-                redirect(admin_url('languages'));
-            }
-
             // check CSRF token
             if (!Session::csrf_verify($csrf_token)){
-                Session::flash('error', Flang::_e('csrf_failed') );
+                Session::flash('error', __('csrf_failed') );
                 redirect(admin_url('languages'));
             }
 
             $rules = [
                'name' =>  [
                     'rules' => [Validate::length(3, 80)],
-                    'messages' => [Flang::_e('length_error', 3, 80)]
+                    'messages' => [sprintf(__('length_error'), 3, 80)]
                ],
                'code' => [
                     'rules' => [Validate::alpha(), Validate::lowercase() ,Validate::length(2, 2)],
-                    'messages' => [Flang::_e('notalpha'), Flang::_e('lowercase_error'), Flang::_e('length_error', 2, 2)]
+                    'messages' => [__('notalpha'), __('lowercase_error'), sprintf(__('length_error'), 2, 2)]
                ],
                'flag' => [
                     'rules' => [Validate::alpha(), Validate::lowercase(), Validate::length(2, 2)],
-                    'messages' => [Flang::_e('notalpha'), Flang::_e('lowercase_error'), Flang::_e('length_error', 2, 2)]
+                    'messages' => [__('notalpha'), __('lowercase_error'), sprintf(__('length_error'), 2, 2)]
                ],
                 'is_default' => [
                     'rules' => [Validate::in([0, 1])],
-                    'messages' => [Flang::_e('in_error')]
+                    'messages' => [__('in_error')]
                 ],
                 'status' => [
                     'rules' => [Validate::in(['active', 'inactive'])],
-                    'messages' => [Flang::_e('in_error')]
+                    'messages' => [__('in_error')]
                 ]
             ];
             $validator = new Validate();
@@ -233,9 +232,9 @@ class LanguagesController extends BackendController {
             } else {
                 $result = $this->languagesModel->setLanguage($id, $data);
                 if (!isset($result['success'])) {
-                    Session::flash('error', Flang::_e($result['message']) );
+                    Session::flash('error', __('Failed to update language') );
                 } else {
-                    Session::flash('success', Flang::_e('update_success') );
+                    Session::flash('success', __('Language updated successfully') );
                     \System\Libraries\Events::run('Backend\\LanguagesEditEvent', $result);
                     if ($default) {
                         $this->_setdefault($id);
@@ -249,7 +248,7 @@ class LanguagesController extends BackendController {
             
         $this->data('csrf_token', Session::csrf_token()); //token security
         $this->data('language', $language);
-        $this->data('title', Flang::_e('edit_language') . ' ' . $language['name']);
+        $this->data('title', __('Edit Language') . ' ' . $language['name']);
         Render::asset('js', 'js/language.js', ['area' => 'backend', 'location' => 'footer']);
         echo Render::html('Backend/languages_edit', $this->data);
         
@@ -261,32 +260,32 @@ class LanguagesController extends BackendController {
         $language = $this->languagesModel->getLanguageById($id);
 
         if (!$language) {
-            Session::flash('error', Flang::_e('exits'));
+            Session::flash('error', __('Language not found'));
             redirect(admin_url('languages'));
         }
 
         // Don't allow deletion of default language
         if ($language['is_default'] == 1) {
-            Session::flash('error', Flang::_e('not_del_defaute'));
+            Session::flash('error', __('Cannot delete default language'));
             redirect(admin_url('languages'));
         }
 
         if ($this->languagesModel->deleteLanguage([$id]))  {
-            Session::flash('success', Flang::_e('delete_success'));
+            Session::flash('success', __('Language deleted successfully'));
             \System\Libraries\Events::run('Backend\\LanguagesDeleteEvent', $language);
             $this->_init_config();
             redirect(admin_url('languages'));
         } else {
-            Session::flash('error', Flang::_e('delete_failed'));
+            Session::flash('error', __('Failed to delete language'));
             redirect(admin_url('languages'));
         }
     }
 
     public function setdefault($id) {
         if (!$this->_setdefault($id)) {
-            Session::flash('error', Flang::_e('update_failed') );
+            Session::flash('error', __('Failed to set default language') );
         } else {
-            Session::flash('success', Flang::_e('update_success') );
+            Session::flash('success', __('Default language updated successfully') );
             $this->_init_config();
         }
         redirect(admin_url('languages'));
@@ -296,7 +295,7 @@ class LanguagesController extends BackendController {
         $language = $this->languagesModel->getLanguageById($id);
 
         if (!$language) {
-            Session::flash('error', Flang::_e('exits'));
+            Session::flash('error', __('Language not found'));
             redirect(admin_url('languages'));
         }
 
@@ -379,11 +378,11 @@ EOD;
         $language = $this->languagesModel->getLanguageById($id);
 
         if (!$language) {
-            Session::flash('error', Flang::_e('exits'));
+            Session::flash('error', __('Language not found'));
             redirect(admin_url('languages'));
         }
         if($language['is_default'] == 1) {
-            Session::flash('error', Flang::_e('not_change_default'));
+            Session::flash('error', __('Cannot change status of default language'));
             redirect(admin_url('languages'));
         }
         $status = $language['status'] == 'active' ? 'inactive' : 'active';
@@ -393,9 +392,9 @@ EOD;
         $status = $this->languagesModel->setLanguage($id, $data);
 
         if (!$status['success']) {
-            Session::flash('error', Flang::_e($status['message']) );
+            Session::flash('error', __('Failed to change language status') );
         } else {
-            Session::flash('success', Flang::_e('update_success') );
+            Session::flash('success', __('Language status updated successfully') );
             $this->_init_config();
         }
         redirect(admin_url('languages'));

@@ -276,10 +276,10 @@ class ApiController extends BaseController
         $posttype = $this->_get_posttype($posttype);
         $posttype_lang = isset($posttype['languages']) && is_string($posttype['languages']) ? json_decode($posttype['languages'], true) : [];
         if($posttype_lang[0] == 'all') {
-            $this->postModel = new FastModel(posttype_exists($posttype['slug']));
+            $this->postModel = new FastModel(posttype_name($posttype['slug']));
             return $posttype;
         } elseif(in_array(APP_LANG, $posttype_lang)) {
-            $this->postModel = new FastModel(posttype_exists($posttype['slug'], APP_LANG));
+            $this->postModel = new FastModel(posttype_name($posttype['slug'], APP_LANG));
             return $posttype;
         } else {
             $this->error('Posttype not found');

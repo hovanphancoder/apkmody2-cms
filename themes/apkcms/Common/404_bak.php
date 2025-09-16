@@ -19,36 +19,36 @@ Flang::load('404', APP_LANG);
 load_helpers(['frontend', 'languges']);
 
 // Load CSS và JS cho trang 404
-Render::asset('css', '/themes/cmsfullform/Frontend/Assets/css/404_styles.css', ['area' => 'frontend', 'location' => 'head']);
-Render::asset('js', '/themes/cmsfullform/Frontend/Assets/js/404.js', ['area' => 'frontend', 'location' => 'footer']);
+Render::asset('css', '/themes/cmsfullform/Frontend/assets/css/404_styles.css', ['area' => 'frontend', 'location' => 'head']);
+Render::asset('js', '/themes/cmsfullform/Frontend/assets/js/404.js', ['area' => 'frontend', 'location' => 'footer']);
 
 // Prepare errors data for sections
 $errorsLanguageData = [
     'meta' => [
-        'title' => __('errors.404.title'),
-        'description' => __('errors.404.description'),
+        'title' => __('404 - Page Not Found'),
+        'description' => __('The page you are looking for could not be found.'),
     ],
     'content' => [
-        'heading' => __('errors.404.heading'),
-        'message' => __('errors.404.message'),
+        'heading' => __('Page Not Found'),
+        'message' => __('Oops! The page you\'re looking for seems to have wandered off into the digital void. Don\'t worry, even the best explorers sometimes take a wrong turn.'),
     ],
     'search' => [
-        'placeholder' => __('errors.404.search_placeholder'),
-        'button' => __('errors.404.search_button'),
+        'placeholder' => __('Search for pages, features, or help...'),
+        'button' => __('Search'),
     ],
     'actions' => [
-        'back_home' => __('errors.404.back_home'),
-        'go_back' => __('errors.404.go_back'),
+        'back_home' => __('Back to Home'),
+        'go_back' => __('Go Back'),
     ],
     'popular_pages' => [
-        'title' => __('errors.404.popular_pages'),
+        'title' => __('Popular Pages'),
     ],
     'help' => [
         'title' => __('errors.404.need_help'),
         'message' => __('errors.404.help_message'),
     ],
     'navigation' => [
-        'home' => __('site.home'),
+        'home' => __('Home'),
         'features' => __('nav.features'),
         'library' => __('nav.library'),
         'blog' => __('nav.blog'),

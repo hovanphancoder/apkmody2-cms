@@ -11,7 +11,7 @@ class PostsModel extends BaseModel
 
     public function __construct($posttype = '', $lang = null)
     {
-        $this->table = posttype_exists($posttype, $lang);
+        $this->table = posttype_name($posttype, $lang);
         if (!empty($this->table)){
             $this->connected = true;
         }

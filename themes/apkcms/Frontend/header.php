@@ -1,5 +1,18 @@
 <?php
 use App\Models\FastModel;
+require_once __DIR__ . '/functions.php';
+
+$current_page = get_current_page();
+$page_class = 'page-' . $current_page['page_type'];
+
+$all_categories = get_categories('posts','category');
+// Filter categories theo parent ID từ options
+$GLOBALS['games_categories'] = array_filter($all_categories, function($category) {
+    return $category['parent'] == option('themes_gamesid');
+});
+$GLOBALS['apps_categories'] = array_filter($all_categories, function($category) {
+    return $category['parent'] == option('themes_appsid');
+});
 ?>
 <!DOCTYPE html>
 <html lang="<?= lang_code() ?>">
@@ -13,26 +26,6 @@ use App\Models\FastModel;
     ?>
     <?= \System\Libraries\Render::renderAsset('head', 'frontend') ?>
 </head>
-<?php
-$current_page = get_current_page();
-$page_class = 'page-' . $current_page['page_type'];
-
-// Lấy tất cả categories từ database
-$all_categories = (new FastModel('fast_terms'))
-    ->where('posttype', 'posts')
-    ->where('type', 'category')
-    ->where('lang', APP_LANG)
-    ->get();
-
-// Filter categories theo parent ID từ options
-$GLOBALS['games_categories'] = array_filter($all_categories, function($category) {
-    return $category['parent'] == option('themes_gamesid');
-});
-
-$GLOBALS['apps_categories'] = array_filter($all_categories, function($category) {
-    return $category['parent'] == option('themes_appsid');
-});
-?>
 
 <body class="<?= $page_class ?>">
 
